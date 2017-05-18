@@ -1,10 +1,9 @@
 package com.game.Main;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
@@ -18,6 +17,7 @@ public class GamePanel extends JPanel implements Runnable
     this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 1));
     this.setBackground(Color.pink);
     this.add(new HudPanel(pWidth, pHeight));
+    
   }
   
   
