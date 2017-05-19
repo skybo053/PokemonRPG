@@ -3,6 +3,7 @@ package com.game.Main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -26,7 +27,7 @@ public class HudPanel extends JPanel implements Runnable
   //Health meter variables
   
   Graphics2D  graphics2D           = null;
-  int         distanceFromLeft     = 25;
+  int         distanceFromLeft     = 45;
   int         distanceFromTop      = 20;
   int         healthMeterWidth     = 50;
   int         percentHealth        = 100;
@@ -39,11 +40,12 @@ public class HudPanel extends JPanel implements Runnable
     displayWidth  = pWidth;
     displayHeight = pHeight;
     
-    this.setPreferredSize(new Dimension(displayWidth, displayHeight));
+    this.setPreferredSize(new Dimension(displayWidth-1, displayHeight));
     this.setBackground(new Color(255, 255, 255, 0));
     
     run        = true;
     mainThread = new Thread(this);
+    
     mainThread.start();
     
   }
@@ -54,17 +56,24 @@ public class HudPanel extends JPanel implements Runnable
     
     while(run)
     {
-      repaint();
+      percentHealth--;
+      damageMeterStartYPos++;
+      try
+      {
+        Thread.sleep(300);
+      }
+      catch(Exception e){}
+      
+      
     }
   }
   
   
-  public void paintComponent(Graphics g)
+  public void drawHUD()
   {
-    graphics2D = (Graphics2D) g;
-    super.paintComponent(graphics2D);
+    Graphics2D graphics2D = (Graphics2D)this.getGraphics();
     
-    //Health meter 
+  //Health meter 
     graphics2D.setColor(Color.black);
     graphics2D.fillRect(distanceFromLeft, distanceFromTop, healthMeterWidth, healthMeterHeight);
     
@@ -78,7 +87,9 @@ public class HudPanel extends JPanel implements Runnable
     graphics2D.setColor(Color.black);
     graphics2D.drawRect(distanceFromLeft, distanceFromTop, healthMeterWidth, healthMeterHeight);
     
-    
+    graphics2D.dispose();
   }
-
+ 
 }
+
+
