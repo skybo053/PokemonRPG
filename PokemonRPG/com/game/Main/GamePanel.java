@@ -12,13 +12,15 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable
 {
-  HudPanel hudPanel           = null;
   
-  Thread   mainThread         = null;
-  boolean  run;
+  HudPanel      hudPanel      = null;
   
-  BufferedImage bImg         = null;
-  Graphics2D    bImgContext  = null;
+  Thread        mainThread    = null;
+  boolean       run;
+  
+  BufferedImage bImg          = null;
+  Graphics2D    bImgContext   = null;
+  Graphics      panelContext  = null;
   
   int displayWidth;
   int displayHeight;
@@ -37,11 +39,13 @@ public class GamePanel extends JPanel implements Runnable
     this.setBackground(Color.pink);
     this.add(hudPanel);
     
+   /* mainThread = new Thread(this);
+    mainThread.start();*/
   }
   
   
-  public void addNotify()
-  {System.out.println("in add notify!");
+ public void addNotify()
+  {
     super.addNotify();
     
     if(mainThread == null)
@@ -56,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable
   {
     run         = true;
     
-    bImg        = new BufferedImage(displayWidth, displayHeight, BufferedImage.TYPE_3BYTE_BGR);
+    bImg        = new BufferedImage(displayWidth, displayHeight, BufferedImage.TYPE_4BYTE_ABGR);
     bImgContext = bImg.createGraphics();
   }
   
@@ -72,11 +76,11 @@ public class GamePanel extends JPanel implements Runnable
       
       update();
       render();
-      draw();
+      repaint();
       
       try
       {
-        Thread.sleep(45);
+        Thread.sleep(100);
       }
       catch(InterruptedException e)
       {
@@ -88,30 +92,46 @@ public class GamePanel extends JPanel implements Runnable
   
   public void update()
   {
-    
+    hudPanel.setHealth(-1);
   }
+  
   
   public void render()
   {
-    bImgContext.setColor(Color.pink);
-    bImgContext.fillRect(0, 0, displayWidth, displayHeight);
+    //clear buffered image by drawing rectangle over previous image
+    bImgContext.setBackground(new Color(255,255,255,0));
+    bImgContext.clearRect(0, 0, displayWidth, displayHeight);
     
     bImgContext.setColor(Color.black);
     bImgContext.fillRect(x, 15, 45, 45);
+  }
+  
+  
+  public void paintComponent(Graphics g)
+  {
+    super.paintComponent(g);
+    
+    g.drawImage(bImg, 0, 0, null);
+    hudPanel.drawHUD();
     
   }
+  
+  
+  
+  
   
   public void draw()
   {
-    Graphics panelContext = this.getGraphics();
-    
-    
+    panelContext = this.getGraphics();
     panelContext.drawImage(bImg, 0, 0, null);
-    hudPanel.drawHUD();
+    
+    //hudPanel.drawHUD();
     
     panelContext.dispose();
-    
-    
   }
   
+  
 }
+
+
+
