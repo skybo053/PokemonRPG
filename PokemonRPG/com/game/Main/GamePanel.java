@@ -13,19 +13,31 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements Runnable
 {
   
-  HudPanel      hudPanel      = null;
+  //Screen and panel width and height
+  private int  displayWidth;
+  private int  displayHeight;
   
-  Thread        mainThread    = null;
-  boolean       run;
+  //Game loop variables
+  private int  FPS;
+  private int  frameTicksPerSecond;
+  private int  frames;
   
-  BufferedImage bImg          = null;
-  Graphics2D    bImgContext   = null;
-  Graphics      panelContext  = null;
+  private long overallSleepTime;
+  private long ninetyPercentSleepTime;
+  private long remainingSleepTime;
   
-  int displayWidth;
-  int displayHeight;
+  private long startTime;
+  private long frameCountStartTime;
+  private long endTime;
   
-  int x = 0;
+  boolean  run;
+  
+  
+  
+  HudPanel hudPanel        = null;
+  Thread   mainThread      = null;
+ 
+  int   x = 0;
   
   
   public GamePanel(int pWidth, int pHeight)
@@ -36,101 +48,115 @@ public class GamePanel extends JPanel implements Runnable
     hudPanel = new HudPanel(pWidth, pHeight);
     
     this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-    this.setBackground(Color.pink);
     this.add(hudPanel);
     
-   /* mainThread = new Thread(this);
-    mainThread.start();*/
-  }
-  
-  
- public void addNotify()
-  {
-    super.addNotify();
-    
-    if(mainThread == null)
-    {
-      mainThread = new Thread(this);
-      mainThread.start();
-    }
+    mainThread = new Thread(this);
+    mainThread.start();
   }
   
   
   private void init()
   {
-    run         = true;
+    run                    = true;
+    FPS                    = 30;
+    frameTicksPerSecond    = 1000/FPS;
+    frames                 = 0;
     
-    bImg        = new BufferedImage(displayWidth, displayHeight, BufferedImage.TYPE_4BYTE_ABGR);
-    bImgContext = bImg.createGraphics();
+    startTime              = System.currentTimeMillis();
+    frameCountStartTime    = System.currentTimeMillis();
+    endTime                = 0L;
+    
+    overallSleepTime       = 0L;
+    ninetyPercentSleepTime = 0L;
+    remainingSleepTime     = 0L;
   }
   
   
   public void run()
   {
-    
     init();
     
     while(run)
     {
-      x++;
-      
-      update();
-      render();
-      repaint();
-      
       try
       {
-        Thread.sleep(100);
+        ++frames;
+        
+        update();
+        draw();
+        
+        startTime             += frameTicksPerSecond;
+        endTime                = System.currentTimeMillis();
+        overallSleepTime       = startTime - endTime;
+        ninetyPercentSleepTime = (long)(overallSleepTime * 0.9);
+        
+        if(ninetyPercentSleepTime > 0)
+        {
+          Thread.sleep(ninetyPercentSleepTime);
+        }
+        
+        //after wake up recalculate
+        endTime            = System.currentTimeMillis();
+        remainingSleepTime = startTime - endTime;
+        
+        
+        if(remainingSleepTime > 0)
+        {
+          Thread.sleep(remainingSleepTime);
+        }
       }
       catch(InterruptedException e)
       {
         
       }
-    }
-  }
+      
+      //frame per second calculations
+      endTime = System.currentTimeMillis();
+      if(endTime - frameCountStartTime > 1000)
+      {
+        System.out.println("FPS: " + frames);
+        frameCountStartTime = System.currentTimeMillis();
+        frames = 0;
+      }
+      
+    } //end while loop
+    
+  } //end run()
   
   
   public void update()
   {
-    hudPanel.setHealth(-1);
+    x++;
+    hudPanel.setHealth(1);
   }
   
   
-  public void render()
+  private void draw()
   {
-    //clear buffered image by drawing rectangle over previous image
-    bImgContext.setBackground(new Color(255,255,255,0));
-    bImgContext.clearRect(0, 0, displayWidth, displayHeight);
-    
-    bImgContext.setColor(Color.black);
-    bImgContext.fillRect(x, 15, 45, 45);
+    //calls paintComponent
+    this.paintImmediately(0, 0, displayWidth, displayHeight);
   }
   
   
-  public void paintComponent(Graphics g)
+  public void paintComponent(Graphics pGraphics)
   {
-    super.paintComponent(g);
+    super.paintComponent(pGraphics);
     
-    g.drawImage(bImg, 0, 0, null);
+    drawGamePanel(pGraphics);
     hudPanel.drawHUD();
-    
   }
   
   
-  
-  
-  
-  public void draw()
+  public void drawGamePanel(Graphics pGraphics)
   {
-    panelContext = this.getGraphics();
-    panelContext.drawImage(bImg, 0, 0, null);
+    //clear panel
+    pGraphics.setColor(Color.cyan);
+    pGraphics.fillRect(0, 0, displayWidth, displayHeight);
     
-    //hudPanel.drawHUD();
-    
-    panelContext.dispose();
+    //draw animation
+    pGraphics.setColor(Color.black);
+    pGraphics.fillRect(x, 15, 45, 45);
   }
-  
-  
 }
 
 
