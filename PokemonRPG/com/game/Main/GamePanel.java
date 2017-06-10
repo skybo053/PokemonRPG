@@ -1,13 +1,14 @@
 package com.game.Main;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.game.Exceptions.AssetLoaderException;
+import com.game.FX.Assets;
 
 
 public class GamePanel extends JPanel implements Runnable
@@ -57,18 +58,29 @@ public class GamePanel extends JPanel implements Runnable
   
   private void init()
   {
-    run                    = true;
-    FPS                    = 30;
-    frameTicksPerSecond    = 1000/FPS;
-    frames                 = 0;
-    
-    startTime              = System.currentTimeMillis();
-    frameCountStartTime    = System.currentTimeMillis();
-    endTime                = 0L;
-    
-    overallSleepTime       = 0L;
-    ninetyPercentSleepTime = 0L;
-    remainingSleepTime     = 0L;
+    try
+    {
+      run                    = true;
+      FPS                    = 30;
+      frameTicksPerSecond    = 1000/FPS;
+      frames                 = 0;
+      
+      startTime              = System.currentTimeMillis();
+      frameCountStartTime    = System.currentTimeMillis();
+      endTime                = 0L;
+      
+      overallSleepTime       = 0L;
+      ninetyPercentSleepTime = 0L;
+      remainingSleepTime     = 0L;
+      
+      Assets.load();
+    }
+    catch(AssetLoaderException pLoaderException)
+    {
+      JOptionPane.showMessageDialog(null, "Error loading game Assets - " + 
+                                          pLoaderException.getMessage()); 
+     System.exit(1);
+   }
   }
   
   
@@ -106,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable
       }
       catch(InterruptedException e)
       {
-        
+       
       }
       
       //frame per second calculations
@@ -152,9 +164,13 @@ public class GamePanel extends JPanel implements Runnable
     pGraphics.setColor(Color.cyan);
     pGraphics.fillRect(0, 0, displayWidth, displayHeight);
     
+    pGraphics.drawImage(Assets.imgAshThrow, 0, 0, null);
+    
     //draw animation
     pGraphics.setColor(Color.black);
     pGraphics.fillRect(x, 15, 45, 45);
+    
+    
   }
 }
 
