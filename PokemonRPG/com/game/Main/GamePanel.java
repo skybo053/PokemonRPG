@@ -99,7 +99,6 @@ public class GamePanel extends JPanel implements Runnable
         endTime            = System.currentTimeMillis();
         remainingSleepTime = startTime - endTime;
         
-        
         if(remainingSleepTime > 0)
         {
           Thread.sleep(remainingSleepTime);

@@ -1,10 +1,10 @@
 package com.game.Main;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Launcher
 {
@@ -20,9 +20,9 @@ public class Launcher
     vJFrame.setSize(screenSize.width, screenSize.height);
 		vJFrame.setLocationRelativeTo(null);
 		vJFrame.setUndecorated(true);
-		
-		vJFrame.setVisible(true);
 		vJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		vJFrame.setVisible(true);
+		
 		
 	}
 	
