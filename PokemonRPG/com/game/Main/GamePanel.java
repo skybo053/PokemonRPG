@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import com.game.Exceptions.AssetLoaderException;
 import com.game.FX.Assets;
+import com.game.States.GameStateManager;
+import com.game.States.GameStates;
 
 
 public class GamePanel extends JPanel implements Runnable
@@ -33,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable
   
   boolean  run;
   
+  //GameStateManager
+  private GameStateManager gameStateManager;
   
   
   HudPanel hudPanel        = null;
@@ -47,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable
     displayHeight = pHeight;
     
     hudPanel = new HudPanel(pWidth, pHeight);
+    hudPanel.setVisible(false);
     
     this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     this.add(hudPanel);
@@ -60,6 +65,8 @@ public class GamePanel extends JPanel implements Runnable
   {
     try
     {
+      gameStateManager       = new GameStateManager(displayWidth, displayHeight);
+      
       run                    = true;
       FPS                    = 30;
       frameTicksPerSecond    = 1000/FPS;
@@ -77,9 +84,8 @@ public class GamePanel extends JPanel implements Runnable
     }
     catch(AssetLoaderException pLoaderException)
     {
-      JOptionPane.showMessageDialog(null, "Error loading game Assets - " + 
-                                          pLoaderException.getMessage()); 
-     System.exit(1);
+      JOptionPane.showMessageDialog(null, pLoaderException.getMessage());
+      System.exit(1);
    }
   }
   
@@ -137,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable
   
   public void update()
   {
-    x++;
+    gameStateManager.update();
     hudPanel.setHealth(1);
   }
   
@@ -145,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable
   private void draw()
   {
     //calls paintComponent
-    this.paintImmediately(0, 0, displayWidth, displayHeight);
+   this.paintImmediately(0, 0, displayWidth, displayHeight);
   }
   
   
@@ -153,8 +159,9 @@ public class GamePanel extends JPanel implements Runnable
   {
     super.paintComponent(pGraphics);
     
-    drawGamePanel(pGraphics);
-    hudPanel.drawHUD();
+    gameStateManager.draw(pGraphics);
+    //drawGamePanel(pGraphics);
+    //hudPanel.drawHUD();
   }
   
   

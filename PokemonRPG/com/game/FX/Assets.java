@@ -19,9 +19,8 @@ public class Assets
       imgAshThrow = ImageIO.read(new File("Resources/Images/AshThrow.png"));
     }
     catch(IOException pException)
-    {
-      throw new AssetLoaderException("Assets.load - " +
-                                     pException.getMessage(), 
+    { 
+      throw new AssetLoaderException("Assets.load - " + pException.getMessage(), 
                                      pException);
     }
   }
