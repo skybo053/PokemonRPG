@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable
     hudPanel.setVisible(false);
     
     this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    this.setBackground(Color.white);
     this.add(hudPanel);
     
     mainThread = new Thread(this);

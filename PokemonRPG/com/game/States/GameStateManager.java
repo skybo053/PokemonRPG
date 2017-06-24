@@ -6,50 +6,30 @@ public class GameStateManager
 {
   
   //GameStates
-  private GameStates gameStates = null;
-  private IntroState introState = null;
+  private IntroState introState   = null;
+  private GameStates currentState = null;
   
-  //display width and height
-  private int displayWidth;
-  private int displayHeight;
+  //Interface variable to refer to currentState
+  private State state = null;
   
   
   public GameStateManager(int pDisplayWidth, int pDisplayHeight)
   {
-    displayWidth  = pDisplayWidth;
-    displayHeight = pDisplayHeight;
+    currentState = GameStates.INTRO_STATE;
+    introState   = new IntroState(pDisplayWidth, pDisplayHeight);
     
-    gameStates    = GameStates.INTRO_STATE;
-    introState    = new IntroState(this, pDisplayWidth, pDisplayHeight);
+    state        = introState;
   }
   
   
   public void update()
   {
-    if(gameStates == GameStates.INTRO_STATE)
-    {
-      introState.update();
-    }
+    state.update();
   }
   
   
   public void draw(Graphics pGraphics)
   {
-    if(gameStates == GameStates.INTRO_STATE)
-    {
-      introState.draw(pGraphics);
-    }
-  }
-  
-  
-  public void setGameState(GameStates pGameStates)
-  {
-    gameStates = pGameStates;
-  }
-  
-  
-  public GameStates getGameState()
-  {
-    return gameStates;
+    state.draw(pGraphics);
   }
 }

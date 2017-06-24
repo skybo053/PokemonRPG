@@ -11,6 +11,8 @@ import com.game.Exceptions.AssetLoaderException;
 public class Assets 
 {
   public static BufferedImage imgAshThrow = null;
+  public static final int ashThrowWidth   = 267;
+  public static final int ashThrowHeight  = 394;
   
   public static void load() throws AssetLoaderException
   {
