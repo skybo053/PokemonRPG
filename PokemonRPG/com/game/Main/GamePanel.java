@@ -47,8 +47,8 @@ public class GamePanel extends JPanel implements Runnable
   
   public GamePanel(int pWidth, int pHeight)
   {
-    displayWidth  = pWidth;
-    displayHeight = pHeight;
+    displayWidth     = pWidth;
+    displayHeight    = pHeight;
     
     hudPanel = new HudPanel(pWidth, pHeight);
     hudPanel.setVisible(false);
@@ -66,7 +66,8 @@ public class GamePanel extends JPanel implements Runnable
   {
     try
     {
-      gameStateManager       = new GameStateManager(displayWidth, displayHeight);
+      Assets.load();
+      gameStateManager = new GameStateManager(displayWidth, displayHeight);
       
       run                    = true;
       FPS                    = 30;
@@ -80,8 +81,6 @@ public class GamePanel extends JPanel implements Runnable
       overallSleepTime       = 0L;
       ninetyPercentSleepTime = 0L;
       remainingSleepTime     = 0L;
-      
-      Assets.load();
     }
     catch(AssetLoaderException pLoaderException)
     {
@@ -132,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable
       endTime = System.currentTimeMillis();
       if(endTime - frameCountStartTime > 1000)
       {
-        System.out.println("FPS: " + frames);
+        //System.out.println("FPS: " + frames);
         frameCountStartTime = System.currentTimeMillis();
         frames = 0;
       }
@@ -158,9 +157,12 @@ public class GamePanel extends JPanel implements Runnable
   
   public void paintComponent(Graphics pGraphics)
   {
+    if(gameStateManager == null) return;
+    
     super.paintComponent(pGraphics);
     
     gameStateManager.draw(pGraphics);
+    
     //drawGamePanel(pGraphics);
     //hudPanel.drawHUD();
   }
