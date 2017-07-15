@@ -3,10 +3,9 @@ package com.game.States;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 
 import com.game.FX.Assets;
+import com.game.FX.JukeBox;
 
 public class IntroState implements State 
 {
@@ -34,6 +33,8 @@ public class IntroState implements State
   private int currentXOffset;
   private int currentYOffset;
   
+  //For sound
+  private JukeBox jukeBox;
   
   public IntroState(int pDisplayWidth, int pDisplayHeight)
   {
@@ -56,6 +57,8 @@ public class IntroState implements State
     currentYOffset = gameFreakLogoOffSetY;
     
     currentImageState = IntroStateImage.GAME_FREAK_LOGO;
+    
+    jukeBox = new JukeBox();
   }
   
   
@@ -65,11 +68,10 @@ public class IntroState implements State
     {
       updateLogoScreen1();
     }
-    if(currentImageState == IntroStateImage.PKMN_INT_LOGO)
+    else if(currentImageState == IntroStateImage.PKMN_INT_LOGO)
     {
       updateLogoScreen2();
     }
-    
   }
   
   
@@ -79,16 +81,15 @@ public class IntroState implements State
     long vElapsed = vNow - startTime;
     
     if(vElapsed < 2000)
-    {System.out.println("returning hasn't been 2 seconds");
+    {
       return;
     }
     else if(vElapsed < 4000)
     {
-      System.out.println("its been more than 2 seconds");
       deltaAlpha = -2;
     }
     else if(vElapsed < 6000)
-    {System.out.println("its been more than 4 seconds");
+    {
       deltaAlpha = -3;
     }
     
@@ -99,14 +100,74 @@ public class IntroState implements State
     else
     {
       alphaValue = 0;
+      wait(2000);
+      resetForNextIntro();
     }
-    System.out.println("Alphavalue= " + alphaValue);
+  }
+  
+  
+  private void resetForNextIntro()
+  {
+    currentImageState = IntroStateImage.PKMN_INT_LOGO;
+    
+    currentImage      = Assets.imgPkmnIntLogo;
+    currentXOffset    = pkmnIntLogoOffSetX;
+    currentYOffset    = pkmnIntLogoOffSetY; 
+    
+    alphaValue        = 255;
+    deltaAlpha        = -1;
+    
+    startTime         = System.currentTimeMillis();
+  }
+  
+  
+  private void wait(int pWaitTimeMillis)
+  {
+    System.out.print("in wait");
+    long vStartTime   = System.currentTimeMillis();
+    long vElapsedTime = 0L;
+    long vNow         = 0L;
+    
+    while(true)
+    {
+      vNow         = System.currentTimeMillis();
+      vElapsedTime = vNow - vStartTime;
+      
+      if(vElapsedTime >= pWaitTimeMillis)
+      {
+        break;
+      }
+    }
   }
   
   
   public void updateLogoScreen2()
   {
+    long vNow     = System.currentTimeMillis();
+    long vElapsed = vNow - startTime;
     
+    if(vElapsed < 2000)
+    {
+      return;
+    }
+    else if(vElapsed < 4000)
+    {
+      if(jukeBox.isPlaying() == false)
+      {
+        jukeBox.play(Assets.soundMSIntro);
+      }
+      
+      deltaAlpha = -2;
+    }
+    else if(vElapsed < 6000)
+    {
+      deltaAlpha = -3;
+    }
+    
+    if(alphaValue + deltaAlpha >= 0)
+    {
+      alphaValue += deltaAlpha;
+    }
   }
   
   
