@@ -1,188 +1,103 @@
 package com.game.States;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.game.FX.Assets;
-import com.game.FX.JukeBox;
 
 public class IntroState implements State 
 {
-  private int displayWidth;
-  private int displayHeight;
   
-  private int alphaValue;
-  private int deltaAlpha;
+  private ArrayList<SplashScreen> splashScreens       = null;
+  private SplashScreen            currentSplashScreen = null;
   
-  private long startTime;
+  private String name = null;
   
-//Fields for displaying correct image
-  private enum  IntroStateImage{GAME_FREAK_LOGO, PKMN_INT_LOGO}
+  private boolean isActive;
   
-  private IntroStateImage currentImageState;
-  private Image           currentImage;
   
-//IntroState image offsets
-  private int gameFreakLogoOffSetX;
-  private int gameFreakLogoOffSetY;
-  
-  private int pkmnIntLogoOffSetX;
-  private int pkmnIntLogoOffSetY;
-  
-  private int currentXOffset;
-  private int currentYOffset;
-  
-  //For sound
-  private JukeBox jukeBox;
-  
-  public IntroState(int pDisplayWidth, int pDisplayHeight)
+  public IntroState(String pName, int pDisplayWidth, int pDisplayHeight)
   {
-    displayWidth  = pDisplayWidth;
-    displayHeight = pDisplayHeight;
+    splashScreens = new ArrayList<>();
     
-    gameFreakLogoOffSetX = Assets.getWidth(Assets.imgGameFreakLogo)  / 2;
-    gameFreakLogoOffSetY = Assets.getHeight(Assets.imgGameFreakLogo) / 2;
+    splashScreens.add(new SplashScreen(
+        "GameFreakScreen", 
+        pDisplayWidth, 
+        pDisplayHeight, 
+        2000, 
+        false,
+        Assets.imgGameFreakLogo, 
+        null));
     
-    pkmnIntLogoOffSetX = Assets.getWidth(Assets.imgPkmnIntLogo) / 2;
-    pkmnIntLogoOffSetY = Assets.getHeight(Assets.imgPkmnIntLogo) / 2;
+    splashScreens.add(new SplashScreen(
+        "PkmnIntScreen", 
+        pDisplayWidth, 
+        pDisplayHeight, 
+        4000, 
+        true, 
+        Assets.imgPkmnIntLogo,
+        Assets.soundMSIntro));
     
-    alphaValue = 255;
-    deltaAlpha = -1;
-    
-    startTime = System.currentTimeMillis();
-    
-    currentImage   = Assets.imgGameFreakLogo;
-    currentXOffset = gameFreakLogoOffSetX;
-    currentYOffset = gameFreakLogoOffSetY;
-    
-    currentImageState = IntroStateImage.GAME_FREAK_LOGO;
-    
-    jukeBox = new JukeBox();
+    isActive = true;
+    name     = pName;
   }
   
   
   public void update()
   {
-    if(currentImageState == IntroStateImage.GAME_FREAK_LOGO)
-    {
-      updateLogoScreen1();
-    }
-    else if(currentImageState == IntroStateImage.PKMN_INT_LOGO)
-    {
-      updateLogoScreen2();
-    }
-  }
-  
-  
-  public void updateLogoScreen1()
-  {
-    long vNow     = System.currentTimeMillis();
-    long vElapsed = vNow - startTime;
+    removeFinishedSplashScreens();
     
-    if(vElapsed < 2000)
+    if(currentSplashScreen == null &&
+       splashScreens.size() > 0)
     {
+      currentSplashScreen = splashScreens.get(0);
+      currentSplashScreen.setStartTime();
+    }
+    else if(splashScreens.size() == 0)
+    {
+      isActive = false;
       return;
     }
-    else if(vElapsed < 4000)
-    {
-      deltaAlpha = -2;
-    }
-    else if(vElapsed < 6000)
-    {
-      deltaAlpha = -3;
-    }
     
-    if(alphaValue + deltaAlpha >= 0)
-    {
-      alphaValue += deltaAlpha;
-    }
-    else
-    {
-      alphaValue = 0;
-      wait(2000);
-      resetForNextIntro();
-    }
-  }
-  
-  
-  private void resetForNextIntro()
-  {
-    currentImageState = IntroStateImage.PKMN_INT_LOGO;
-    
-    currentImage      = Assets.imgPkmnIntLogo;
-    currentXOffset    = pkmnIntLogoOffSetX;
-    currentYOffset    = pkmnIntLogoOffSetY; 
-    
-    alphaValue        = 255;
-    deltaAlpha        = -1;
-    
-    startTime         = System.currentTimeMillis();
-  }
-  
-  
-  private void wait(int pWaitTimeMillis)
-  {
-    System.out.print("in wait");
-    long vStartTime   = System.currentTimeMillis();
-    long vElapsedTime = 0L;
-    long vNow         = 0L;
-    
-    while(true)
-    {
-      vNow         = System.currentTimeMillis();
-      vElapsedTime = vNow - vStartTime;
-      
-      if(vElapsedTime >= pWaitTimeMillis)
-      {
-        break;
-      }
-    }
-  }
-  
-  
-  public void updateLogoScreen2()
-  {
-    long vNow     = System.currentTimeMillis();
-    long vElapsed = vNow - startTime;
-    
-    if(vElapsed < 2000)
-    {
-      return;
-    }
-    else if(vElapsed < 4000)
-    {
-      if(jukeBox.isPlaying() == false)
-      {
-        jukeBox.play(Assets.soundMSIntro);
-      }
-      
-      deltaAlpha = -2;
-    }
-    else if(vElapsed < 6000)
-    {
-      deltaAlpha = -3;
-    }
-    
-    if(alphaValue + deltaAlpha >= 0)
-    {
-      alphaValue += deltaAlpha;
-    }
+    currentSplashScreen.update();
   }
   
   
   public void draw(Graphics pGraphics)
   {
-    pGraphics.drawImage(
-        currentImage,
-        displayWidth/2 - currentXOffset, 
-        displayHeight/2 - currentYOffset, 
-        null);
+    currentSplashScreen.draw(pGraphics);
+  }
+  
+  
+  private void removeFinishedSplashScreens()
+  {
+    Iterator<SplashScreen> vIt           = null;
+    SplashScreen           vSplashScreen = null;
     
-    pGraphics.setColor(new Color(255,255, 255, alphaValue));
-    pGraphics.fillRect(0, 0, displayWidth, displayHeight);
+    vIt = splashScreens.iterator();
     
-    
+    while(vIt.hasNext())
+    {
+      vSplashScreen = vIt.next();
+      
+      if(vSplashScreen.isDone())
+      {
+        vIt.remove();
+        currentSplashScreen = null;
+      }
+    }
+  }
+  
+  
+  public boolean isActive()
+  {
+    return isActive;
   }
 
+  
+  public String getName()
+  {
+    return name;
+  }
 }

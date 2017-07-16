@@ -1,30 +1,40 @@
 package com.game.States;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public class GameStateManager 
 {
-  
-  //GameStates
   private IntroState introState   = null;
+  private MenuState  menuState    = null;
+  
   private GameStates currentState = null;
   
-  //Interface variable to refer to currentState
-  private State state = null;
+  private State      state        = null;
   
+  private ArrayList<State> states = null;
   
+ 
   public GameStateManager(int pDisplayWidth, int pDisplayHeight)
   {
-    currentState = GameStates.INTRO_STATE;
-    introState   = new IntroState(pDisplayWidth, pDisplayHeight);
+    currentState    = GameStates.INTRO_STATE;
+    states          = new ArrayList<>();
     
-    state        = introState;
+    introState      = new IntroState("IntroState", pDisplayWidth, pDisplayHeight);
+    menuState       = new MenuState("MenuState", pDisplayWidth, pDisplayHeight);
+    
+    state           = introState;
+    
+    states.add(introState);
+    states.add(menuState);
   }
   
   
   public void update()
   {
     state.update();
+    
+    checkStates();
   }
   
   
@@ -32,4 +42,20 @@ public class GameStateManager
   {
     state.draw(pGraphics);
   }
+  
+  
+  private void checkStates()
+  {
+    if(currentState == GameStates.INTRO_STATE)
+    {
+      if(state.isActive() == false)
+      {
+        states.remove(state);
+        state = menuState;
+        currentState = GameStates.MENU_STATE;
+      }
+    }
+    
+  }
+  
 }
