@@ -34,7 +34,7 @@ public class IntroState implements State
         "PkmnIntScreen", 
         pDisplayWidth, 
         pDisplayHeight, 
-        4000, 
+        3000, 
         true, 
         Assets.imgPkmnIntLogo,
         Assets.soundMSIntro));
@@ -90,14 +90,40 @@ public class IntroState implements State
   }
   
   
+  public void skipSplashScreen()
+  {
+    if(currentSplashScreen != null)
+    {
+      currentSplashScreen.setIsDone();
+      
+      if(currentSplashScreen.hasAudio())
+      {
+        currentSplashScreen.closeAudio();
+      }
+    }
+  }
+  
+  
   public boolean isActive()
   {
     return isActive;
+  }
+  
+  
+  public void setIsActive(boolean pIsActive)
+  {
+    isActive = pIsActive;
   }
 
   
   public String getName()
   {
     return name;
+  }
+  
+  
+  public SplashScreen getCurrentSplashScreen()
+  {
+    return currentSplashScreen;
   }
 }

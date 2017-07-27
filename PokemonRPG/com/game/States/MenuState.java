@@ -16,7 +16,7 @@ public class MenuState implements State
     displayWidth  = pDisplayWidth;
     displayHeight = pDisplayHeight;
     
-    isActive      = true;
+    isActive      = false;
     name          = pName;
   }
   
@@ -39,6 +39,12 @@ public class MenuState implements State
   public boolean isActive()
   {
     return isActive;
+  }
+  
+  
+  public void setIsActive(boolean pIsActive)
+  {
+    isActive = pIsActive;
   }
   
   

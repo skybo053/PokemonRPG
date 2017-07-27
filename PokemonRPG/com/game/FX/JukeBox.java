@@ -42,8 +42,32 @@ public class JukeBox
   }
   
   
+  public void stop()
+  {
+    audio.stop();
+  }
+  
+  
+  public void close()
+  {
+    audio.close();
+  }
+  
+  
   public boolean isPlaying()
   {
     return audio.isActive();
+  }
+  
+  
+  public long getCurrentFrame()
+  {
+    return audio.getLongFramePosition();
+  }
+  
+  
+  public int getTotalFrames()
+  {
+    return audio.getFrameLength();
   }
 }

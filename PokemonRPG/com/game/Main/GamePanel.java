@@ -3,6 +3,8 @@ package com.game.Main;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,7 +15,7 @@ import com.game.States.GameStateManager;
 import com.game.States.GameStates;
 
 
-public class GamePanel extends JPanel implements Runnable
+public class GamePanel extends JPanel implements Runnable, KeyListener
 {
   
   //Screen and panel width and height
@@ -56,6 +58,9 @@ public class GamePanel extends JPanel implements Runnable
     this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     this.setBackground(Color.white);
     this.add(hudPanel);
+    
+    this.addKeyListener(this);
+    this.setFocusable(true);
     
     mainThread = new Thread(this);
     mainThread.start();
@@ -100,8 +105,9 @@ public class GamePanel extends JPanel implements Runnable
       {
         ++frames;
         
-        update();
-        draw();
+        gameStateManager.update();                            //updates game
+        paintImmediately(0, 0, displayWidth, displayHeight); // draws game
+        
         
         startTime             += frameTicksPerSecond;
         endTime                = System.currentTimeMillis();
@@ -141,20 +147,6 @@ public class GamePanel extends JPanel implements Runnable
   } //end run()
   
   
-  public void update()
-  {
-    gameStateManager.update();
-    hudPanel.setHealth(1);
-  }
-  
-  
-  private void draw()
-  {
-    //calls paintComponent
-   this.paintImmediately(0, 0, displayWidth, displayHeight);
-  }
-  
-  
   public void paintComponent(Graphics pGraphics)
   {
     if(gameStateManager == null) return;
@@ -182,6 +174,31 @@ public class GamePanel extends JPanel implements Runnable
     
     
   }
+  
+  
+  public void keyPressed(KeyEvent pKeyEvent)
+  {
+    if(pKeyEvent.getKeyCode() == KeyEvent.VK_ESCAPE)
+    {
+      if(gameStateManager.getCurrentState() == GameStates.INTRO_STATE)
+      {
+        gameStateManager.getIntroState().skipSplashScreen();
+      }
+    }
+  }
+  
+  
+  public void keyReleased(KeyEvent pKeyEvent)
+  {
+    
+  }
+  
+  
+  public void keyTyped(KeyEvent pKeyEvent) {
+    
+    
+  }
+  
 }
 
 

@@ -7,5 +7,6 @@ public interface State
   public void update();
   public void draw(Graphics pGraphics);
   public boolean isActive();
+  public void setIsActive(boolean pIsActive);
   public String getName();
 }
