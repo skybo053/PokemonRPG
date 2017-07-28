@@ -89,7 +89,7 @@ public class SplashScreen
     {
       if(fadeOut)
       {
-        Effects.pause(waitTime);
+        pause(waitTime);
         deltaAlpha = 2;
       }
       else
@@ -186,5 +186,20 @@ public class SplashScreen
     
     return false;
   }
+  
+  
+  public void pause(int pWaitTime)
+  {
+    long vStartTime   = 0L;
+    long vElapsedTime = 0L;
+    long vNow         = 0L;
 
+    vStartTime = System.currentTimeMillis();
+    
+    while(isDone == false && vElapsedTime <= pWaitTime)
+    {
+      vNow         = System.currentTimeMillis();
+      vElapsedTime = vNow - vStartTime;
+    }
+  }
 }
