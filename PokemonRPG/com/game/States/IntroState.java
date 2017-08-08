@@ -128,4 +128,10 @@ public class IntroState implements State
   {
     return currentSplashScreen;
   }
+  
+  
+  public void cleanUpState()
+  {
+    
+  }
 }

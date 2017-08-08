@@ -1,15 +1,14 @@
 package com.game.States;
 
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 import com.game.FX.Assets;
 import com.game.Main.GamePanel;
@@ -148,6 +147,14 @@ public class MenuState implements State
   public void setExitSelected(boolean pSelected)
   {
     exitBtnSelected = pSelected;
+  }
+  
+  
+  public void cleanUpState()
+  {
+    game.remove(playButton);
+    game.remove(exitButton);
+    game.validate();
   }
       
 }

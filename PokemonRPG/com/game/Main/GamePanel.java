@@ -176,7 +176,11 @@ public class GamePanel extends JPanel implements Runnable
     mainThread.interrupt();
   }
   
- 
+  
+  public void showHUD()
+  {
+    hudPanel.setVisible(true);
+  }
   
   
 } // end GamePanel class

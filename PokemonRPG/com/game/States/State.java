@@ -9,4 +9,5 @@ public interface State
   public boolean isActive();
   public void setIsActive(boolean pIsActive);
   public void setUpState();
+  public void cleanUpState();
 }

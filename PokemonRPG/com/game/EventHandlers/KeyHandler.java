@@ -89,6 +89,11 @@ public class KeyHandler implements KeyListener
         vMenuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
         System.exit(0);
       }
+      else if(vMenuState.playSelected())
+      {
+        vMenuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
+        vMenuState.setIsActive(false);
+      }
     }
   }
   
