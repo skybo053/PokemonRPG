@@ -5,22 +5,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.game.FX.Assets;
+import com.game.Main.GamePanel;
 
 public class IntroState implements State 
 {
   
   private ArrayList<SplashScreen> splashScreens       = null;
   private SplashScreen            currentSplashScreen = null;
-  
-  private String name = null;
-  
-  private boolean isActive;
+  private boolean                 isActive;
+  private GamePanel               game                = null;
   
   
-  public IntroState()
+  public IntroState(GamePanel pGamePanel)
   {
     splashScreens = new ArrayList<>();
-    
+    isActive      = true;
+    game          = pGamePanel;
+  }
+  
+  
+  public void setUpState()
+  {
     splashScreens.add(new SplashScreen(
         "GameFreakScreen",
         2000, 
@@ -34,8 +39,6 @@ public class IntroState implements State
         true, 
         Assets.imgPkmnIntLogo,
         Assets.soundMSIntro));
-    
-    isActive = true;
   }
   
   
@@ -54,6 +57,8 @@ public class IntroState implements State
       isActive = false;
       return;
     }
+    
+    
     
     currentSplashScreen.update();
   }
@@ -95,6 +100,8 @@ public class IntroState implements State
     if(currentSplashScreen != null)
     {
       currentSplashScreen.setIsDone();
+      game.interrupt();
+      
       System.out.println(currentSplashScreen.getName() + " being set to done");
       
       if(currentSplashScreen.hasAudio())

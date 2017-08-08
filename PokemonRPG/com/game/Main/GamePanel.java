@@ -170,6 +170,12 @@ public class GamePanel extends JPanel implements Runnable
     this.validate();
   }
   
+  
+  public void interrupt()
+  {
+    mainThread.interrupt();
+  }
+  
  
   
   

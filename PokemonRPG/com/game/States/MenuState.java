@@ -4,39 +4,47 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 import com.game.FX.Assets;
 import com.game.Main.GamePanel;
 
+
 public class MenuState implements State
 {
   private boolean   isActive        = false;
-  private boolean   menuInitialized = false;
+  private boolean   playBtnSelected = false;
+  private boolean   exitBtnSelected = false;
   
-  private JLabel    playButton     = null;
-  private JLabel    exitButton     = null;
-  private GamePanel game           = null;
+  private JLabel    playButton      = null;
+  private JLabel    exitButton      = null;
+  private GamePanel game            = null;
   
   
   public MenuState(GamePanel pGamePanel)
   {
     isActive   = false;
+    game       = pGamePanel;
+  }
+  
+  
+  public void setUpState()
+  {
     playButton = new JLabel(new ImageIcon(Assets.imgMenuPlayBtn)); 
     exitButton = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
     
-    game = pGamePanel;
+    setupMenu();
   }
   
   
   public void update() 
   {
-    if(menuInitialized == false)
-    {
-      setupMenu();
-    }
+    
   }
   
   
@@ -89,9 +97,6 @@ public class MenuState implements State
     vGBC.gridy  = 1;
     vGBC.insets = new Insets(0,0,vBottomMargin,0);
     game.addComponent(exitButton, vGBC);
-    
-    
-    menuInitialized = true;
   }
   
   
@@ -111,8 +116,38 @@ public class MenuState implements State
   }
   
   
-  public void setPlayButtonIcon(ImageIcon pIcon)
+  public void setPlayButtonIcon(BufferedImage pImage)
   {
-    playButton.setIcon(pIcon);
+        playButton.setIcon(new ImageIcon(pImage));
+   }
+  
+  
+  public void setExitButtonIcon(BufferedImage pImage)
+  {
+        exitButton.setIcon(new ImageIcon(pImage));
   }
+  
+  public boolean playSelected()
+  {
+    return playBtnSelected;
+  }
+  
+  
+  public boolean exitSelected()
+  {
+    return exitBtnSelected;
+  }
+  
+  
+  public void setPlaySelected(boolean pSelected)
+  {
+    playBtnSelected = pSelected;
+  }
+  
+  
+  public void setExitSelected(boolean pSelected)
+  {
+    exitBtnSelected = pSelected;
+  }
+      
 }

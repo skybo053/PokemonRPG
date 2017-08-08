@@ -23,10 +23,8 @@ public class GameStateManager
     currentState    = GameStates.INTRO_STATE;
     statesMap       = new LinkedHashMap<>();
     
-    introState      = new IntroState();
+    introState      = new IntroState(pGamePanel);
     menuState       = new MenuState(pGamePanel);
-    
-    state           = introState;
     
     statesMap.put("IntroState", introState);
     statesMap.put("MenuState", menuState);
@@ -35,8 +33,9 @@ public class GameStateManager
   
   public void update()
   {
+    manageStates();
     state.update();
-    checkStates();
+    
   }
   
   
@@ -58,8 +57,20 @@ public class GameStateManager
   }
   
   
-  private void checkStates()
+  public MenuState getMenuState()
   {
+    return menuState;
+  }
+  
+  
+  private void manageStates()
+  {
+    if(state == null)
+    {
+      state = statesMap.get("IntroState");
+      state.setUpState();
+    }
+    
     if(statesMap.containsKey("IntroState") &&
        currentState == GameStates.INTRO_STATE)
     {
@@ -69,6 +80,7 @@ public class GameStateManager
         state = menuState;
         state.setIsActive(true);
         currentState = GameStates.MENU_STATE;
+        state.setUpState();
       }
     }
     

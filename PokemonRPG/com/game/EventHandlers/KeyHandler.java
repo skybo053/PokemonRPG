@@ -3,8 +3,10 @@ package com.game.EventHandlers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.game.FX.Assets;
 import com.game.States.GameStateManager;
 import com.game.States.GameStates;
+import com.game.States.MenuState;
 
 public class KeyHandler implements KeyListener
 {
@@ -26,6 +28,10 @@ public class KeyHandler implements KeyListener
     {
     case INTRO_STATE:
       handleIntroStateKeyEvents(pKeyEvent);
+      break;
+    
+    case MENU_STATE:
+      handleMenuStateKeyEvents(pKeyEvent);
       break;
     }
   }
@@ -54,4 +60,37 @@ public class KeyHandler implements KeyListener
       break;
     }
   }
+  
+  
+  private void handleMenuStateKeyEvents(KeyEvent pKeyEvent)
+  {
+    int       vKeyCode     = pKeyEvent.getKeyCode();
+    MenuState vMenuState   = gameStateManager.getMenuState();
+    
+    switch(vKeyCode)
+    {
+    case KeyEvent.VK_UP:
+      vMenuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
+      vMenuState.setExitButtonIcon(Assets.imgMenuExitBtn);
+      vMenuState.setPlaySelected(true);
+      vMenuState.setExitSelected(false);
+      break;
+    
+    case KeyEvent.VK_DOWN:
+      vMenuState.setPlayButtonIcon(Assets.imgMenuPlayBtn);
+      vMenuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
+      vMenuState.setPlaySelected(false);
+      vMenuState.setExitSelected(true);
+      break;
+      
+    case KeyEvent.VK_ENTER:
+      if(vMenuState.exitSelected())
+      {
+        vMenuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
+        System.exit(0);
+      }
+    }
+  }
+  
+  
 }

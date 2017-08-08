@@ -3,10 +3,10 @@ package com.game.States;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import javax.sound.sampled.AudioInputStream;
 
 import com.game.FX.Assets;
-import com.game.FX.Effects;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
 
@@ -79,11 +79,23 @@ public class SplashScreen
     {
       alphaValue += deltaAlpha;
     }
-    else if(vElapsed < 12000)
+    else if(vElapsed < 11000)
     {
       if(fadeOut)
       {
-        pause(waitTime);
+        //pause(waitTime);
+        try
+        {
+          if(waitTime > 0)
+          {
+            System.out.println("before sleep");
+            Thread.sleep(waitTime);
+            System.out.println("after sleep");
+          }
+        }
+        catch(InterruptedException e){System.out.println("In interrupted");}
+        finally{waitTime = 0;}
+        
         deltaAlpha = 2;
       }
       else
@@ -195,5 +207,12 @@ public class SplashScreen
       vElapsedTime = vNow - vStartTime;
     }
     waitTime = 0;
+  }
+  
+  
+  public void interrupt()
+  {
+    System.out.println("calling interrupt");
+    Thread.currentThread().interrupt();
   }
 }
