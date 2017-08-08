@@ -8,14 +8,11 @@ import javax.sound.sampled.AudioInputStream;
 import com.game.FX.Assets;
 import com.game.FX.Effects;
 import com.game.FX.JukeBox;
+import com.game.Main.GamePanel;
 
 public class SplashScreen 
 {
-  private Graphics          graphics;
   private String            name;
-  
-  private int               displayWidth;
-  private int               displayHeight;
   
   private int               alphaValue;
   private int               deltaAlpha;
@@ -33,10 +30,9 @@ public class SplashScreen
   private boolean           isDone;
   private Integer           waitTime;
 
+  
   public SplashScreen(
-      String           pName, 
-      int              pDisplayWidth, 
-      int              pDisplayHeight,
+      String           pName,
       Integer          pWaitTime,
       boolean          pFadeOut,
       BufferedImage    pImage,
@@ -45,10 +41,8 @@ public class SplashScreen
     
     name          = pName;
     fadeOut       = pFadeOut;
-    displayWidth  = pDisplayWidth;
-    displayHeight = pDisplayHeight;
     image         = pImage;
-    
+   
     alphaValue = 255;
     deltaAlpha = -1;
     
@@ -85,7 +79,7 @@ public class SplashScreen
     {
       alphaValue += deltaAlpha;
     }
-    else if(vElapsed < 11000)
+    else if(vElapsed < 12000)
     {
       if(fadeOut)
       {
@@ -107,19 +101,14 @@ public class SplashScreen
   
   public void draw(Graphics pGraphics) 
   {
-    if(graphics == null)
-    {
-      graphics = pGraphics;
-    }
-    
     pGraphics.drawImage(
         image,
-        displayWidth/2 - imageXOffset, 
-        displayHeight/2 - imageYOffset, 
+        GamePanel.displayWidth/2 - imageXOffset, 
+        GamePanel.displayHeight/2 - imageYOffset, 
         null);
     
     pGraphics.setColor(new Color(255,255, 255, alphaValue));
-    pGraphics.fillRect(0, 0, displayWidth, displayHeight);
+    pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
   }
   
   
@@ -190,6 +179,9 @@ public class SplashScreen
   
   public void pause(int pWaitTime)
   {
+    if(pWaitTime == 0) return;
+    System.out.println(getName() + " beginning pause");
+    
     long vStartTime   = 0L;
     long vElapsedTime = 0L;
     long vNow         = 0L;
@@ -198,8 +190,10 @@ public class SplashScreen
     
     while(isDone == false && vElapsedTime <= pWaitTime)
     {
+      System.out.println(getName() + " pausing...");
       vNow         = System.currentTimeMillis();
       vElapsedTime = vNow - vStartTime;
     }
+    waitTime = 0;
   }
 }

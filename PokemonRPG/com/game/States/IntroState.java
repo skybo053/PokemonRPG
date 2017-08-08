@@ -17,30 +17,25 @@ public class IntroState implements State
   private boolean isActive;
   
   
-  public IntroState(String pName, int pDisplayWidth, int pDisplayHeight)
+  public IntroState()
   {
     splashScreens = new ArrayList<>();
     
     splashScreens.add(new SplashScreen(
-        "GameFreakScreen", 
-        pDisplayWidth, 
-        pDisplayHeight, 
+        "GameFreakScreen",
         2000, 
         false,
         Assets.imgGameFreakLogo, 
         null));
     
     splashScreens.add(new SplashScreen(
-        "PkmnIntScreen", 
-        pDisplayWidth, 
-        pDisplayHeight, 
+        "PkmnIntScreen",
         3000, 
         true, 
         Assets.imgPkmnIntLogo,
         Assets.soundMSIntro));
     
     isActive = true;
-    name     = pName;
   }
   
   
@@ -66,7 +61,11 @@ public class IntroState implements State
   
   public void draw(Graphics pGraphics)
   {
-    currentSplashScreen.draw(pGraphics);
+    if(currentSplashScreen != null)
+    {
+      currentSplashScreen.draw(pGraphics);
+    }
+    
   }
   
   
@@ -84,6 +83,7 @@ public class IntroState implements State
       if(vSplashScreen.isDone())
       {
         vIt.remove();
+        System.out.println(currentSplashScreen.getName() + " being removed");
         currentSplashScreen = null;
       }
     }
@@ -95,6 +95,7 @@ public class IntroState implements State
     if(currentSplashScreen != null)
     {
       currentSplashScreen.setIsDone();
+      System.out.println(currentSplashScreen.getName() + " being set to done");
       
       if(currentSplashScreen.hasAudio())
       {
@@ -113,12 +114,6 @@ public class IntroState implements State
   public void setIsActive(boolean pIsActive)
   {
     isActive = pIsActive;
-  }
-
-  
-  public String getName()
-  {
-    return name;
   }
   
   

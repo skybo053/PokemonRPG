@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.game.Main.GamePanel;
+
 public class GameStateManager 
 {
   private IntroState introState   = null;
@@ -16,13 +18,13 @@ public class GameStateManager
   private Map<String, State> statesMap = null;
   
  
-  public GameStateManager(int pDisplayWidth, int pDisplayHeight)
+  public GameStateManager(GamePanel pGamePanel)
   {
     currentState    = GameStates.INTRO_STATE;
     statesMap       = new LinkedHashMap<>();
     
-    introState      = new IntroState("IntroState", pDisplayWidth, pDisplayHeight);
-    menuState       = new MenuState("MenuState", pDisplayWidth, pDisplayHeight);
+    introState      = new IntroState();
+    menuState       = new MenuState(pGamePanel);
     
     state           = introState;
     
@@ -34,7 +36,6 @@ public class GameStateManager
   public void update()
   {
     state.update();
-    
     checkStates();
   }
   

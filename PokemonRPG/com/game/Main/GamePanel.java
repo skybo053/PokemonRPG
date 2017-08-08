@@ -1,26 +1,30 @@
 package com.game.Main;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.GridBagConstraints;
 
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.game.EventHandlers.KeyHandler;
 import com.game.Exceptions.AssetLoaderException;
 import com.game.FX.Assets;
 import com.game.States.GameStateManager;
-import com.game.States.GameStates;
 
 
-public class GamePanel extends JPanel implements Runnable, KeyListener
+public class GamePanel extends JPanel implements Runnable
 {
-  
   //Screen and panel width and height
-  private int  displayWidth;
-  private int  displayHeight;
+  public static final int displayWidth;
+  public static final int displayHeight;
+  
+  static
+  {
+    displayWidth  = Launcher.screenWidth;
+    displayHeight = Launcher.screenHeight;
+  }
   
   //Game loop variables
   private int  FPS;
@@ -40,30 +44,29 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
   //GameStateManager
   private GameStateManager gameStateManager;
   
-  
-  HudPanel hudPanel        = null;
-  Thread   mainThread      = null;
+  private HudPanel hudPanel    = null;
+  private Thread   mainThread  = null;
  
-  int   x = 0;
   
-  
-  public GamePanel(int pWidth, int pHeight)
+  public GamePanel()
   {
-    displayWidth     = pWidth;
-    displayHeight    = pHeight;
-    
-    hudPanel = new HudPanel(pWidth, pHeight);
+    hudPanel = new HudPanel(displayWidth, displayHeight);
     hudPanel.setVisible(false);
     
-    this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    //this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    this.setLayout(null);
     this.setBackground(Color.white);
     this.add(hudPanel);
-    
-    this.addKeyListener(this);
     this.setFocusable(true);
     
     mainThread = new Thread(this);
     mainThread.start();
+  }
+  
+  
+  private void addListeners()
+  {
+    this.addKeyListener(new KeyHandler(gameStateManager));
   }
   
   
@@ -72,7 +75,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     try
     {
       Assets.load();
-      gameStateManager = new GameStateManager(displayWidth, displayHeight);
+      gameStateManager = new GameStateManager(this);
+      addListeners();
       
       run                    = true;
       FPS                    = 30;
@@ -160,46 +164,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
   }
   
   
-  public void drawGamePanel(Graphics pGraphics)
+  public void addComponent(JComponent pComponent, GridBagConstraints pGBC)
   {
-    //clear panel
-    pGraphics.setColor(Color.cyan);
-    pGraphics.fillRect(0, 0, displayWidth, displayHeight);
-    
-    pGraphics.drawImage(Assets.imgAshThrow, 0, 0, null);
-    
-    //draw animation
-    pGraphics.setColor(Color.black);
-    pGraphics.fillRect(x, 15, 45, 45);
-    
-    
+    this.add(pComponent, pGBC);
+    this.validate();
   }
   
-  
-  public void keyPressed(KeyEvent pKeyEvent)
-  {
-    if(pKeyEvent.getKeyCode() == KeyEvent.VK_ESCAPE)
-    {
-      if(gameStateManager.getCurrentState() == GameStates.INTRO_STATE)
-      {
-        gameStateManager.getIntroState().skipSplashScreen();
-      }
-    }
-  }
+ 
   
   
-  public void keyReleased(KeyEvent pKeyEvent)
-  {
-    
-  }
-  
-  
-  public void keyTyped(KeyEvent pKeyEvent) {
-    
-    
-  }
-  
-}
-
-
-
+} // end GamePanel class

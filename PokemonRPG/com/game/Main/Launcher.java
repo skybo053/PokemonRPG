@@ -8,6 +8,9 @@ import javax.swing.JFrame;
 
 public class Launcher
 {
+  
+  public static int screenWidth;
+  public static int screenHeight;
 	
 	public static void main(String args[])
 	{
@@ -15,9 +18,11 @@ public class Launcher
 	  
 	  Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	  
-	  vJFrame.add(new GamePanel(screenSize.width, screenSize.height));
+	  screenWidth  = screenSize.width;
+	  screenHeight = screenSize.height;
 	  
-    vJFrame.setSize(screenSize.width, screenSize.height);
+	  vJFrame.add(new GamePanel());
+	  vJFrame.setSize(screenSize.width, screenSize.height);
 		vJFrame.setLocationRelativeTo(null);
 		vJFrame.setUndecorated(true);
 		vJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
