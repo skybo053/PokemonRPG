@@ -11,8 +11,9 @@ import com.game.Main.GamePanel;
 
 public class PlayState implements State 
 {
-  private boolean   isActive = false;
-  private GamePanel game     = null;
+  private boolean    isActive      = false;
+  private GamePanel  game          = null;
+  private GameStates gameStateType = null;
   
   
   public PlayState(GamePanel pGamePanel)
@@ -62,4 +63,11 @@ public class PlayState implements State
     
   }
 
+  
+  public GameStates getStateType() 
+  {
+    return gameStateType;
+  }
+
+  
 }

@@ -26,7 +26,8 @@ public class Assets
   imgMenuClickedExitBtn  = null;
   
   public static AudioInputStream
-  soundMSIntro = null;
+  soundMSIntro           = null,
+  soundMainMenuBtnSelect = null;
   
   
   public static void load() throws AssetLoaderException
@@ -44,7 +45,8 @@ public class Assets
       imgMenuSelectedExitBtn = ImageIO.read(new File("Resources/Images/MenuMousedOverExitBtn.png"));
       imgMenuClickedExitBtn  = ImageIO.read(new File("Resources/Images/MenuClickedExitBtn.png"));
       
-      soundMSIntro = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
+      soundMSIntro           = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
+      soundMainMenuBtnSelect = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
     }
     catch(IOException pException)
     { 

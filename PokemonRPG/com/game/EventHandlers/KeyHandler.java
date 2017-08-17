@@ -4,19 +4,29 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.game.FX.Assets;
+import com.game.FX.JukeBox;
 import com.game.States.GameStateManager;
 import com.game.States.GameStates;
+import com.game.States.IntroState;
 import com.game.States.MenuState;
 
 public class KeyHandler implements KeyListener
 {
   private GameStateManager gameStateManager = null;
+  private IntroState       introState       = null;
+  private MenuState        menuState        = null;
   private GameStates       currentState     = null;
+  
+  private JukeBox         menuStateJukeBox  = null;
 
   
   public KeyHandler(GameStateManager pGameStateManager)
   {
     gameStateManager = pGameStateManager;
+    introState       = gameStateManager.getIntroState();
+    menuState        = gameStateManager.getMenuState();
+    
+    menuStateJukeBox = menuState.getBtnSelectJukebox();
   }
   
   
@@ -56,7 +66,7 @@ public class KeyHandler implements KeyListener
     switch(vKeyCode)
     {
     case KeyEvent.VK_ESCAPE:
-      gameStateManager.getIntroState().skipSplashScreen();
+      introState.skipSplashScreen();
       break;
     }
   }
@@ -64,35 +74,38 @@ public class KeyHandler implements KeyListener
   
   private void handleMenuStateKeyEvents(KeyEvent pKeyEvent)
   {
-    int       vKeyCode     = pKeyEvent.getKeyCode();
-    MenuState vMenuState   = gameStateManager.getMenuState();
+    int vKeyCode  = pKeyEvent.getKeyCode();
     
     switch(vKeyCode)
     {
     case KeyEvent.VK_UP:
-      vMenuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-      vMenuState.setExitButtonIcon(Assets.imgMenuExitBtn);
-      vMenuState.setPlaySelected(true);
-      vMenuState.setExitSelected(false);
+      menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
+      menuState.setExitButtonIcon(Assets.imgMenuExitBtn);
+      menuState.setPlaySelected(true);
+      menuState.setExitSelected(false);
+      menuStateJukeBox.play();
+      menuStateJukeBox.rewind();
       break;
     
     case KeyEvent.VK_DOWN:
-      vMenuState.setPlayButtonIcon(Assets.imgMenuPlayBtn);
-      vMenuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-      vMenuState.setPlaySelected(false);
-      vMenuState.setExitSelected(true);
+      menuState.setPlayButtonIcon(Assets.imgMenuPlayBtn);
+      menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
+      menuState.setPlaySelected(false);
+      menuState.setExitSelected(true);
+      menuStateJukeBox.play();
+      menuStateJukeBox.rewind();
       break;
       
     case KeyEvent.VK_ENTER:
-      if(vMenuState.exitSelected())
+      if(menuState.exitSelected())
       {
-        vMenuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
+        menuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
         System.exit(0);
       }
-      else if(vMenuState.playSelected())
+      else if(menuState.playSelected())
       {
-        vMenuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
-        vMenuState.setIsActive(false);
+        menuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
+        menuState.setIsActive(false);
       }
     }
   }

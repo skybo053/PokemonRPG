@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable
   public static final int displayWidth;
   public static final int displayHeight;
   
-  static
+ static
   {
     displayWidth  = Launcher.screenWidth;
     displayHeight = Launcher.screenHeight;
@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable
  
   
   public GamePanel()
-  {
+  { 
     hudPanel = new HudPanel(displayWidth, displayHeight);
     hudPanel.setVisible(false);
     
@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable
     this.add(hudPanel);
     this.setFocusable(true);
     
-    mainThread = new Thread(this);
+    mainThread = new Thread(this, "GameLoop");
     mainThread.start();
   }
   

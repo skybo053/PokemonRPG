@@ -1,6 +1,5 @@
 package com.game.States;
 
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,24 +10,32 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.game.FX.Assets;
+import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
 
 
 public class MenuState implements State
 {
-  private boolean   isActive        = false;
-  private boolean   playBtnSelected = false;
-  private boolean   exitBtnSelected = false;
+  private boolean    isActive        = false;
+  private boolean    playBtnSelected = false;
+  private boolean    exitBtnSelected = false;
   
-  private JLabel    playButton      = null;
-  private JLabel    exitButton      = null;
-  private GamePanel game            = null;
+  private JLabel     playButton      = null;
+  private JLabel     exitButton      = null;
+  private GamePanel  game            = null;
+  
+  private GameStates gameStateType   = null;
+  
+  private JukeBox    soundBtnSelect  = null;
   
   
   public MenuState(GamePanel pGamePanel)
   {
-    isActive   = false;
-    game       = pGamePanel;
+    isActive      = false;
+    game          = pGamePanel;
+    gameStateType = GameStates.MENU_STATE;
+    
+    soundBtnSelect = new JukeBox(Assets.soundMainMenuBtnSelect);
   }
   
   
@@ -155,6 +162,18 @@ public class MenuState implements State
     game.remove(playButton);
     game.remove(exitButton);
     game.validate();
+  }
+  
+  
+  public GameStates getStateType() 
+  {
+    return gameStateType;
+  }
+  
+  
+  public JukeBox getBtnSelectJukebox()
+  {
+    return soundBtnSelect;
   }
       
 }

@@ -28,7 +28,6 @@ public class GameStateManager
     menuState       = new MenuState(pGamePanel);
     playState       = new PlayState(pGamePanel);
     
-    statesMap.put("IntroState", introState);
     statesMap.put("MenuState", menuState);
     statesMap.put("PlayState", playState);
   }
@@ -70,16 +69,15 @@ public class GameStateManager
   {
     if(state == null)
     {
-      state = statesMap.get("IntroState");
+      state = introState;
       state.setUpState();
     }
     
-    if(statesMap.containsKey("IntroState") &&
-       currentState == GameStates.INTRO_STATE)
+    
+    if(currentState == GameStates.INTRO_STATE)
     {
       if(state.isActive() == false)
       {
-        statesMap.remove(state);
         state = menuState;
         state.setIsActive(true);
         currentState = GameStates.MENU_STATE;
@@ -97,7 +95,8 @@ public class GameStateManager
         state.setUpState();
       }
     }
-    
   }
   
+  
 }
+

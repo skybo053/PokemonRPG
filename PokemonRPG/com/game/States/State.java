@@ -10,4 +10,5 @@ public interface State
   public void setIsActive(boolean pIsActive);
   public void setUpState();
   public void cleanUpState();
+  public GameStates getStateType();
 }

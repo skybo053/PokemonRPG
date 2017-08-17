@@ -11,34 +11,39 @@ public class JukeBox
 {
   Clip audio = null;
   
-  public JukeBox()
+  public JukeBox(AudioInputStream pAudioInputStream)
   {
     try
     {
       audio = AudioSystem.getClip();
+      audio.open(pAudioInputStream);
     }
     catch(LineUnavailableException pException)
     {
-      return;
+      System.out.println("Error opening audioStream " + pAudioInputStream);
+    }
+    catch(IOException pIOException)
+    {
+      System.out.println("Error opening audioStream " + pAudioInputStream);
     }
   }
   
   
-  public void play(AudioInputStream pAudioStream) 
+  public void rewind()
   {
-    try
-    {
-      audio.open(pAudioStream);
-      audio.start();
-    }
-    catch(IOException pException)
-    {
-      
-    }
-    catch(LineUnavailableException pException)
-    {
-      
-    }
+    audio.setFramePosition(0);
+  }
+  
+  
+  public boolean isOpen()
+  {
+    return audio.isOpen();
+  }
+  
+  
+  public void play() 
+  {
+    audio.start();
   }
   
   

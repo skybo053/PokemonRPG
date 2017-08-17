@@ -14,6 +14,7 @@ public class IntroState implements State
   private SplashScreen            currentSplashScreen = null;
   private boolean                 isActive;
   private GamePanel               game                = null;
+  private GameStates              gameStateType       = null;
   
   
   public IntroState(GamePanel pGamePanel)
@@ -21,6 +22,7 @@ public class IntroState implements State
     splashScreens = new ArrayList<>();
     isActive      = true;
     game          = pGamePanel;
+    gameStateType = GameStates.INTRO_STATE;
   }
   
   
@@ -57,8 +59,6 @@ public class IntroState implements State
       isActive = false;
       return;
     }
-    
-    
     
     currentSplashScreen.update();
   }
@@ -133,5 +133,11 @@ public class IntroState implements State
   public void cleanUpState()
   {
     
+  }
+  
+  
+  public GameStates getStateType() 
+  {
+    return gameStateType;
   }
 }

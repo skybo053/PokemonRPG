@@ -22,7 +22,6 @@ public class SplashScreen
   private int               imageYOffset;
   
   private JukeBox           jukeBox;
-  private AudioInputStream  audioStream;
   
   private long              startTime;
   
@@ -49,12 +48,14 @@ public class SplashScreen
     imageXOffset = Assets.getWidth(image) / 2;
     imageYOffset = Assets.getHeight(image) / 2;
     
-    audioStream  = pAudioStream;
     waitTime     = pWaitTime;
     
     isDone    = false;
     
-    jukeBox   = new JukeBox();
+    if(pAudioStream != null)
+    {
+      jukeBox   = new JukeBox(pAudioStream);
+    }
   }
 
   
@@ -126,13 +127,12 @@ public class SplashScreen
   
   public void closeAudio()
   {
-    if(audioStream != null)
+    if(jukeBox != null)
     {
       if(jukeBox.isPlaying())
       {
         jukeBox.stop();
       }
-      
       jukeBox.close();
     }
   }
@@ -140,11 +140,12 @@ public class SplashScreen
   
   private void startAudio()
   {
-    if(audioStream         != null  &&
-        jukeBox.isPlaying() == false   )
-     {
-       jukeBox.play(audioStream);
-     }
+    if(jukeBox == null     ||
+       jukeBox.isPlaying() == true) 
+    {
+      return;
+    }
+    jukeBox.play();
   }
  
   
@@ -180,12 +181,11 @@ public class SplashScreen
   
   public boolean hasAudio()
   {
-    if(audioStream != null)
+    if(jukeBox == null)
     {
-      return true;
+      return false;
     }
-    
-    return false;
+    return true;
   }
   
   
