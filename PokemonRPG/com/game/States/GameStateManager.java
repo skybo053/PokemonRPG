@@ -21,7 +21,7 @@ public class GameStateManager
  
   public GameStateManager(GamePanel pGamePanel)
   {
-    currentState    = GameStates.INTRO_STATE;
+    currentState    = GameStates.UNINITIALIZED;
     statesMap       = new LinkedHashMap<>();
     
     introState      = new IntroState(pGamePanel);
@@ -67,36 +67,36 @@ public class GameStateManager
   
   private void manageStates()
   {
-    if(state == null)
+    switch(currentState)
     {
+    case UNINITIALIZED:
+      
       state = introState;
+      currentState = GameStates.INTRO_STATE;
       state.setUpState();
-    }
-    
-    
-    if(currentState == GameStates.INTRO_STATE)
-    {
+      break;
+      
+    case INTRO_STATE:
       if(state.isActive() == false)
       {
         state = menuState;
-        state.setIsActive(true);
         currentState = GameStates.MENU_STATE;
         state.setUpState();
+        break;
       }
-    }
-    else if(currentState == GameStates.MENU_STATE)
-    {
+      
+    case MENU_STATE:
+      
       if(state.isActive() == false)
       {
         state.cleanUpState();
         state = playState;
-        state.setIsActive(true);
         currentState = GameStates.PLAY_STATE;
         state.setUpState();
+        break;
       }
     }
   }
   
-  
-}
+}// end GameStateManager
 

@@ -20,7 +20,7 @@ public class IntroState implements State
   public IntroState(GamePanel pGamePanel)
   {
     splashScreens = new ArrayList<>();
-    isActive      = true;
+    isActive      = false;
     game          = pGamePanel;
     gameStateType = GameStates.INTRO_STATE;
   }
@@ -28,6 +28,8 @@ public class IntroState implements State
   
   public void setUpState()
   {
+    isActive = true;
+    
     splashScreens.add(new SplashScreen(
         "GameFreakScreen",
         2000, 

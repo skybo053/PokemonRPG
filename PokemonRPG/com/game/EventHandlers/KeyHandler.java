@@ -12,21 +12,21 @@ import com.game.States.MenuState;
 
 public class KeyHandler implements KeyListener
 {
-  private GameStateManager gameStateManager = null;
-  private IntroState       introState       = null;
-  private MenuState        menuState        = null;
-  private GameStates       currentState     = null;
+  private GameStateManager gameStateManager    = null;
+  private IntroState       introState          = null;
+  private MenuState        menuState           = null;
+  private GameStates       currentState        = null;
   
-  private JukeBox         menuStateJukeBox  = null;
+  private JukeBox         menuStateBtnJukeBox  = null;
 
   
   public KeyHandler(GameStateManager pGameStateManager)
   {
-    gameStateManager = pGameStateManager;
-    introState       = gameStateManager.getIntroState();
-    menuState        = gameStateManager.getMenuState();
+    gameStateManager    = pGameStateManager;
+    introState          = gameStateManager.getIntroState();
+    menuState           = gameStateManager.getMenuState();
     
-    menuStateJukeBox = menuState.getBtnSelectJukebox();
+    menuStateBtnJukeBox = menuState.getButtonJukebox();
   }
   
   
@@ -83,8 +83,8 @@ public class KeyHandler implements KeyListener
       menuState.setExitButtonIcon(Assets.imgMenuExitBtn);
       menuState.setPlaySelected(true);
       menuState.setExitSelected(false);
-      menuStateJukeBox.play();
-      menuStateJukeBox.rewind();
+      menuStateBtnJukeBox.play();
+      menuStateBtnJukeBox.rewind();
       break;
     
     case KeyEvent.VK_DOWN:
@@ -92,8 +92,8 @@ public class KeyHandler implements KeyListener
       menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
       menuState.setPlaySelected(false);
       menuState.setExitSelected(true);
-      menuStateJukeBox.play();
-      menuStateJukeBox.rewind();
+      menuStateBtnJukeBox.play();
+      menuStateBtnJukeBox.rewind();
       break;
       
     case KeyEvent.VK_ENTER:

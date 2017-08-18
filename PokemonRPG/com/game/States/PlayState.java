@@ -24,6 +24,8 @@ public class PlayState implements State
   
   public void setUpState()
   {
+    isActive = true;
+    
     game.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     game.showHUD();
     game.validate();
@@ -42,8 +44,6 @@ public class PlayState implements State
     pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
     pGraphics.drawString("THIS IS PLAY STATE", 100, 100);
   }
-  
- 
   
   
   public boolean isActive()

@@ -2,6 +2,7 @@ package com.game.States;
 
 public enum GameStates 
 {
+  UNINITIALIZED("Game is starting"),
   INTRO_STATE("Splash Screen for background loading"),
   MENU_STATE("Display game menu options"),
   PLAY_STATE("Game has been initiated");

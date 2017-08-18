@@ -26,7 +26,7 @@ public class MenuState implements State
   
   private GameStates gameStateType   = null;
   
-  private JukeBox    soundBtnSelect  = null;
+  private JukeBox    buttonSoundFX   = null;
   
   
   public MenuState(GamePanel pGamePanel)
@@ -35,16 +35,38 @@ public class MenuState implements State
     game          = pGamePanel;
     gameStateType = GameStates.MENU_STATE;
     
-    soundBtnSelect = new JukeBox(Assets.soundMainMenuBtnSelect);
+    buttonSoundFX = new JukeBox(Assets.soundMainMenuBtnSelect);
   }
   
   
   public void setUpState()
   {
+    GridBagConstraints vGBC          = null;
+    int                vTopMargin    = 0;
+    int                vBottomMargin = 0;
+    
+    isActive = true;
+    
     playButton = new JLabel(new ImageIcon(Assets.imgMenuPlayBtn)); 
     exitButton = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
     
-    setupMenu();
+    vGBC          = new GridBagConstraints();
+    vTopMargin    = calcPercentFromTop();
+    vBottomMargin = calcPercentFromBottom();
+    
+    game.setLayout(new GridBagLayout());
+    
+    //setting constraints for play button
+    vGBC.weighty = 1.0;
+    vGBC.gridy   = 0;
+    vGBC.anchor  = GridBagConstraints.NORTH;
+    vGBC.insets  = new Insets(vTopMargin,0,0,0);
+    game.addComponent(playButton, vGBC);
+    
+    //setting constraints for Exit button
+    vGBC.gridy  = 1;
+    vGBC.insets = new Insets(0,0,vBottomMargin,0);
+    game.addComponent(exitButton, vGBC);
   }
   
   
@@ -77,32 +99,6 @@ public class MenuState implements State
   public void setIsActive(boolean pIsActive)
   {
     isActive = pIsActive;
-  }
-  
-  
-  private void setupMenu()
-  {
-    GridBagConstraints vGBC          = null;
-    int                vTopMargin    = 0;
-    int                vBottomMargin = 0;
-    
-    vGBC          = new GridBagConstraints();
-    vTopMargin    = calcPercentFromTop();
-    vBottomMargin = calcPercentFromBottom();
-    
-    game.setLayout(new GridBagLayout());
-    
-    //setting constraints for play button
-    vGBC.weighty = 1.0;
-    vGBC.gridy   = 0;
-    vGBC.anchor  = GridBagConstraints.NORTH;
-    vGBC.insets  = new Insets(vTopMargin,0,0,0);
-    game.addComponent(playButton, vGBC);
-    
-    //setting constraints for Exit button
-    vGBC.gridy  = 1;
-    vGBC.insets = new Insets(0,0,vBottomMargin,0);
-    game.addComponent(exitButton, vGBC);
   }
   
   
@@ -162,6 +158,12 @@ public class MenuState implements State
     game.remove(playButton);
     game.remove(exitButton);
     game.validate();
+    
+    if(buttonSoundFX.isPlaying())
+    {
+      buttonSoundFX.stop();
+    }
+    buttonSoundFX.close();
   }
   
   
@@ -171,9 +173,9 @@ public class MenuState implements State
   }
   
   
-  public JukeBox getBtnSelectJukebox()
+  public JukeBox getButtonJukebox()
   {
-    return soundBtnSelect;
+    return buttonSoundFX;
   }
       
 }
