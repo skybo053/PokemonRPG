@@ -15,7 +15,7 @@ public class KeyHandler implements KeyListener
   private GameStateManager gameStateManager    = null;
   private IntroState       introState          = null;
   private MenuState        menuState           = null;
-  private GameStates       currentState        = null;
+  private GameStates       currentGameState    = null;
   
   private JukeBox         menuStateBtnJukeBox  = null;
 
@@ -32,9 +32,9 @@ public class KeyHandler implements KeyListener
   
   public void keyPressed(KeyEvent pKeyEvent) 
   {
-    currentState = gameStateManager.getCurrentState();
+    currentGameState = gameStateManager.getCurrentGameState();
     
-    switch(currentState)
+    switch(currentGameState)
     {
     case INTRO_STATE:
       handleIntroStateKeyEvents(pKeyEvent);

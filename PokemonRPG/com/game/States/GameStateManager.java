@@ -8,28 +8,47 @@ import com.game.Main.GamePanel;
 
 public class GameStateManager 
 {
-  private IntroState introState   = null;
-  private MenuState  menuState    = null;
-  private PlayState  playState    = null;
+  private int currStatePos = 0;
   
-  private GameStates currentState = null;
+  private IntroState introState               = null;
+  private MenuState  menuState                = null;
+  private PlayState  playState                = null;
   
-  private State      state        = null;
+  private GameStates currentGameState         = null;
+  private State      state                    = null;
   
-  private Map<String, State> statesMap = null;
-  
+  private Map<String, State>       statesCollection    = null;
+  private Map<Integer, String>     positionCollection  = null;
+  private Map<Integer, GameStates> gamestateCollection = null;
  
   public GameStateManager(GamePanel pGamePanel)
   {
-    currentState    = GameStates.UNINITIALIZED;
-    statesMap       = new LinkedHashMap<>();
+    statesCollection    = new LinkedHashMap<>();
+    positionCollection  = new LinkedHashMap<>();
+    gamestateCollection = new LinkedHashMap<>();
     
     introState      = new IntroState(pGamePanel);
     menuState       = new MenuState(pGamePanel);
     playState       = new PlayState(pGamePanel);
     
-    statesMap.put("MenuState", menuState);
-    statesMap.put("PlayState", playState);
+    state               = introState;
+    currentGameState    = GameStates.UNINITIALIZED;
+    
+    statesCollection.put("UNINITIALIZED", null);
+    statesCollection.put("IntroState", introState);
+    statesCollection.put("MenuState", menuState);
+    statesCollection.put("PlayState", playState);
+    
+    positionCollection.put(0, "UNINITIALIZED");
+    positionCollection.put(1, "IntroState");
+    positionCollection.put(2, "MenuState");
+    positionCollection.put(3, "PlayState");
+    
+    gamestateCollection.put(0, GameStates.UNINITIALIZED);
+    gamestateCollection.put(1, GameStates.INTRO_STATE);
+    gamestateCollection.put(2, GameStates.MENU_STATE);
+    gamestateCollection.put(3, GameStates.PLAY_STATE);
+    
   }
   
   
@@ -37,7 +56,6 @@ public class GameStateManager
   {
     manageStates();
     state.update();
-    
   }
   
   
@@ -47,9 +65,9 @@ public class GameStateManager
   }
   
   
-  public GameStates getCurrentState()
+  public GameStates getCurrentGameState()
   {
-    return currentState;
+    return currentGameState;
   }
   
   
@@ -67,12 +85,30 @@ public class GameStateManager
   
   private void manageStates()
   {
-    switch(currentState)
+    if( currentGameState == GameStates.UNINITIALIZED           || 
+        statesCollection.get(positionCollection.get(currStatePos)).isActive() == false   )
+      {
+        statesCollection.remove(positionCollection.get(currStatePos));
+        positionCollection.remove(currStatePos);
+        gamestateCollection.remove(currStatePos);
+        
+        currStatePos++;
+        
+        state.cleanUpState();
+        state            = statesCollection.get(positionCollection.get(currStatePos));
+        currentGameState = gamestateCollection.get(currStatePos);
+        state.setUpState();
+      }
+    
+    
+    
+    
+    /*switch(currentGameState)
     {
     case UNINITIALIZED:
       
       state = introState;
-      currentState = GameStates.INTRO_STATE;
+      currentGameState = GameStates.INTRO_STATE;
       state.setUpState();
       break;
       
@@ -80,7 +116,7 @@ public class GameStateManager
       if(state.isActive() == false)
       {
         state = menuState;
-        currentState = GameStates.MENU_STATE;
+        currentGameState = GameStates.MENU_STATE;
         state.setUpState();
         break;
       }
@@ -91,11 +127,12 @@ public class GameStateManager
       {
         state.cleanUpState();
         state = playState;
-        currentState = GameStates.PLAY_STATE;
+        currentGameState = GameStates.PLAY_STATE;
         state.setUpState();
         break;
       }
-    }
+    }*/
+    
   }
   
 }// end GameStateManager
