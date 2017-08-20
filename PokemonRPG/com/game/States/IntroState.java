@@ -134,7 +134,7 @@ public class IntroState implements State
   
   public void cleanUpState()
   {
-    
+    isActive = false;
   }
   
   

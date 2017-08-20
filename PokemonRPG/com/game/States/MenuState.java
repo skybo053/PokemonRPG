@@ -27,6 +27,7 @@ public class MenuState implements State
   private GameStates gameStateType   = null;
   
   private JukeBox    buttonSoundFX   = null;
+  private JukeBox    bgSoundFX       = null;
   
   
   public MenuState(GamePanel pGamePanel)
@@ -36,6 +37,7 @@ public class MenuState implements State
     gameStateType = GameStates.MENU_STATE;
     
     buttonSoundFX = new JukeBox(Assets.soundMainMenuBtnSelect);
+    bgSoundFX     = new JukeBox(Assets.soundMainMenuBGMusic);
   }
   
   
@@ -67,6 +69,10 @@ public class MenuState implements State
     vGBC.gridy  = 1;
     vGBC.insets = new Insets(0,0,vBottomMargin,0);
     game.addComponent(exitButton, vGBC);
+    
+    bgSoundFX.setLoop(JukeBox.LOOP_CONTINUOUSLY);
+    bgSoundFX.play();
+    
   }
   
   
@@ -155,6 +161,8 @@ public class MenuState implements State
   
   public void cleanUpState()
   {
+    isActive = false;
+    
     game.remove(playButton);
     game.remove(exitButton);
     game.validate();
@@ -163,6 +171,13 @@ public class MenuState implements State
     {
       buttonSoundFX.stop();
     }
+    
+    if(bgSoundFX.isPlaying())
+    {
+      bgSoundFX.close();
+    }
+    
+    bgSoundFX.close();
     buttonSoundFX.close();
   }
   
@@ -173,9 +188,19 @@ public class MenuState implements State
   }
   
   
-  public JukeBox getButtonJukebox()
+  public void playBTNSoundFX()
   {
-    return buttonSoundFX;
+    buttonSoundFX.play();
   }
+  
+  
+  public void rewindBTNSoundFX()
+  {
+    buttonSoundFX.rewind();
+  }
+  
+  
+  
+  
       
 }

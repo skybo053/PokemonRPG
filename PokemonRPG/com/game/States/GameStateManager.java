@@ -1,7 +1,7 @@
 package com.game.States;
 
 import java.awt.Graphics;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.game.Main.GamePanel;
@@ -23,9 +23,9 @@ public class GameStateManager
  
   public GameStateManager(GamePanel pGamePanel)
   {
-    statesCollection    = new LinkedHashMap<>();
-    positionCollection  = new LinkedHashMap<>();
-    gamestateCollection = new LinkedHashMap<>();
+    statesCollection    = new HashMap<>();
+    positionCollection  = new HashMap<>();
+    gamestateCollection = new HashMap<>();
     
     introState      = new IntroState(pGamePanel);
     menuState       = new MenuState(pGamePanel);

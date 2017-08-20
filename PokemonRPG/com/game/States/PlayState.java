@@ -60,7 +60,7 @@ public class PlayState implements State
   
   public void cleanUpState()
   {
-    
+    isActive = false;
   }
 
   

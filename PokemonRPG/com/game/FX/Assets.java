@@ -27,7 +27,8 @@ public class Assets
   
   public static AudioInputStream
   soundMSIntro           = null,
-  soundMainMenuBtnSelect = null;
+  soundMainMenuBtnSelect = null,
+  soundMainMenuBGMusic   = null;
   
   
   public static void load() throws AssetLoaderException
@@ -47,6 +48,7 @@ public class Assets
       
       soundMSIntro           = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
       soundMainMenuBtnSelect = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
+      soundMainMenuBGMusic   = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuBGMusic.wav"));
     }
     catch(IOException pException)
     { 
