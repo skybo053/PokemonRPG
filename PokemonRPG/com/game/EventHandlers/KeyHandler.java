@@ -17,7 +17,6 @@ public class KeyHandler implements KeyListener
   private MenuState        menuState           = null;
   private GameStates       currentGameState    = null;
   
-  private JukeBox          menuStateBtnJukeBox = null;
 
   
   public KeyHandler(GameStateManager pGameStateManager)
@@ -39,15 +38,20 @@ public class KeyHandler implements KeyListener
       break;
     
     case MENU_STATE:
-      handleMenuStateKeyEvents(pKeyEvent);
+      handleMenuStatePressedKeyEvents(pKeyEvent);
       break;
     }
   }
 
   
-  public void keyReleased(KeyEvent e) 
+  public void keyReleased(KeyEvent pKeyEvent) 
   {
-    
+    switch(currentGameState)
+    {
+    case MENU_STATE:
+      handleMenuStateReleasedKeyEvents(pKeyEvent);
+      break;
+    }
   }
   
   
@@ -70,7 +74,7 @@ public class KeyHandler implements KeyListener
   }
   
   
-  private void handleMenuStateKeyEvents(KeyEvent pKeyEvent)
+  private void handleMenuStatePressedKeyEvents(KeyEvent pKeyEvent)
   {
     int vKeyCode  = pKeyEvent.getKeyCode();
     
@@ -79,8 +83,8 @@ public class KeyHandler implements KeyListener
     case KeyEvent.VK_UP:
       menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
       menuState.setExitButtonIcon(Assets.imgMenuExitBtn);
-      menuState.setPlaySelected(true);
-      menuState.setExitSelected(false);
+      menuState.setPlayBtnSelected(true);
+      menuState.setExitBtnSelected(false);
       menuState.playBTNSoundFX();
       menuState.rewindBTNSoundFX();
       break;
@@ -88,23 +92,43 @@ public class KeyHandler implements KeyListener
     case KeyEvent.VK_DOWN:
       menuState.setPlayButtonIcon(Assets.imgMenuPlayBtn);
       menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-      menuState.setPlaySelected(false);
-      menuState.setExitSelected(true);
+      menuState.setPlayBtnSelected(false);
+      menuState.setExitBtnSelected(true);
       menuState.playBTNSoundFX();
       menuState.rewindBTNSoundFX();
       break;
       
     case KeyEvent.VK_ENTER:
-      if(menuState.exitSelected())
+      if(menuState.exitBtnIsSelected())
       {
         menuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
-        System.exit(0);
       }
-      else if(menuState.playSelected())
+      else if(menuState.playBtnIsSelected())
       {
         menuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
+      }
+    }
+  }
+  
+  //released key events
+  private void handleMenuStateReleasedKeyEvents(KeyEvent pKeyEvent)
+  {
+    int vKeyCode = pKeyEvent.getKeyCode();
+    
+    switch(vKeyCode)
+    {
+    case KeyEvent.VK_ENTER:
+      if(menuState.exitBtnIsSelected())
+      {
+        menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
+        System.exit(0);
+      }
+      else if(menuState.playBtnIsSelected())
+      {
+        menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
         menuState.setIsActive(false);
       }
+      
     }
   }
   

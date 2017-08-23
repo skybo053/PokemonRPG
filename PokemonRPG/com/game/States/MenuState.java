@@ -1,9 +1,6 @@
 package com.game.States;
 
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
@@ -16,18 +13,20 @@ import com.game.Main.GamePanel;
 
 public class MenuState implements State
 {
-  private boolean    isActive        = false;
-  private boolean    playBtnSelected = false;
-  private boolean    exitBtnSelected = false;
+  private boolean    isActive         = false;
+  private boolean    playBtnSelected  = false;
+  private boolean    exitBtnSelected  = false;
   
-  private JLabel     playButton      = null;
-  private JLabel     exitButton      = null;
-  private GamePanel  game            = null;
+  private JLabel     playButton       = null;
+  private int        playButtonOffset = 0;
+  private JLabel     exitButton       = null;
+  private int        exitButtonOffset = 0;
+  private GamePanel  game             = null;
   
-  private GameStates gameStateType   = null;
+  private GameStates gameStateType    = null;
   
-  private JukeBox    buttonSoundFX   = null;
-  private JukeBox    bgSoundFX       = null;
+  private JukeBox    buttonSoundFX    = null;
+  private JukeBox    bgSoundFX        = null;
   
   
   public MenuState(GamePanel pGamePanel)
@@ -38,41 +37,37 @@ public class MenuState implements State
     
     buttonSoundFX = new JukeBox(Assets.soundMainMenuBtnSelect);
     bgSoundFX     = new JukeBox(Assets.soundMainMenuBGMusic);
+    
+    playButtonOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
+    exitButtonOffset = Assets.getWidth(Assets.imgMenuExitBtn) / 2;
   }
   
   
   public void setUpState()
   {
-    GridBagConstraints vGBC          = null;
-    int                vTopMargin    = 0;
-    int                vBottomMargin = 0;
-    
     isActive = true;
     
     playButton = new JLabel(new ImageIcon(Assets.imgMenuPlayBtn)); 
     exitButton = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
     
-    vGBC          = new GridBagConstraints();
-    vTopMargin    = calcPercentFromTop();
-    vBottomMargin = calcPercentFromBottom();
+    game.setLayout(null);
+    game.add(playButton);
+    game.add(exitButton);
     
-    game.setLayout(new GridBagLayout());
+    playButton.setBounds(
+        GamePanel.displayWidth /2 - playButtonOffset, 
+        calcPercentFromTop(0.35), 
+        Assets.getWidth(Assets.imgMenuPlayBtn), 
+        Assets.getHeight(Assets.imgMenuPlayBtn));
     
-    //setting constraints for play button
-    vGBC.weighty = 1.0;
-    vGBC.gridy   = 0;
-    vGBC.anchor  = GridBagConstraints.NORTH;
-    vGBC.insets  = new Insets(vTopMargin,0,0,0);
-    game.addComponent(playButton, vGBC);
+    exitButton.setBounds(
+        GamePanel.displayWidth /2 - exitButtonOffset, 
+        calcPercentFromTop(0.42), 
+        Assets.getWidth(Assets.imgMenuExitBtn), 
+        Assets.getHeight(Assets.imgMenuExitBtn));
     
-    //setting constraints for Exit button
-    vGBC.gridy  = 1;
-    vGBC.insets = new Insets(0,0,vBottomMargin,0);
-    game.addComponent(exitButton, vGBC);
-    
-    bgSoundFX.setLoop(JukeBox.LOOP_CONTINUOUSLY);
+    bgSoundFX.setLoopContinuous();
     bgSoundFX.play();
-    
   }
   
   
@@ -92,7 +87,6 @@ public class MenuState implements State
         GamePanel.displayHeight, 
         null, 
         null);
-    
   }
   
   
@@ -108,19 +102,9 @@ public class MenuState implements State
   }
   
   
-  private int calcPercentFromTop()
+  private int calcPercentFromTop(double pPercent)
   {
-    double percentFromTop = .30;
-    
-    return (int)(GamePanel.displayHeight * percentFromTop);
-  }
-  
-  
-  private int calcPercentFromBottom()
-  {
-    double percentFromBottom = .50;
-    
-    return (int)(GamePanel.displayHeight * percentFromBottom);
+    return (int)(GamePanel.displayHeight * pPercent);
   }
   
   
@@ -135,27 +119,28 @@ public class MenuState implements State
         exitButton.setIcon(new ImageIcon(pImage));
   }
   
-  public boolean playSelected()
+  
+  public boolean playBtnIsSelected()
   {
     return playBtnSelected;
   }
   
   
-  public boolean exitSelected()
+  public boolean exitBtnIsSelected()
   {
     return exitBtnSelected;
   }
   
   
-  public void setPlaySelected(boolean pSelected)
+  public void setPlayBtnSelected(boolean pPlayBtnSelected)
   {
-    playBtnSelected = pSelected;
+    playBtnSelected = pPlayBtnSelected;
   }
   
   
-  public void setExitSelected(boolean pSelected)
+  public void setExitBtnSelected(boolean pExitBtnSelected)
   {
-    exitBtnSelected = pSelected;
+    exitBtnSelected = pExitBtnSelected;
   }
   
   

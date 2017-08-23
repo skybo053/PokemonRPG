@@ -106,7 +106,7 @@ public class IntroState implements State
       
       System.out.println(currentSplashScreen.getName() + " being set to done");
       
-      if(currentSplashScreen.hasAudio())
+      if(currentSplashScreen != null && currentSplashScreen.hasAudio())
       {
         currentSplashScreen.closeAudio();
       }

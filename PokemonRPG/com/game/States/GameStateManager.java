@@ -20,6 +20,7 @@ public class GameStateManager
   private Map<String, State>       statesCollection    = null;
   private Map<Integer, String>     positionCollection  = null;
   private Map<Integer, GameStates> gamestateCollection = null;
+  
  
   public GameStateManager(GamePanel pGamePanel)
   {

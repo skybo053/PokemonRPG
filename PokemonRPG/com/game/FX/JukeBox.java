@@ -11,8 +11,6 @@ public class JukeBox
 {
   Clip audio = null;
   
-  public static final int LOOP_CONTINUOUSLY = Clip.LOOP_CONTINUOUSLY;
-  
   public JukeBox(AudioInputStream pAudioInputStream)
   {
     try
@@ -79,8 +77,8 @@ public class JukeBox
   }
   
   
-  public void setLoop(int pLoopSetting)
+  public void setLoopContinuous()
   {
-    audio.loop(pLoopSetting);
+    audio.loop(Clip.LOOP_CONTINUOUSLY);
   }
 }
