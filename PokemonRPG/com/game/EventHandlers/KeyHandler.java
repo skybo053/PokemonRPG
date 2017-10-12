@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.game.FX.Assets;
-import com.game.FX.JukeBox;
+import com.game.Main.GamePanel;
 import com.game.States.GameStateManager;
 import com.game.States.GameStates;
 import com.game.States.IntroState;
@@ -16,7 +16,6 @@ public class KeyHandler implements KeyListener
   private IntroState       introState          = null;
   private MenuState        menuState           = null;
   private GameStates       currentGameState    = null;
-  
 
   
   public KeyHandler(GameStateManager pGameStateManager)
@@ -77,7 +76,6 @@ public class KeyHandler implements KeyListener
   private void handleMenuStatePressedKeyEvents(KeyEvent pKeyEvent)
   {
     int vKeyCode  = pKeyEvent.getKeyCode();
-    
     switch(vKeyCode)
     {
     case KeyEvent.VK_UP:
@@ -126,7 +124,9 @@ public class KeyHandler implements KeyListener
       else if(menuState.playBtnIsSelected())
       {
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-        menuState.setIsActive(false);
+        menuState.playSelectPlaySoundFX();
+        menuState.startTransition();
+        //menuState.removeMenuButtons();
       }
       
     }

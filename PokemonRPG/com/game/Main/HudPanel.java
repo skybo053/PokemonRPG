@@ -33,7 +33,8 @@ public class HudPanel extends JPanel
     displayWidth  = pWidth;
     displayHeight = pHeight;
     
-    this.setPreferredSize(new Dimension(displayWidth, displayHeight-1));
+    this.setOpaque(false);
+    this.setPreferredSize(new Dimension(displayWidth, displayHeight));
     this.setBackground(new Color(255, 255, 255, 0));
     
     distanceFromLeft = (int)(displayWidth * percentFromLeft);
@@ -42,8 +43,8 @@ public class HudPanel extends JPanel
   
   public void drawHUD()
   {
-    this.paintImmediately(0, 0, displayWidth, displayHeight);
-   //repaint();
+    //this.paintImmediately(0, 0, displayWidth, displayHeight);
+   repaint();
   }
   
   

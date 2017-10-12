@@ -1,10 +1,9 @@
 package com.game.Main;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
 
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -16,7 +15,6 @@ import com.game.States.GameStateManager;
 
 public class GamePanel extends JPanel implements Runnable
 {
-  //Screen and panel width and height
   public static final int displayWidth;
   public static final int displayHeight;
   
@@ -25,38 +23,30 @@ public class GamePanel extends JPanel implements Runnable
     displayWidth  = Launcher.screenWidth;
     displayHeight = Launcher.screenHeight;
   }
-  
-  //Game loop variables
+ 
   private int  FPS;
   private int  frameTicksPerSecond;
-  private int  frames;
-  
   private long overallSleepTime;
   private long ninetyPercentSleepTime;
   private long remainingSleepTime;
-  
   private long startTime;
-  private long frameCountStartTime;
   private long endTime;
+  boolean      run;
   
-  boolean  run;
+  private GameStateManager gameStateManager = null;
   
-  //GameStateManager
-  private GameStateManager gameStateManager;
+  private HudPanel     hudPanel     = null;
+  private EffectsPanel effectsPanel = null;
+  private Thread       mainThread   = null;
   
-  private HudPanel hudPanel    = null;
-  private Thread   mainThread  = null;
- 
   
-  public GamePanel()
-  { 
-    hudPanel = new HudPanel(displayWidth, displayHeight);
-    hudPanel.setVisible(false);
+  public GamePanel(HudPanel pHudPanel, EffectsPanel pEffectsPanel)
+  {
+    hudPanel     = pHudPanel;
+    effectsPanel = pEffectsPanel;
     
-    //this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-    this.setLayout(null);
+    this.setPreferredSize(new Dimension(displayWidth, displayHeight));
     this.setBackground(Color.white);
-    this.add(hudPanel);
     this.setFocusable(true);
     
     mainThread = new Thread(this, "GameLoop");
@@ -81,10 +71,8 @@ public class GamePanel extends JPanel implements Runnable
       run                    = true;
       FPS                    = 30;
       frameTicksPerSecond    = 1000/FPS;
-      frames                 = 0;
       
       startTime              = System.currentTimeMillis();
-      frameCountStartTime    = System.currentTimeMillis();
       endTime                = 0L;
       
       overallSleepTime       = 0L;
@@ -95,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable
     {
       JOptionPane.showMessageDialog(null, pLoaderException.getMessage());
       System.exit(1);
-   }
+     }
   }
   
   
@@ -107,11 +95,9 @@ public class GamePanel extends JPanel implements Runnable
     {
       try
       {
-        ++frames;
-        
-        gameStateManager.update();                            //updates game
-        paintImmediately(0, 0, displayWidth, displayHeight); // draws game
-        
+        gameStateManager.update();  
+        effectsPanel.update();
+        repaint();
         
         startTime             += frameTicksPerSecond;
         endTime                = System.currentTimeMillis();
@@ -137,15 +123,6 @@ public class GamePanel extends JPanel implements Runnable
        
       }
       
-      //frame per second calculations
-      endTime = System.currentTimeMillis();
-      if(endTime - frameCountStartTime > 1000)
-      {
-        //System.out.println("FPS: " + frames);
-        frameCountStartTime = System.currentTimeMillis();
-        frames = 0;
-      }
-      
     } //end while loop
     
   } //end run()
@@ -153,27 +130,20 @@ public class GamePanel extends JPanel implements Runnable
   
   public void paintComponent(Graphics pGraphics)
   {
-    if(gameStateManager == null) return;
-    
     super.paintComponent(pGraphics);
     
-    gameStateManager.draw(pGraphics);
+    if(gameStateManager == null) return;
     
-    //drawGamePanel(pGraphics);
-    //hudPanel.drawHUD();
-  }
-  
-  
-  public void addComponent(JComponent pComponent, GridBagConstraints pGBC)
-  {
-    this.add(pComponent, pGBC);
-    this.validate();
+    gameStateManager.draw(pGraphics);
+    hudPanel.drawHUD();
+    effectsPanel.drawEffect();
+    
   }
   
   
   public void interrupt()
   {
-    mainThread.interrupt();
+    Thread.currentThread().interrupt();
   }
   
   

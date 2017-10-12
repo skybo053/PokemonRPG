@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.Control;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 
 public class JukeBox 
@@ -17,6 +19,7 @@ public class JukeBox
     {
       audio = AudioSystem.getClip();
       audio.open(pAudioInputStream);
+      
     }
     catch(LineUnavailableException pException)
     {
