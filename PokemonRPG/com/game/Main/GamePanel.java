@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import com.game.EventHandlers.KeyHandler;
 import com.game.Exceptions.AssetLoaderException;
 import com.game.FX.Assets;
+import com.game.FX.FadeEffect;
 import com.game.States.GameStateManager;
+import com.game.States.State;
 
 
 public class GamePanel extends JPanel implements Runnable
@@ -138,6 +140,30 @@ public class GamePanel extends JPanel implements Runnable
     hudPanel.drawHUD();
     effectsPanel.drawEffect();
     
+  }
+  
+  
+  public FadeEffect createFadeEffect(
+      Color pColor, 
+      int   pStartAlpha, 
+      int   pEndAlpha,
+      int   pDeltaAlpha,
+      long  pDuration,
+      State pCurrentState)
+  {
+    FadeEffect vFadeEffect = null;
+    
+    vFadeEffect = new FadeEffect(
+        pColor, 
+        pStartAlpha, 
+        pEndAlpha,
+        pDeltaAlpha,
+        pDuration,
+        pCurrentState);
+    
+    effectsPanel.addEffect(vFadeEffect);
+    System.out.println("in GamePanel.createFadeEffect.  Added effect");
+    return vFadeEffect;
   }
   
   

@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.game.FX.Assets;
-import com.game.FX.Effects;
+import com.game.FX.FadeEffect;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
 
@@ -23,21 +23,13 @@ public class MenuState implements State
   private int        playButtonOffset  = 0;
   private JLabel     exitButton        = null;
   private int        exitButtonOffset  = 0;
-  private GamePanel  game              = null;
   
+  private GamePanel  game              = null;
   private GameStates gameStateType     = null;
   
-  private JukeBox    buttonSoundFX     = null;
-  private JukeBox    bgSoundFX         = null;
-  private JukeBox    selectPlaySoundFX = null;
-  
-  private boolean transition = false;
-  private boolean sleepEDT   = false;
-  private int     alphaValue;
-  private int     deltaAlpha;
-  
-  private long    transitionStartTime;
-  private long    transitionLengthTime;
+  private JukeBox    buttonSoundFX        = null;
+  private JukeBox    bgSoundFX            = null;
+  private JukeBox    selectPlayBtnSoundFX = null;
   
   
   public MenuState(GamePanel pGamePanel)
@@ -46,16 +38,12 @@ public class MenuState implements State
     game          = pGamePanel;
     gameStateType = GameStates.MENU_STATE;
     
-    buttonSoundFX    = new JukeBox(Assets.soundMainMenuBtnSelect);
-    bgSoundFX         = new JukeBox(Assets.soundMainMenuBGMusic);
-    selectPlaySoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
+    buttonSoundFX        = new JukeBox(Assets.soundMainMenuBtnSelect);
+    bgSoundFX            = new JukeBox(Assets.soundMainMenuBGMusic);
+    selectPlayBtnSoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
     
     playButtonOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
     exitButtonOffset = Assets.getWidth(Assets.imgMenuExitBtn) / 2;
-  
-    alphaValue           = 0;
-    deltaAlpha           = 3;
-    transitionLengthTime = 4000L;
   }
   
   
@@ -89,34 +77,7 @@ public class MenuState implements State
   
   public void update() 
   {
-    if(transition)
-    {
-      transition = false;
-      System.out.println("MenuState.update - calling Effects.fade");
-      Effects.fade(game, 0, 1, Color.black, 7000);
-      isActive = false;
-    }
-  /* if(transition)
-    {
-      long vNow     = System.currentTimeMillis();
-      long vElapsed = vNow - transitionStartTime;
-      
-      if(vElapsed <= transitionLengthTime)
-      {
-        if(alphaValue + deltaAlpha <= 255)
-        {
-          alphaValue += deltaAlpha;
-        }
-        else 
-        {
-          alphaValue = 255;
-        }
-      }
-      else
-      {
-        isActive = false;
-      }
-    }*/
+    
   }
   
   
@@ -130,9 +91,6 @@ public class MenuState implements State
         GamePanel.displayHeight, 
         null, 
         null);
-     
-    /* pGraphics.setColor(new Color(0, 0, 0, alphaValue));
-     pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);*/
    }
   
   
@@ -232,25 +190,16 @@ public class MenuState implements State
   }
   
   
-  public void playSelectPlaySoundFX()
+  public void playSelectPlayBtnSoundFX()
   {
-    selectPlaySoundFX.play();
+    selectPlayBtnSoundFX.play();
   }
   
   
   public void rewindSelectPlaySoundFX()
   {
-    selectPlaySoundFX.rewind();
+    selectPlayBtnSoundFX.rewind();
   }
-  
-  
-  public void startTransition()
-  {
-    System.out.println("menuState. startTransition");
-    transition          = true;
-    transitionStartTime = System.currentTimeMillis();
-  }
-  
   
   public void removeMenuButtons()
   {
@@ -260,5 +209,8 @@ public class MenuState implements State
   }
   
   
-      
+  public void addFadeEffect()
+  {
+    game.createFadeEffect(Color.black, 0, 255, 3, 5000, this);
+  }
 }

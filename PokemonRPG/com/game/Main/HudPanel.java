@@ -33,6 +33,7 @@ public class HudPanel extends JPanel
     displayWidth  = pWidth;
     displayHeight = pHeight;
     
+    this.setVisible(false);
     this.setOpaque(false);
     this.setPreferredSize(new Dimension(displayWidth, displayHeight));
     this.setBackground(new Color(255, 255, 255, 0));

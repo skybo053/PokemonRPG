@@ -124,8 +124,8 @@ public class KeyHandler implements KeyListener
       else if(menuState.playBtnIsSelected())
       {
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-        menuState.playSelectPlaySoundFX();
-        menuState.startTransition();
+        menuState.playSelectPlayBtnSoundFX();
+        menuState.addFadeEffect();
         //menuState.removeMenuButtons();
       }
       

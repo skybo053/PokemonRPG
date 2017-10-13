@@ -1,64 +1,74 @@
 package com.game.Main;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+
 
 public class Launcher
 {
   public static int screenWidth;
   public static int screenHeight;
+  
+  private JFrame       oJFrame       = null;
+  private EffectsPanel oEffectsPanel = null;
+  private HudPanel     oHudPanel     = null;
+  private GamePanel    oGamePanel    = null;
+  private JLayeredPane oLayeredPane  = null;
+  
+  
+  public Launcher()
+  {
+    setScreenSizeVars();
+    buildLayeredPane();
+    createFrame();
+  }
 	
+  
 	public static void main(String args[])
 	{
-	  JFrame       vJFrame       = null;
-	  JLayeredPane vLayeredPane  = null;
-	  Dimension    vScreenSize   = null;
+	  new Launcher();
+	}
+	
+	
+	private void createFrame()
+	{
+	  oJFrame = new JFrame("PokemonRPG v. 1.0.0");
 	  
-	  EffectsPanel vEffectsPanel = null;
-	  HudPanel     vHudPanel     = null;
-	  GamePanel    vGamePanel    = null;
+	  oJFrame.add(oLayeredPane);
+    oJFrame.setSize(screenWidth, screenHeight);
+    oJFrame.setLocationRelativeTo(null);
+    oJFrame.setUndecorated(true);
+    oJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    oJFrame.setVisible(true);
+	}
+	
+	
+	private void buildLayeredPane()
+	{
+	  oLayeredPane  = new JLayeredPane();
+	  oEffectsPanel = new EffectsPanel(screenWidth, screenHeight);
+	  oHudPanel     = new HudPanel(screenWidth, screenHeight);
+	  oGamePanel    = new GamePanel(oHudPanel, oEffectsPanel);
 	  
-	  vLayeredPane = new JLayeredPane(); 
-	  vJFrame      = new JFrame("PokemonRPG v. 1.0.0");
+	  oEffectsPanel.setBounds(0, 0, screenWidth, screenHeight);
+	  oHudPanel.setBounds(0, 0, screenWidth, screenHeight);
+	  oGamePanel.setBounds(0, 0, screenWidth, screenHeight);
+	  
+	  oLayeredPane.add(oEffectsPanel, JLayeredPane.MODAL_LAYER);
+    oLayeredPane.add(oHudPanel, JLayeredPane.PALETTE_LAYER);
+    oLayeredPane.add(oGamePanel, JLayeredPane.DEFAULT_LAYER);
+   }
+	
+	
+	private void setScreenSizeVars()
+	{
+	  Dimension  vScreenSize   = null;
+	  
 	  vScreenSize  = Toolkit.getDefaultToolkit().getScreenSize();
 	  
 	  screenWidth  = vScreenSize.width;
-	  screenHeight = vScreenSize.height;
-	  
-	  //vLayeredPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
-	  
-	  vHudPanel = new HudPanel(screenWidth, screenHeight);
-	  vHudPanel.setBounds(0, 0, screenWidth, screenHeight);
-	  //vHudPanel.setVisible(false);
-	  
-	  vEffectsPanel = new EffectsPanel(screenWidth, screenHeight);
-	  vEffectsPanel.setBounds(0, 0, screenWidth, screenHeight);
-	  
-	  vGamePanel = new GamePanel(vHudPanel, vEffectsPanel);
-	  vGamePanel.setBounds(0, 0, screenWidth, screenHeight);
-	  
-	  
-	 
-	  
-	 
-	  vLayeredPane.add(vEffectsPanel, JLayeredPane.MODAL_LAYER);
-	  vLayeredPane.add(vHudPanel, JLayeredPane.PALETTE_LAYER);
-	  vLayeredPane.add(vGamePanel, JLayeredPane.DEFAULT_LAYER);
-	  
-	  
-	  //vJFrame.getContentPane().setBackground(Color.white);
-	  vJFrame.add(vLayeredPane);
-	  vJFrame.setSize(screenWidth, screenHeight);
-		vJFrame.setLocationRelativeTo(null);
-		vJFrame.setUndecorated(true);
-		vJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		vJFrame.setVisible(true);
-		
-		
+    screenHeight = vScreenSize.height;
 	}
-	
 }

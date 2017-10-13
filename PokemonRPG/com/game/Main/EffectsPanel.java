@@ -3,13 +3,19 @@ package com.game.Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
+
+import com.game.FX.FadeEffect;
 
 public class EffectsPanel extends JPanel
 {
   int displayWidth;
   int displayHeight;
+  
+  ArrayList<FadeEffect> effectsList  = null;
   
   int alpha = 0;
   int delta = 3;
@@ -19,24 +25,39 @@ public class EffectsPanel extends JPanel
     displayWidth  = pDisplayWidth;
     displayHeight = pDisplayHeight;
     
+    effectsList   = new ArrayList<FadeEffect>();
+    
     this.setOpaque(false);
     this.setPreferredSize(new Dimension(displayWidth, displayHeight));
     this.setBackground(new Color(255, 255, 255, 0));
   }
   
+  
   public void update()
   {
-    if(alpha + delta > 255)
-    {
-      alpha = 255;
-    }
-    else
-    {
-      alpha += delta;
-    }
+    Iterator<FadeEffect> vIt         = null;
+    FadeEffect           vFadeEffect = null;
     
-    System.out.println("EffectPanel alphaValue = " + alpha);
-  }
+   if(effectsList.isEmpty() == false)
+   {
+     vIt = effectsList.iterator();
+     
+     while(vIt.hasNext())
+     {
+       vFadeEffect = vIt.next();
+       
+       if(vFadeEffect.isDone())
+       {
+         vIt.remove();
+       }
+       else
+       {
+         vFadeEffect.update();
+       }
+     }
+   }
+ }
+  
   
   public void drawEffect()
   {
@@ -49,7 +70,14 @@ public class EffectsPanel extends JPanel
   {
     super.paintComponent(pGraphics);
     
-    pGraphics.setColor(new Color(0,0,0,alpha));
-    pGraphics.fillRect(0, 0, displayWidth, displayHeight);
+    if(effectsList.isEmpty()) return;
+    
+    effectsList.get(0).draw(pGraphics);
+  }
+  
+  
+  public void addEffect(FadeEffect pFadeEffect)
+  {
+    effectsList.add(pFadeEffect);
   }
 }
