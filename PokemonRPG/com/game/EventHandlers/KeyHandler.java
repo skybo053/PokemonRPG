@@ -1,5 +1,6 @@
 package com.game.EventHandlers;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -28,7 +29,7 @@ public class KeyHandler implements KeyListener
   
   public void keyPressed(KeyEvent pKeyEvent) 
   {
-    currentGameState = gameStateManager.getCurrentGameState();
+    currentGameState = gameStateManager.getCurrentGameStateType();
     
     switch(currentGameState)
     {
@@ -125,12 +126,8 @@ public class KeyHandler implements KeyListener
       {
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
         menuState.playSelectPlayBtnSoundFX();
-        menuState.addFadeEffect();
-        //menuState.removeMenuButtons();
+        menuState.addFadeEffect(Color.black, 0, 255, 3, 5000);
       }
-      
     }
   }
-  
-  
-}
+}// end KeyHandler class

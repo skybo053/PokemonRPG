@@ -209,8 +209,13 @@ public class MenuState implements State
   }
   
   
-  public void addFadeEffect()
+  public void addFadeEffect(
+      Color pColor, 
+      int   pStartAlpha, 
+      int   pEndAlpha, 
+      int   pDeltaAlpha, 
+      long  pDuration)
   {
-    game.createFadeEffect(Color.black, 0, 255, 3, 5000, this);
+    game.createFadeEffect(pColor, pStartAlpha, pEndAlpha, pDeltaAlpha, pDuration);
   }
 }

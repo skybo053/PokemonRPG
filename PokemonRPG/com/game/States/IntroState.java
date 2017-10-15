@@ -90,7 +90,6 @@ public class IntroState implements State
       if(vSplashScreen.isDone())
       {
         vIt.remove();
-        System.out.println(currentSplashScreen.getName() + " being removed");
         currentSplashScreen = null;
       }
     }

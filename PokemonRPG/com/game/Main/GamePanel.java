@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable
   private long remainingSleepTime;
   private long startTime;
   private long endTime;
-  boolean      run;
+  boolean      running;
   
   private GameStateManager gameStateManager = null;
   
@@ -52,6 +52,15 @@ public class GamePanel extends JPanel implements Runnable
     this.setFocusable(true);
     
     mainThread = new Thread(this, "GameLoop");
+  }
+  
+  
+  public void start()
+  {
+    if(mainThread.isAlive())
+    {
+      return;
+    }
     mainThread.start();
   }
   
@@ -70,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable
       gameStateManager = new GameStateManager(this);
       addListeners();
       
-      run                    = true;
+      running                = true;
       FPS                    = 30;
       frameTicksPerSecond    = 1000/FPS;
       
@@ -93,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable
   {
     init();
     
-    while(run)
+    while(running)
     {
       try
       {
@@ -148,21 +157,23 @@ public class GamePanel extends JPanel implements Runnable
       int   pStartAlpha, 
       int   pEndAlpha,
       int   pDeltaAlpha,
-      long  pDuration,
-      State pCurrentState)
+      long  pDuration)
   {
-    FadeEffect vFadeEffect = null;
+    FadeEffect vFadeEffect   = null;
+    State      vCurrentState = null;
+    
+    vCurrentState = gameStateManager.getCurrentGameState();
     
     vFadeEffect = new FadeEffect(
         pColor, 
         pStartAlpha, 
         pEndAlpha,
         pDeltaAlpha,
-        pDuration,
-        pCurrentState);
+        pDuration);
+    
+    vFadeEffect.setState(vCurrentState);
     
     effectsPanel.addEffect(vFadeEffect);
-    System.out.println("in GamePanel.createFadeEffect.  Added effect");
     return vFadeEffect;
   }
   

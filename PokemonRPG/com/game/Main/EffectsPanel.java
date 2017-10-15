@@ -17,9 +17,6 @@ public class EffectsPanel extends JPanel
   
   ArrayList<FadeEffect> effectsList  = null;
   
-  int alpha = 0;
-  int delta = 3;
-  
   public EffectsPanel(int pDisplayWidth, int pDisplayHeight)
   {
     displayWidth  = pDisplayWidth;

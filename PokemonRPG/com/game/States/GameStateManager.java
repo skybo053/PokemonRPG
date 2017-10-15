@@ -66,9 +66,15 @@ public class GameStateManager
   }
   
   
-  public GameStates getCurrentGameState()
+  public GameStates getCurrentGameStateType()
   {
     return currentGameState;
+  }
+  
+  
+  public State getCurrentGameState()
+  {
+    return state;
   }
   
   

@@ -42,6 +42,8 @@ public class Launcher
     oJFrame.setUndecorated(true);
     oJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     oJFrame.setVisible(true);
+    
+    oGamePanel.start();
 	}
 	
 	
