@@ -126,7 +126,7 @@ public class KeyHandler implements KeyListener
       {
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
         menuState.playSelectPlayBtnSoundFX();
-        menuState.addFadeEffect(Color.black, 0, 255, 3, 5000);
+        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 5000);
       }
     }
   }

@@ -14,44 +14,31 @@ public class SplashScreen
 {
   private String            name;
   
-  private int               alphaValue;
-  private int               deltaAlpha;
-  
   private BufferedImage     image;
   private int               imageXOffset;
   private int               imageYOffset;
   
   private JukeBox           jukeBox;
-  
-  private long              startTime;
-  
-  private boolean           fadeOut;
   private boolean           isDone;
-  private Integer           waitTime;
   
-  private FadeEffect fadeEffect;
+  private FadeEffect        fadeEffect;
+  private long              splashScreenDuration;
+  private long              splashScreenStartTime;
 
   
   public SplashScreen(
       String           pName,
-      Integer          pWaitTime,
-      boolean          pFadeOut,
+      long             pDuration,
       BufferedImage    pImage,
-      AudioInputStream pAudioStream,
-      FadeEffect       pFadeEffect) 
+      AudioInputStream pAudioStream) 
   {
-    fadeEffect    = pFadeEffect;
-    name          = pName;
-    fadeOut       = pFadeOut;
-    image         = pImage;
-   
-    alphaValue = 255;
-    deltaAlpha = -1;
+    name                  = pName;
+    image                 = pImage;
+    splashScreenDuration  = pDuration;
+    splashScreenStartTime = 0L;
     
     imageXOffset = Assets.getWidth(image) / 2;
     imageYOffset = Assets.getHeight(image) / 2;
-    
-    waitTime     = pWaitTime;
     
     isDone    = false;
     
@@ -64,7 +51,28 @@ public class SplashScreen
   
   public void update() 
   {
+    if(splashScreenStartTime == 0)
+    {
+      splashScreenStartTime = System.currentTimeMillis();
+    }
     
+    if((   System.currentTimeMillis() - splashScreenStartTime) >= fadeEffect.getWaitTime()
+        && jukeBox != null 
+        && jukeBox.isPlaying() == false)
+    {
+      jukeBox.play();
+    }
+    
+    
+    if((System.currentTimeMillis() - splashScreenStartTime) >= splashScreenDuration)
+    {
+      isDone = true;
+      if(jukeBox != null)
+      {
+        jukeBox.stop();
+        jukeBox.close();
+      }
+    }
   }
   
   
@@ -88,17 +96,6 @@ public class SplashScreen
       }
       jukeBox.close();
     }
-  }
-  
-  
-  private void startAudio()
-  {
-    if(jukeBox == null     ||
-       jukeBox.isPlaying() == true) 
-    {
-      return;
-    }
-    jukeBox.play();
   }
  
   
@@ -127,12 +124,6 @@ public class SplashScreen
   }
   
   
-  public void setStartTime()
-  {
-    startTime = System.currentTimeMillis();
-  }
-  
-  
   public boolean hasAudio()
   {
     if(jukeBox == null)
@@ -143,30 +134,21 @@ public class SplashScreen
   }
   
   
+  public long getSplashScreenDuration()
+  {
+    return splashScreenDuration;
+  }
+  
+  
   public FadeEffect getFadeEffect()
   {
     return fadeEffect;
   }
   
   
-  public void pause(int pWaitTime)
+  public void setFadeEffect(FadeEffect pFadeEffect)
   {
-    if(pWaitTime == 0) return;
-    System.out.println(getName() + " beginning pause");
-    
-    long vStartTime   = 0L;
-    long vElapsedTime = 0L;
-    long vNow         = 0L;
-
-    vStartTime = System.currentTimeMillis();
-    
-    while(isDone == false && vElapsedTime <= pWaitTime)
-    {
-      System.out.println(getName() + " pausing...");
-      vNow         = System.currentTimeMillis();
-      vElapsedTime = vNow - vStartTime;
-    }
-    waitTime = 0;
+    fadeEffect = pFadeEffect;
   }
   
   

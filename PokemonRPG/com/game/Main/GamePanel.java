@@ -157,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable
       int   pStartAlpha, 
       int   pEndAlpha,
       int   pDeltaAlpha,
+      long  pWaitTime,
       long  pDuration)
   {
     FadeEffect vFadeEffect   = null;
@@ -169,6 +170,7 @@ public class GamePanel extends JPanel implements Runnable
         pStartAlpha, 
         pEndAlpha,
         pDeltaAlpha,
+        pWaitTime,
         pDuration);
     
     vFadeEffect.setState(vCurrentState);

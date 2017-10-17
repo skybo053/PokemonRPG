@@ -31,7 +31,7 @@ public class MenuState implements State
   private JukeBox    bgSoundFX            = null;
   private JukeBox    selectPlayBtnSoundFX = null;
   
-  private boolean    isEffectDone         = false;
+  private FadeEffect fadeEffect           = null;
   
   public MenuState(GamePanel pGamePanel)
   {
@@ -97,18 +97,13 @@ public class MenuState implements State
   
   public void checkEffectDone()
   {
-    if(isEffectDone)
+    if(fadeEffect != null)
     {
-      isActive = false;
+      if(fadeEffect.isDone())
+      {
+        isActive = false;
+      }
     }
-    
-    isEffectDone = false;
-  }
-  
-  
-  public void setEffectDone()
-  {
-    isEffectDone = true;
   }
   
   
@@ -223,9 +218,20 @@ public class MenuState implements State
       Color pColor, 
       int   pStartAlpha, 
       int   pEndAlpha, 
-      int   pDeltaAlpha, 
+      int   pDeltaAlpha,
+      long  pWaitTime,
       long  pDuration)
   {
-    game.createFadeEffect(pColor, pStartAlpha, pEndAlpha, pDeltaAlpha, pDuration);
+    FadeEffect vFadeEffect = null;
+    
+   fadeEffect =  game.createFadeEffect(
+       pColor, 
+       pStartAlpha, 
+       pEndAlpha, 
+       pDeltaAlpha, 
+       pWaitTime, 
+       pDuration);
+   
+   game.addFadeEffect(fadeEffect);
   }
 }

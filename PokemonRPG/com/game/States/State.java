@@ -16,5 +16,4 @@ public interface State
   public GameStates getStateType();
  
   public void checkEffectDone();
-  public void setEffectDone();
 }

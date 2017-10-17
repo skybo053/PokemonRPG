@@ -15,6 +15,7 @@ public class FadeEffect
   long  oDuration        = 0L;
   long  oEffectStartTime = 0L;
   State oCurrentState    = null;
+  long oWaitTime         = 0L;
   
   int oRed;
   int oGreen;
@@ -28,12 +29,14 @@ public class FadeEffect
       int   pStartAlpha, 
       int   pEndAlpha,
       int   pDeltaAlpha,
+      long  pWaitTime,
       long  pDuration)
   {
     oColor        = pColor;
     oStartAlpha   = pStartAlpha;
     oEndAlpha     = pEndAlpha;
     oDeltaAlpha   = pDeltaAlpha;
+    oWaitTime     = pWaitTime;
     oDuration     = pDuration;
     
     oRed   = oColor.getRed();
@@ -47,10 +50,14 @@ public class FadeEffect
   
   public void update()
   {
-    if(oEffectStartTime <= 0L)
+    if(oEffectStartTime <= 0)
     {
       oEffectStartTime = System.currentTimeMillis();
     }
+    
+    
+    if((System.currentTimeMillis() - oEffectStartTime) <= oWaitTime) return;
+    
     
     if(oDeltaAlpha > 0 && oStartAlpha + oDeltaAlpha > 255)
     {
@@ -64,11 +71,10 @@ public class FadeEffect
     {
       oStartAlpha += oDeltaAlpha;
     }
-    
+    System.out.println("Fade effect alpha: " + oStartAlpha);
     if(System.currentTimeMillis() - oEffectStartTime >= oDuration)
     {
       isDone = true;
-      oCurrentState.setEffectDone();
     }
   }
   
@@ -85,9 +91,22 @@ public class FadeEffect
     return isDone;
   }
   
+  
+  public void setIsDone()
+  {
+    isDone = true;
+  }
+  
+  
   public void setState(State pState)
   {
     oCurrentState = pState;
+  }
+  
+  
+  public long getWaitTime()
+  {
+    return oWaitTime;
   }
 
 }

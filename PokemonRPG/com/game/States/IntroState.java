@@ -17,7 +17,6 @@ public class IntroState implements State
   private boolean                 isActive;
   private GamePanel               game                = null;
   private GameStates              gameStateType       = null;
-  private boolean                 isEffectDone        = false;
   
   public IntroState(GamePanel pGamePanel)
   {
@@ -30,28 +29,52 @@ public class IntroState implements State
   
   public void setUpState()
   {
-    FadeEffect vGameFreakFadeEffect = null;
-    FadeEffect vPkmnIntFadeEffect   = null;
-    isActive                        = true;
+    FadeEffect   vGameFreakFadeEffect = null;
+    FadeEffect   vPkmnIntFadeEffect   = null;
+    SplashScreen vSplashScreen        = null;
     
-    vGameFreakFadeEffect = game.createFadeEffect(Color.white, 255, 0, -1, 5000);
-    vPkmnIntFadeEffect   = game.createFadeEffect(Color.white, 255, 0, -1, 5000);
+    isActive = true;
     
-    splashScreens.add(new SplashScreen(
-        "GameFreakScreen",
-        2000, 
-        false,
+    //create first splash screen and effect
+    
+    vSplashScreen = new SplashScreen(
+        "GameFreakScreen", 
+        7000,
         Assets.imgGameFreakLogo, 
-        null,
-        vGameFreakFadeEffect));
+        null);
     
-    splashScreens.add(new SplashScreen(
+    vGameFreakFadeEffect = game.createFadeEffect(
+        Color.white, 
+        255, 
+        0, 
+        -2, 
+        1000L,
+        vSplashScreen.getSplashScreenDuration());
+    
+    vSplashScreen.setFadeEffect(vGameFreakFadeEffect);
+    
+    splashScreens.add(vSplashScreen);
+    
+    
+    //create second splash screen and effect
+    
+    vSplashScreen = new SplashScreen(
         "PkmnIntScreen",
-        3000, 
-        true, 
+        9000,
         Assets.imgPkmnIntLogo,
-        Assets.soundMSIntro,
-        vPkmnIntFadeEffect));
+        Assets.soundMSIntro);
+    
+    vPkmnIntFadeEffect = game.createFadeEffect(
+        Color.white, 
+        255, 
+        0, 
+        -2, 
+        1500L,
+        vSplashScreen.getSplashScreenDuration());
+    
+    vSplashScreen.setFadeEffect(vPkmnIntFadeEffect);
+    
+    splashScreens.add(vSplashScreen);
   }
   
   
@@ -110,6 +133,7 @@ public class IntroState implements State
     if(currentSplashScreen != null)
     {
       currentSplashScreen.setIsDone();
+      currentSplashScreen.getFadeEffect().setIsDone();
       game.interrupt();
     }
     if(currentSplashScreen != null && currentSplashScreen.hasAudio())
@@ -121,19 +145,7 @@ public class IntroState implements State
   
   public void checkEffectDone()
   {
-    if(isEffectDone)
-    {
-      System.out.println("effect is done");
-      currentSplashScreen.setIsDone();
-    }
     
-    isEffectDone = false;
-  }
-  
-  
-  public void setEffectDone()
-  {
-    isEffectDone = true;
   }
   
   
