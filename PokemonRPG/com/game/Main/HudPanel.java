@@ -35,8 +35,6 @@ public class HudPanel extends JPanel
     
     this.setVisible(false);
     this.setOpaque(false);
-    this.setPreferredSize(new Dimension(displayWidth, displayHeight));
-    this.setBackground(new Color(255, 255, 255, 0));
     
     distanceFromLeft = (int)(displayWidth * percentFromLeft);
   }

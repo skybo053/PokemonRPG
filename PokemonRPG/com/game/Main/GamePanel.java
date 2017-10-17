@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable
   
   public void start()
   {
-    if(mainThread.isAlive())
+    if(running)
     {
       return;
     }
@@ -172,9 +172,13 @@ public class GamePanel extends JPanel implements Runnable
         pDuration);
     
     vFadeEffect.setState(vCurrentState);
-    
-    effectsPanel.addEffect(vFadeEffect);
     return vFadeEffect;
+  }
+  
+  
+  public void addFadeEffect(FadeEffect pFadeEffect)
+  {
+    effectsPanel.addEffect(pFadeEffect);
   }
   
   

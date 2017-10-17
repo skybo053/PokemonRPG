@@ -1,12 +1,12 @@
 package com.game.States;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.sound.sampled.AudioInputStream;
 
 import com.game.FX.Assets;
+import com.game.FX.FadeEffect;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
 
@@ -28,6 +28,8 @@ public class SplashScreen
   private boolean           fadeOut;
   private boolean           isDone;
   private Integer           waitTime;
+  
+  private FadeEffect fadeEffect;
 
   
   public SplashScreen(
@@ -35,9 +37,10 @@ public class SplashScreen
       Integer          pWaitTime,
       boolean          pFadeOut,
       BufferedImage    pImage,
-      AudioInputStream pAudioStream) 
+      AudioInputStream pAudioStream,
+      FadeEffect       pFadeEffect) 
   {
-    
+    fadeEffect    = pFadeEffect;
     name          = pName;
     fadeOut       = pFadeOut;
     image         = pImage;
@@ -61,54 +64,7 @@ public class SplashScreen
   
   public void update() 
   {
-    long vNow     = System.currentTimeMillis();
-    long vElapsed = vNow - startTime;
     
-    if(vElapsed < 2000)
-    {
-      return;
-    }
-    else if(vElapsed < 4000)
-    {
-      startAudio();
-      deltaAlpha = -2;
-    }
-    
-    
-    if(alphaValue + deltaAlpha >= 0 &&
-       alphaValue + deltaAlpha <= 255)
-    {
-      alphaValue += deltaAlpha;
-    }
-    else if(vElapsed < 11000)
-    {
-      if(fadeOut)
-      {
-        //pause(waitTime);
-        try
-        {
-          if(waitTime > 0)
-          {
-            System.out.println("before sleep");
-            Thread.sleep(waitTime);
-            System.out.println("after sleep");
-          }
-        }
-        catch(InterruptedException e){System.out.println("In interrupted");}
-        finally{waitTime = 0;}
-        
-        deltaAlpha = 2;
-      }
-      else
-      {
-        alphaValue = 0;
-      }
-    }
-    else
-    {
-      closeAudio();
-      isDone = true;
-    }
   }
   
   
@@ -119,9 +75,6 @@ public class SplashScreen
         GamePanel.displayWidth/2 - imageXOffset, 
         GamePanel.displayHeight/2 - imageYOffset, 
         null);
-    
-    pGraphics.setColor(new Color(255,255, 255, alphaValue));
-    pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
   }
   
   
@@ -169,6 +122,7 @@ public class SplashScreen
   
   public void setIsDone()
   {
+    System.out.println("setting " + this.getName() + " to done");
     isDone = true;
   }
   
@@ -186,6 +140,12 @@ public class SplashScreen
       return false;
     }
     return true;
+  }
+  
+  
+  public FadeEffect getFadeEffect()
+  {
+    return fadeEffect;
   }
   
   

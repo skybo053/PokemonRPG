@@ -41,12 +41,17 @@ public class FadeEffect
     oBlue  = oColor.getBlue();
     
     isDone           = false;
-    oEffectStartTime = System.currentTimeMillis();
+    oEffectStartTime = 0L;
   }
   
   
   public void update()
   {
+    if(oEffectStartTime <= 0L)
+    {
+      oEffectStartTime = System.currentTimeMillis();
+    }
+    
     if(oDeltaAlpha > 0 && oStartAlpha + oDeltaAlpha > 255)
     {
       oStartAlpha = 255;
@@ -63,7 +68,7 @@ public class FadeEffect
     if(System.currentTimeMillis() - oEffectStartTime >= oDuration)
     {
       isDone = true;
-      oCurrentState.setIsActive(false);
+      oCurrentState.setEffectDone();
     }
   }
   

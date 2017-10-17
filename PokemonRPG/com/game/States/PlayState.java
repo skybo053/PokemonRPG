@@ -14,6 +14,7 @@ public class PlayState implements State
   private GamePanel  game          = null;
   private GameStates gameStateType = null;
   private JukeBox    worldTheme    = null;
+  private boolean    isEffectDone  = false;
   
   
   public PlayState(GamePanel pGamePanel)
@@ -31,15 +32,13 @@ public class PlayState implements State
     worldTheme.play();
     worldTheme.setLoopContinuous();
     
-    game.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     game.showHUD();
-    game.validate();
   }
   
   
   public void update()
   {
-    
+    checkEffectDone();
   }
   
   
@@ -49,6 +48,22 @@ public class PlayState implements State
     pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
     pGraphics.setColor(Color.YELLOW);
     pGraphics.drawString("THIS IS PLAY STATE", 100, 100);
+  }
+  
+  
+  public void checkEffectDone()
+  {
+    if(isEffectDone)
+    {
+      
+    }
+    isEffectDone = false;
+  }
+  
+  
+  public void setEffectDone()
+  {
+    isEffectDone = true;
   }
   
   

@@ -25,8 +25,6 @@ public class EffectsPanel extends JPanel
     effectsList   = new ArrayList<FadeEffect>();
     
     this.setOpaque(false);
-    this.setPreferredSize(new Dimension(displayWidth, displayHeight));
-    this.setBackground(new Color(255, 255, 255, 0));
   }
   
   

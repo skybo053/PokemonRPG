@@ -1,10 +1,12 @@
 package com.game.States;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.game.FX.Assets;
+import com.game.FX.FadeEffect;
 import com.game.Main.GamePanel;
 
 public class IntroState implements State 
@@ -15,7 +17,7 @@ public class IntroState implements State
   private boolean                 isActive;
   private GamePanel               game                = null;
   private GameStates              gameStateType       = null;
-  
+  private boolean                 isEffectDone        = false;
   
   public IntroState(GamePanel pGamePanel)
   {
@@ -28,33 +30,41 @@ public class IntroState implements State
   
   public void setUpState()
   {
-    isActive = true;
+    FadeEffect vGameFreakFadeEffect = null;
+    FadeEffect vPkmnIntFadeEffect   = null;
+    isActive                        = true;
+    
+    vGameFreakFadeEffect = game.createFadeEffect(Color.white, 255, 0, -1, 5000);
+    vPkmnIntFadeEffect   = game.createFadeEffect(Color.white, 255, 0, -1, 5000);
     
     splashScreens.add(new SplashScreen(
         "GameFreakScreen",
         2000, 
         false,
         Assets.imgGameFreakLogo, 
-        null));
+        null,
+        vGameFreakFadeEffect));
     
     splashScreens.add(new SplashScreen(
         "PkmnIntScreen",
         3000, 
         true, 
         Assets.imgPkmnIntLogo,
-        Assets.soundMSIntro));
+        Assets.soundMSIntro,
+        vPkmnIntFadeEffect));
   }
   
   
   public void update()
   {
+    checkEffectDone();
     removeFinishedSplashScreens();
     
     if(currentSplashScreen == null &&
        splashScreens.size() > 0)
     {
       currentSplashScreen = splashScreens.get(0);
-      currentSplashScreen.setStartTime();
+      game.addFadeEffect(currentSplashScreen.getFadeEffect());
     }
     else if(splashScreens.size() == 0)
     {
@@ -72,7 +82,6 @@ public class IntroState implements State
     {
       currentSplashScreen.draw(pGraphics);
     }
-    
   }
   
   
@@ -107,6 +116,24 @@ public class IntroState implements State
     {
       currentSplashScreen.closeAudio();
     }
+  }
+  
+  
+  public void checkEffectDone()
+  {
+    if(isEffectDone)
+    {
+      System.out.println("effect is done");
+      currentSplashScreen.setIsDone();
+    }
+    
+    isEffectDone = false;
+  }
+  
+  
+  public void setEffectDone()
+  {
+    isEffectDone = true;
   }
   
   

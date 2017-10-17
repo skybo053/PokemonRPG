@@ -31,6 +31,7 @@ public class MenuState implements State
   private JukeBox    bgSoundFX            = null;
   private JukeBox    selectPlayBtnSoundFX = null;
   
+  private boolean    isEffectDone         = false;
   
   public MenuState(GamePanel pGamePanel)
   {
@@ -77,7 +78,7 @@ public class MenuState implements State
   
   public void update() 
   {
-    
+    checkEffectDone();
   }
   
   
@@ -93,6 +94,22 @@ public class MenuState implements State
         null);
    }
   
+  
+  public void checkEffectDone()
+  {
+    if(isEffectDone)
+    {
+      isActive = false;
+    }
+    
+    isEffectDone = false;
+  }
+  
+  
+  public void setEffectDone()
+  {
+    isEffectDone = true;
+  }
   
   
   public boolean isActive()
@@ -199,13 +216,6 @@ public class MenuState implements State
   public void rewindSelectPlaySoundFX()
   {
     selectPlayBtnSoundFX.rewind();
-  }
-  
-  public void removeMenuButtons()
-  {
-    game.remove(playButton);
-    game.remove(exitButton);
-    game.validate();
   }
   
   
