@@ -14,6 +14,4 @@ public interface State
   public void cleanUpState();
   
   public GameStates getStateType();
- 
-  public void checkEffectDone();
 }

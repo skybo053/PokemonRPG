@@ -43,6 +43,7 @@ public class EffectsPanel extends JPanel
        
        if(vFadeEffect.isDone())
        {
+         System.out.println("removing fadeEffect");
          vIt.remove();
        }
        else

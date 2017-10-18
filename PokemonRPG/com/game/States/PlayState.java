@@ -32,7 +32,9 @@ public class PlayState implements State
     worldTheme.play();
     worldTheme.setLoopContinuous();
     
+    game.setFocusable(true);
     game.showHUD();
+    game.validate();
   }
   
   

@@ -104,6 +104,7 @@ public class GameStateManager
         state.cleanUpState();
         state            = statesCollection.get(positionCollection.get(currStatePos));
         currentGameState = gamestateCollection.get(currStatePos);
+        System.out.println("GSM Setting state to: " + currentGameState.getDescription());
         state.setUpState();
       }
     

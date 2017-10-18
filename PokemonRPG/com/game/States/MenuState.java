@@ -78,7 +78,7 @@ public class MenuState implements State
   
   public void update() 
   {
-    checkEffectDone();
+    
   }
   
   
@@ -93,18 +93,6 @@ public class MenuState implements State
         null, 
         null);
    }
-  
-  
-  public void checkEffectDone()
-  {
-    if(fadeEffect != null)
-    {
-      if(fadeEffect.isDone())
-      {
-        isActive = false;
-      }
-    }
-  }
   
   
   public boolean isActive()
@@ -224,14 +212,21 @@ public class MenuState implements State
   {
     FadeEffect vFadeEffect = null;
     
-   fadeEffect =  game.createFadeEffect(
+   vFadeEffect =  game.createFadeEffect(
        pColor, 
        pStartAlpha, 
        pEndAlpha, 
        pDeltaAlpha, 
        pWaitTime, 
-       pDuration);
+       pDuration,
+       this);
    
-   game.addFadeEffect(fadeEffect);
+   game.addFadeEffect(vFadeEffect);
+  }
+  
+  
+  public void disableGamePanel()
+  {
+    game.setFocusable(false);
   }
 }

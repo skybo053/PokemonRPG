@@ -124,6 +124,7 @@ public class KeyHandler implements KeyListener
       }
       else if(menuState.playBtnIsSelected())
       {
+        menuState.disableGamePanel();
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
         menuState.playSelectPlayBtnSoundFX();
         menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 5000);

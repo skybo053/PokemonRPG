@@ -49,7 +49,8 @@ public class IntroState implements State
         0, 
         -2, 
         1000L,
-        vSplashScreen.getSplashScreenDuration());
+        vSplashScreen.getSplashScreenDuration(),
+        null);
     
     vSplashScreen.setFadeEffect(vGameFreakFadeEffect);
     
@@ -70,7 +71,8 @@ public class IntroState implements State
         0, 
         -2, 
         1500L,
-        vSplashScreen.getSplashScreenDuration());
+        vSplashScreen.getSplashScreenDuration(),
+        null);
     
     vSplashScreen.setFadeEffect(vPkmnIntFadeEffect);
     
@@ -80,7 +82,6 @@ public class IntroState implements State
   
   public void update()
   {
-    checkEffectDone();
     removeFinishedSplashScreens();
     
     if(currentSplashScreen == null &&
@@ -140,12 +141,6 @@ public class IntroState implements State
     {
       currentSplashScreen.closeAudio();
     }
-  }
-  
-  
-  public void checkEffectDone()
-  {
-    
   }
   
   

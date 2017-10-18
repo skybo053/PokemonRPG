@@ -106,8 +106,11 @@ public class GamePanel extends JPanel implements Runnable
     {
       try
       {
-        gameStateManager.update();  
+        
         effectsPanel.update();
+        gameStateManager.update(); 
+        
+        
         repaint();
         
         startTime             += frameTicksPerSecond;
@@ -145,9 +148,11 @@ public class GamePanel extends JPanel implements Runnable
     
     if(gameStateManager == null) return;
     
+    
     gameStateManager.draw(pGraphics);
-    hudPanel.drawHUD();
     effectsPanel.drawEffect();
+    hudPanel.drawHUD();
+    
     
   }
   
@@ -158,12 +163,10 @@ public class GamePanel extends JPanel implements Runnable
       int   pEndAlpha,
       int   pDeltaAlpha,
       long  pWaitTime,
-      long  pDuration)
+      long  pDuration,
+      State pCurrentState)
   {
     FadeEffect vFadeEffect   = null;
-    State      vCurrentState = null;
-    
-    vCurrentState = gameStateManager.getCurrentGameState();
     
     vFadeEffect = new FadeEffect(
         pColor, 
@@ -171,9 +174,9 @@ public class GamePanel extends JPanel implements Runnable
         pEndAlpha,
         pDeltaAlpha,
         pWaitTime,
-        pDuration);
+        pDuration,
+        pCurrentState);
     
-    vFadeEffect.setState(vCurrentState);
     return vFadeEffect;
   }
   
