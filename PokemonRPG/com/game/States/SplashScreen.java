@@ -67,6 +67,7 @@ public class SplashScreen
     if((System.currentTimeMillis() - splashScreenStartTime) >= splashScreenDuration)
     {
       isDone = true;
+      
       if(jukeBox != null)
       {
         jukeBox.stop();
@@ -119,7 +120,6 @@ public class SplashScreen
   
   public void setIsDone()
   {
-    System.out.println("setting " + this.getName() + " to done");
     isDone = true;
   }
   

@@ -1,9 +1,9 @@
 package com.game.States;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 
+import com.game.Entities.Player;
 import com.game.FX.Assets;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
@@ -14,7 +14,7 @@ public class PlayState implements State
   private GamePanel  game          = null;
   private GameStates gameStateType = null;
   private JukeBox    worldTheme    = null;
-  private boolean    isEffectDone  = false;
+  private Player     player        = null;
   
   
   public PlayState(GamePanel pGamePanel)
@@ -22,6 +22,7 @@ public class PlayState implements State
     game = pGamePanel;
     
     worldTheme = new JukeBox(Assets.soundWorldTheme);
+    player     = new Player(300,300, 37, 50);
   }
   
   
@@ -33,14 +34,15 @@ public class PlayState implements State
     worldTheme.setLoopContinuous();
     
     game.setFocusable(true);
+    game.requestFocusInWindow();
+    
     game.showHUD();
-    game.validate();
   }
   
   
   public void update()
   {
-    checkEffectDone();
+    player.update();
   }
   
   
@@ -48,27 +50,11 @@ public class PlayState implements State
   {
     pGraphics.setColor(Color.gray);
     pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
-    pGraphics.setColor(Color.YELLOW);
-    pGraphics.drawString("THIS IS PLAY STATE", 100, 100);
+    
+    player.draw(pGraphics);
   }
   
-  
-  public void checkEffectDone()
-  {
-    if(isEffectDone)
-    {
-      
-    }
-    isEffectDone = false;
-  }
-  
-  
-  public void setEffectDone()
-  {
-    isEffectDone = true;
-  }
-  
-  
+
   public boolean isActive()
   {
     return isActive;

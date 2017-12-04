@@ -155,20 +155,16 @@ public class MenuState implements State
     
     game.remove(playButton);
     game.remove(exitButton);
-    game.validate();
     
-    if(buttonSoundFX.isPlaying())
-    {
-      buttonSoundFX.stop();
-    }
-    
-    if(bgSoundFX.isPlaying())
-    {
-      bgSoundFX.stop();
-    }
+    buttonSoundFX.stop();
+    bgSoundFX.stop();
+    selectPlayBtnSoundFX.stop();
     
     bgSoundFX.close();
     buttonSoundFX.close();
+    selectPlayBtnSoundFX.close();
+    
+    game.validate();
   }
   
   

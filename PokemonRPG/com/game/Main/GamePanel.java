@@ -106,7 +106,6 @@ public class GamePanel extends JPanel implements Runnable
     {
       try
       {
-        
         effectsPanel.update();
         gameStateManager.update(); 
         

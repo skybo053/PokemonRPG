@@ -40,6 +40,10 @@ public class KeyHandler implements KeyListener
     case MENU_STATE:
       handleMenuStatePressedKeyEvents(pKeyEvent);
       break;
+      
+    case PLAY_STATE:
+      handlePlayStateKeyEvents(pKeyEvent);
+      break;
     }
   }
 
@@ -127,8 +131,25 @@ public class KeyHandler implements KeyListener
         menuState.disableGamePanel();
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
         menuState.playSelectPlayBtnSoundFX();
-        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 5000);
+        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 1000); //Temporarily set
+                                                                   //duration to 1000 from 5000
+                                                                  // for testing
+        
       }
+    }
+  }
+  
+  
+  //Play State events
+  private void handlePlayStateKeyEvents(KeyEvent pKeyEvent)
+  {
+    int vKeyCode = pKeyEvent.getKeyCode();
+    
+    switch(vKeyCode)
+    {
+    case KeyEvent.VK_ESCAPE:
+      System.exit(0);
+      break;
     }
   }
 }// end KeyHandler class
