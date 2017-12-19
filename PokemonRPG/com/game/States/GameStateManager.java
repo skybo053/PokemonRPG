@@ -21,9 +21,13 @@ public class GameStateManager
   private Map<Integer, String>     positionCollection  = null;
   private Map<Integer, GameStates> gamestateCollection = null;
   
+  private GamePanel game = null;
+  
  
   public GameStateManager(GamePanel pGamePanel)
   {
+    game                = pGamePanel;
+    
     statesCollection    = new HashMap<>();
     positionCollection  = new HashMap<>();
     gamestateCollection = new HashMap<>();
@@ -36,9 +40,9 @@ public class GameStateManager
     currentGameState    = GameStates.UNINITIALIZED;
     
     statesCollection.put("UNINITIALIZED", null);
-    statesCollection.put("IntroState", introState);
-    statesCollection.put("MenuState", menuState);
-    statesCollection.put("PlayState", playState);
+    statesCollection.put("IntroState",    introState);
+    statesCollection.put("MenuState",     menuState);
+    statesCollection.put("PlayState",     playState);
     
     positionCollection.put(0, "UNINITIALIZED");
     positionCollection.put(1, "IntroState");
@@ -90,6 +94,18 @@ public class GameStateManager
   }
   
   
+  public PlayState getPlayState()
+  {
+    return playState;
+  }
+  
+  
+  public State getState(String pStateName)
+  {
+    return statesCollection.get(pStateName);
+  }
+  
+  
   private void manageStates()
   {
     if( currentGameState == GameStates.UNINITIALIZED           || 
@@ -105,6 +121,7 @@ public class GameStateManager
         state            = statesCollection.get(positionCollection.get(currStatePos));
         currentGameState = gamestateCollection.get(currStatePos);
         state.setUpState();
+        game.setKeyListener(currentGameState);
       }
     
     

@@ -1,154 +1,63 @@
 package com.game.EventHandlers;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 
-import com.game.FX.Assets;
 import com.game.Main.GamePanel;
-import com.game.States.GameStateManager;
 import com.game.States.GameStates;
-import com.game.States.IntroState;
-import com.game.States.MenuState;
+import com.game.States.State;
 
-public class KeyHandler implements KeyListener
+public class KeyHandler
 {
-  private GameStateManager gameStateManager    = null;
-  private IntroState       introState          = null;
-  private MenuState        menuState           = null;
-  private GameStates       currentGameState    = null;
+  private GamePanel game = null;
 
+  private IntroStateKeyListener introStateKeyListener    = null;
+  private MenuStateKeyListener  menuStateKeyListener     = null;
+  private PlayStateKeyListener  playStateKeyListener     = null;
   
-  public KeyHandler(GameStateManager pGameStateManager)
+  private HashMap<GameStates, KeyListener> keyListeners = null;
+  
+  public KeyHandler(GamePanel pGame)
   {
-    gameStateManager    = pGameStateManager;
-    introState          = gameStateManager.getIntroState();
-    menuState           = gameStateManager.getMenuState();
+    game = pGame;
+    
+    keyListeners = new HashMap<GameStates, KeyListener>();
+    
+    introStateKeyListener = new IntroStateKeyListener(this);
+    menuStateKeyListener  = new MenuStateKeyListener(this);
+    playStateKeyListener  = new PlayStateKeyListener(this);
+    
+    keyListeners.put(GameStates.INTRO_STATE, introStateKeyListener);
+    keyListeners.put(GameStates.MENU_STATE, menuStateKeyListener);
+    keyListeners.put(GameStates.PLAY_STATE, playStateKeyListener);
   }
   
   
-  public void keyPressed(KeyEvent pKeyEvent) 
+  public State getState(String pStateName)
   {
-    currentGameState = gameStateManager.getCurrentGameStateType();
+    return game.getState(pStateName);
+  }
+  
+  
+  public void setKeyListener(GameStates pGameState)
+  {
+    KeyListener vListener = null;
     
-    switch(currentGameState)
+    switch(pGameState)
     {
     case INTRO_STATE:
-      handleIntroStateKeyEvents(pKeyEvent);
+      vListener = keyListeners.get(pGameState);
+      game.addKeyListener(vListener);
       break;
-    
+      
     case MENU_STATE:
-      handleMenuStatePressedKeyEvents(pKeyEvent);
+      vListener = keyListeners.get(pGameState);
+      game.addKeyListener(vListener);
       break;
       
     case PLAY_STATE:
-      handlePlayStateKeyEvents(pKeyEvent);
-      break;
-    }
-  }
-
-  
-  public void keyReleased(KeyEvent pKeyEvent) 
-  {
-    switch(currentGameState)
-    {
-    case MENU_STATE:
-      handleMenuStateReleasedKeyEvents(pKeyEvent);
-      break;
-    }
-  }
-  
-  
-  public void keyTyped(KeyEvent e) 
-  {
-    
-  }
-  
-  
-  private void handleIntroStateKeyEvents(KeyEvent pKeyEvent)
-  {
-    int vKeyCode = pKeyEvent.getKeyCode();
-    
-    switch(vKeyCode)
-    {
-    case KeyEvent.VK_ESCAPE:
-      introState.skipSplashScreen();
-      break;
-    }
-  }
-  
-  
-  private void handleMenuStatePressedKeyEvents(KeyEvent pKeyEvent)
-  {
-    int vKeyCode  = pKeyEvent.getKeyCode();
-    switch(vKeyCode)
-    {
-    case KeyEvent.VK_UP:
-      menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-      menuState.setExitButtonIcon(Assets.imgMenuExitBtn);
-      menuState.setPlayBtnSelected(true);
-      menuState.setExitBtnSelected(false);
-      menuState.playBTNSoundFX();
-      menuState.rewindBTNSoundFX();
-      break;
-    
-    case KeyEvent.VK_DOWN:
-      menuState.setPlayButtonIcon(Assets.imgMenuPlayBtn);
-      menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-      menuState.setPlayBtnSelected(false);
-      menuState.setExitBtnSelected(true);
-      menuState.playBTNSoundFX();
-      menuState.rewindBTNSoundFX();
-      break;
-      
-    case KeyEvent.VK_ENTER:
-      if(menuState.exitBtnIsSelected())
-      {
-        menuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
-      }
-      else if(menuState.playBtnIsSelected())
-      {
-        menuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
-      }
-    }
-  }
-  
-  //released key events
-  private void handleMenuStateReleasedKeyEvents(KeyEvent pKeyEvent)
-  {
-    int vKeyCode = pKeyEvent.getKeyCode();
-    
-    switch(vKeyCode)
-    {
-    case KeyEvent.VK_ENTER:
-      if(menuState.exitBtnIsSelected())
-      {
-        menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-        System.exit(0);
-      }
-      else if(menuState.playBtnIsSelected())
-      {
-        menuState.disableGamePanel();
-        menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-        menuState.playSelectPlayBtnSoundFX();
-        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 1000); //Temporarily set
-                                                                   //duration to 1000 from 5000
-                                                                  // for testing
-        
-      }
-    }
-  }
-  
-  
-  //Play State events
-  private void handlePlayStateKeyEvents(KeyEvent pKeyEvent)
-  {
-    int vKeyCode = pKeyEvent.getKeyCode();
-    
-    switch(vKeyCode)
-    {
-    case KeyEvent.VK_ESCAPE:
-      System.exit(0);
+      vListener = keyListeners.get(pGameState);
+      game.addKeyListener(vListener);
       break;
     }
   }

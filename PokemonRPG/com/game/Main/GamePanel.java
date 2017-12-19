@@ -3,6 +3,7 @@ package com.game.Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,6 +13,7 @@ import com.game.Exceptions.AssetLoaderException;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
 import com.game.States.GameStateManager;
+import com.game.States.GameStates;
 import com.game.States.State;
 
 
@@ -35,11 +37,12 @@ public class GamePanel extends JPanel implements Runnable
   private long endTime;
   boolean      running;
   
-  private GameStateManager gameStateManager = null;
-  
-  private HudPanel     hudPanel     = null;
-  private EffectsPanel effectsPanel = null;
-  private Thread       mainThread   = null;
+  private GameStateManager       gameStateManager = null;
+  private HudPanel               hudPanel         = null;
+  private EffectsPanel           effectsPanel     = null;
+  private Thread                 mainThread       = null;
+  private HashMap<String, State> gameStates       = null;
+  private KeyHandler             keyHandler       = null;
   
   
   public GamePanel(HudPanel pHudPanel, EffectsPanel pEffectsPanel)
@@ -52,6 +55,8 @@ public class GamePanel extends JPanel implements Runnable
     this.setFocusable(true);
     
     mainThread = new Thread(this, "GameLoop");
+    gameStates = new HashMap<String, State>();
+    
   }
   
   
@@ -65,9 +70,9 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
-  private void addListeners()
+  public void setKeyListener(GameStates pGameState)
   {
-    this.addKeyListener(new KeyHandler(gameStateManager));
+    keyHandler.setKeyListener(pGameState);
   }
   
   
@@ -77,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable
     {
       Assets.load();
       gameStateManager = new GameStateManager(this);
-      addListeners();
+      keyHandler       = new KeyHandler(this);
       
       running                = true;
       FPS                    = 30;
@@ -197,5 +202,16 @@ public class GamePanel extends JPanel implements Runnable
     hudPanel.setVisible(true);
   }
   
+  
+  public State getState(String pStateName)
+  {
+    if(gameStates.containsKey(pStateName) == false)
+    {
+      State vState = gameStateManager.getState(pStateName);
+      gameStates.put(pStateName, vState);
+    }
+    
+    return gameStates.get(pStateName);
+  }
   
 } // end GamePanel class
