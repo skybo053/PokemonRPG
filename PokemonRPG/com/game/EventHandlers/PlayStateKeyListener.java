@@ -3,6 +3,7 @@ package com.game.EventHandlers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.game.States.GameStates;
 import com.game.States.PlayState;
 
 public class PlayStateKeyListener implements KeyListener
@@ -15,7 +16,7 @@ public class PlayStateKeyListener implements KeyListener
   public PlayStateKeyListener(KeyHandler pKeyHandler)
   {
     keyHandler = pKeyHandler;
-    playState  = (PlayState)pKeyHandler.getState("PlayState");
+    playState  = (PlayState)pKeyHandler.getState(GameStates.PLAY_STATE);
   }
 
  

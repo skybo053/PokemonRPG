@@ -17,8 +17,8 @@ public class GameStateManager
   private GameStates currentGameState         = null;
   private State      state                    = null;
   
-  private Map<String, State>       statesCollection    = null;
-  private Map<Integer, String>     positionCollection  = null;
+  private Map<GameStates, State>   statesCollection    = null;
+  private Map<Integer, GameStates> positionCollection  = null;
   private Map<Integer, GameStates> gamestateCollection = null;
   
   private GamePanel game = null;
@@ -39,15 +39,15 @@ public class GameStateManager
     state               = introState;
     currentGameState    = GameStates.UNINITIALIZED;
     
-    statesCollection.put("UNINITIALIZED", null);
-    statesCollection.put("IntroState",    introState);
-    statesCollection.put("MenuState",     menuState);
-    statesCollection.put("PlayState",     playState);
+    statesCollection.put(GameStates.UNINITIALIZED, null);
+    statesCollection.put(GameStates.INTRO_STATE,   introState);
+    statesCollection.put(GameStates.MENU_STATE,    menuState);
+    statesCollection.put(GameStates.PLAY_STATE,    playState);
     
-    positionCollection.put(0, "UNINITIALIZED");
-    positionCollection.put(1, "IntroState");
-    positionCollection.put(2, "MenuState");
-    positionCollection.put(3, "PlayState");
+    positionCollection.put(0, GameStates.UNINITIALIZED);
+    positionCollection.put(1, GameStates.INTRO_STATE);
+    positionCollection.put(2, GameStates.MENU_STATE);
+    positionCollection.put(3, GameStates.PLAY_STATE);
     
     gamestateCollection.put(0, GameStates.UNINITIALIZED);
     gamestateCollection.put(1, GameStates.INTRO_STATE);
@@ -82,27 +82,9 @@ public class GameStateManager
   }
   
   
-  public IntroState getIntroState()
+  public State getState(GameStates pStateType)
   {
-    return introState;
-  }
-  
-  
-  public MenuState getMenuState()
-  {
-    return menuState;
-  }
-  
-  
-  public PlayState getPlayState()
-  {
-    return playState;
-  }
-  
-  
-  public State getState(String pStateName)
-  {
-    return statesCollection.get(pStateName);
+    return statesCollection.get(pStateType);
   }
   
   

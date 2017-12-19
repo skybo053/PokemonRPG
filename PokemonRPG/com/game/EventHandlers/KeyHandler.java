@@ -33,9 +33,9 @@ public class KeyHandler
   }
   
   
-  public State getState(String pStateName)
+  public State getState(GameStates pStateType)
   {
-    return game.getState(pStateName);
+    return game.getState(pStateType);
   }
   
   

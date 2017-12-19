@@ -2,6 +2,8 @@ package com.game.EventHandlers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import com.game.States.GameStates;
 import com.game.States.IntroState;
 
 
@@ -15,7 +17,7 @@ public class IntroStateKeyListener implements KeyListener
   public IntroStateKeyListener(KeyHandler pKeyHandler)
   {
     keyHandler = pKeyHandler;
-    introState = (IntroState)keyHandler.getState("IntroState");
+    introState = (IntroState)keyHandler.getState(GameStates.INTRO_STATE);
   }
   
   

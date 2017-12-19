@@ -41,7 +41,6 @@ public class GamePanel extends JPanel implements Runnable
   private HudPanel               hudPanel         = null;
   private EffectsPanel           effectsPanel     = null;
   private Thread                 mainThread       = null;
-  private HashMap<String, State> gameStates       = null;
   private KeyHandler             keyHandler       = null;
   
   
@@ -55,7 +54,6 @@ public class GamePanel extends JPanel implements Runnable
     this.setFocusable(true);
     
     mainThread = new Thread(this, "GameLoop");
-    gameStates = new HashMap<String, State>();
     
   }
   
@@ -203,15 +201,9 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
-  public State getState(String pStateName)
+  public State getState(GameStates pStateType)
   {
-    if(gameStates.containsKey(pStateName) == false)
-    {
-      State vState = gameStateManager.getState(pStateName);
-      gameStates.put(pStateName, vState);
-    }
-    
-    return gameStates.get(pStateName);
+    return gameStateManager.getState(pStateType);
   }
   
 } // end GamePanel class

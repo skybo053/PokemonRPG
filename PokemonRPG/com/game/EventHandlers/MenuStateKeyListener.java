@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.game.FX.Assets;
+import com.game.States.GameStates;
 import com.game.States.MenuState;
 
 public class MenuStateKeyListener implements KeyListener
@@ -17,7 +18,7 @@ public class MenuStateKeyListener implements KeyListener
   public MenuStateKeyListener(KeyHandler pKeyHandler)
   {
     keyHandler = pKeyHandler;
-    menuState  = (MenuState)keyHandler.getState("MenuState");
+    menuState  = (MenuState)keyHandler.getState(GameStates.MENU_STATE);
   }
   
   
