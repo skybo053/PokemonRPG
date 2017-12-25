@@ -28,8 +28,8 @@ public class KeyHandler
     playStateKeyListener  = new PlayStateKeyListener(this);
     
     keyListeners.put(GameStates.INTRO_STATE, introStateKeyListener);
-    keyListeners.put(GameStates.MENU_STATE, menuStateKeyListener);
-    keyListeners.put(GameStates.PLAY_STATE, playStateKeyListener);
+    keyListeners.put(GameStates.MENU_STATE,  menuStateKeyListener);
+    keyListeners.put(GameStates.PLAY_STATE,  playStateKeyListener);
   }
   
   
@@ -42,6 +42,8 @@ public class KeyHandler
   public void setKeyListener(GameStates pGameState)
   {
     KeyListener vListener = null;
+    
+    game.removeKeyListeners();
     
     switch(pGameState)
     {

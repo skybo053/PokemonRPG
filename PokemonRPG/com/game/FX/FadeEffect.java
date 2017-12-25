@@ -115,5 +115,7 @@ public class FadeEffect
   {
     return oWaitTime;
   }
+  
+  public long getDuration(){return oDuration;}
 
 }

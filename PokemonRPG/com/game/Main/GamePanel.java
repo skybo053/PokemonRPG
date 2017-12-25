@@ -3,7 +3,7 @@ package com.game.Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.HashMap;
+import java.awt.event.KeyListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -109,9 +109,8 @@ public class GamePanel extends JPanel implements Runnable
     {
       try
       {
-        effectsPanel.update();
         gameStateManager.update(); 
-        
+        effectsPanel.update();
         
         repaint();
         
@@ -205,5 +204,23 @@ public class GamePanel extends JPanel implements Runnable
   {
     return gameStateManager.getState(pStateType);
   }
+  
+  
+  public State getCurrentState()
+  {
+    return gameStateManager.getCurrentGameState();
+  }
+  
+  
+  public void removeKeyListeners()
+  {
+    KeyListener[] vListener = null;
+    
+    if((vListener = getKeyListeners()).length > 0)
+    {
+      removeKeyListener(vListener[0]);
+    }
+  }
+  
   
 } // end GamePanel class

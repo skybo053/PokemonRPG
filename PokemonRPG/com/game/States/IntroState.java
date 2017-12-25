@@ -39,7 +39,7 @@ public class IntroState implements State
     
     vSplashScreen = new SplashScreen(
         "GameFreakScreen", 
-        7000,
+        6000,
         Assets.imgGameFreakLogo, 
         null);
     
@@ -123,6 +123,7 @@ public class IntroState implements State
       if(vSplashScreen.isDone())
       {
         vIt.remove();
+        
         currentSplashScreen = null;
       }
     }

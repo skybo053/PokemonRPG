@@ -29,31 +29,25 @@ public class MenuStateKeyListener implements KeyListener
     switch(vKeyCode)
     {
     case KeyEvent.VK_UP:
-      menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-      menuState.setExitButtonIcon(Assets.imgMenuExitBtn);
-      menuState.setPlayBtnSelected(true);
-      menuState.setExitBtnSelected(false);
-      menuState.playBTNSoundFX();
-      menuState.rewindBTNSoundFX();
+      menuState.moveMenuPositionUp();
       break;
     
     case KeyEvent.VK_DOWN:
-      menuState.setPlayButtonIcon(Assets.imgMenuPlayBtn);
-      menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-      menuState.setPlayBtnSelected(false);
-      menuState.setExitBtnSelected(true);
-      menuState.playBTNSoundFX();
-      menuState.rewindBTNSoundFX();
+      menuState.moveMenuPositionDown();
       break;
       
     case KeyEvent.VK_ENTER:
-      if(menuState.exitBtnIsSelected())
-      {
-        menuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
-      }
-      else if(menuState.playBtnIsSelected())
+      if(menuState.playBtnIsSelected())
       {
         menuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
+      }
+      else if(menuState.optionsBtnIsSelected())
+      {
+        menuState.setOptionsButtonIcon(Assets.imgMenuSelectedOptionsBtn);
+      }
+      else if(menuState.exitBtnIsSelected())
+      {
+        menuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
       }
     }
   }
@@ -66,12 +60,8 @@ public class MenuStateKeyListener implements KeyListener
     switch(vKeyCode)
     {
     case KeyEvent.VK_ENTER:
-      if(menuState.exitBtnIsSelected())
-      {
-        menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-        System.exit(0);
-      }
-      else if(menuState.playBtnIsSelected())
+      
+      if(menuState.playBtnIsSelected())
       {
         menuState.disableGamePanel();
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
@@ -79,9 +69,19 @@ public class MenuStateKeyListener implements KeyListener
         menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 1000); //Temporarily set
                                                                    //duration to 1000 from 5000
                                                                   // for testing
-        
       }
+      else if(menuState.optionsBtnIsSelected())
+      {
+        menuState.setOptionsButtonIcon(Assets.imgMenuFocusOptionsBtn);
+      }
+      else if(menuState.exitBtnIsSelected())
+      {
+        menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
+        System.exit(0);
+      }
+    
     }
+  
   }
   
   

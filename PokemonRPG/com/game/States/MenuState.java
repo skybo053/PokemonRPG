@@ -15,14 +15,24 @@ import com.game.Main.GamePanel;
 
 public class MenuState implements State
 {
-  private boolean    isActive          = false;
-  private boolean    playBtnSelected   = false;
-  private boolean    exitBtnSelected   = false;
+  private final int NUM_MENU_OPTIONS = 3;
+  
+  private static final int PLAY_BTN    = 0;
+  private static final int OPTIONS_BTN = 1;
+  private static final int EXIT_BTN    = 2;
+  
+  private int     currentMenuPosition = 0;
+  private boolean menuPositionChanged = false;
+  
+  private boolean    isActive           = false;
+  private boolean    playBtnSelected    = false;
+  private boolean    optionsBtnSelected = false;
+  private boolean    exitBtnSelected    = false;
   
   private JLabel     playButton        = null;
-  private int        playButtonOffset  = 0;
+  private JLabel     optionsButton     = null;  
   private JLabel     exitButton        = null;
-  private int        exitButtonOffset  = 0;
+  private int        btnOffset         = 0;
   
   private GamePanel  game              = null;
   private GameStates gameStateType     = null;
@@ -43,8 +53,13 @@ public class MenuState implements State
     bgSoundFX            = new JukeBox(Assets.soundMainMenuBGMusic);
     selectPlayBtnSoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
     
-    playButtonOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
-    exitButtonOffset = Assets.getWidth(Assets.imgMenuExitBtn) / 2;
+    playButton      = new JLabel(new ImageIcon(Assets.imgMenuSelectedPlayBtn));
+    playBtnSelected = true;
+    
+    optionsButton   = new JLabel(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
+    exitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
+    
+    btnOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
   }
   
   
@@ -52,24 +67,29 @@ public class MenuState implements State
   {
     isActive = true;
     
-    playButton = new JLabel(new ImageIcon(Assets.imgMenuPlayBtn)); 
-    exitButton = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
-    
     game.setLayout(null);
-    game.add(playButton);
-    game.add(exitButton);
     
     playButton.setBounds(
-        GamePanel.displayWidth /2 - playButtonOffset, 
+        GamePanel.displayWidth /2 - btnOffset, 
         calcPercentFromTop(0.35), 
         Assets.getWidth(Assets.imgMenuPlayBtn), 
         Assets.getHeight(Assets.imgMenuPlayBtn));
     
+    optionsButton.setBounds(
+        GamePanel.displayWidth / 2 - btnOffset, 
+        calcPercentFromTop(.42), 
+        Assets.getWidth(Assets.imgMenuUnselectedOptionsBtn), 
+        Assets.getHeight(Assets.imgMenuUnselectedOptionsBtn));
+    
     exitButton.setBounds(
-        GamePanel.displayWidth /2 - exitButtonOffset, 
-        calcPercentFromTop(0.42), 
+        GamePanel.displayWidth /2 - btnOffset, 
+        calcPercentFromTop(0.49), 
         Assets.getWidth(Assets.imgMenuExitBtn), 
         Assets.getHeight(Assets.imgMenuExitBtn));
+    
+    game.add(playButton);
+    game.add(optionsButton);
+    game.add(exitButton);
     
     bgSoundFX.setLoopContinuous();
     bgSoundFX.play();
@@ -78,7 +98,59 @@ public class MenuState implements State
   
   public void update() 
   {
+    if(menuPositionChanged)
+    {
+      menuPositionChanged = false;
+      resetMenu();
+      
+      switch(currentMenuPosition)
+      {
+      case PLAY_BTN:
+        playButtonSelected();
+        break;
+      case OPTIONS_BTN:
+        optionsButtonSelected();
+        break;
+      case EXIT_BTN:
+        exitButtonSelected();
+        break;
+      }
+      playBTNSoundFX();
+      rewindBTNSoundFX();
+    }
+  }
+  
+  
+  public void exitButtonSelected()
+  {
+    setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
+    exitBtnSelected = true;
+  }
+  
+  
+  public void optionsButtonSelected()
+  {
+    setOptionsButtonIcon(Assets.imgMenuFocusOptionsBtn);
+    optionsBtnSelected = true;
+  }
+  
+  
+  public void playButtonSelected()
+  {
+    setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
+    playBtnSelected = true;
+  }
+  
+  
+  public void resetMenu()
+  {
+    playButton.setIcon(new ImageIcon(Assets.imgMenuPlayBtn));
+    optionsButton.setIcon(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
+    exitButton.setIcon(new ImageIcon(Assets.imgMenuExitBtn));
     
+    playBtnSelected    = false;
+    optionsBtnSelected = false;
+    exitBtnSelected    = false;
   }
   
   
@@ -118,6 +190,11 @@ public class MenuState implements State
         playButton.setIcon(new ImageIcon(pImage));
    }
   
+  public void setOptionsButtonIcon(BufferedImage pImage)
+  {
+    optionsButton.setIcon(new ImageIcon(pImage));
+  }
+  
   
   public void setExitButtonIcon(BufferedImage pImage)
   {
@@ -131,22 +208,17 @@ public class MenuState implements State
   }
   
   
+  public boolean optionsBtnIsSelected()
+  {
+    return optionsBtnSelected;
+  }
+  
+  
   public boolean exitBtnIsSelected()
   {
     return exitBtnSelected;
   }
   
-  
-  public void setPlayBtnSelected(boolean pPlayBtnSelected)
-  {
-    playBtnSelected = pPlayBtnSelected;
-  }
-  
-  
-  public void setExitBtnSelected(boolean pExitBtnSelected)
-  {
-    exitBtnSelected = pExitBtnSelected;
-  }
   
   
   public void cleanUpState()
@@ -154,6 +226,7 @@ public class MenuState implements State
     isActive = false;
     
     game.remove(playButton);
+    game.remove(optionsButton);
     game.remove(exitButton);
     
     buttonSoundFX.stop();
@@ -224,5 +297,34 @@ public class MenuState implements State
   public void disableGamePanel()
   {
     game.setFocusable(false);
+  }
+  
+  
+  public void moveMenuPositionDown()
+  {
+    if(currentMenuPosition == NUM_MENU_OPTIONS - 1)
+    {
+      currentMenuPosition = 0;
+    }
+    else
+    {
+      ++currentMenuPosition;
+    }
+    menuPositionChanged = true;
+  }
+  
+  
+  public void moveMenuPositionUp()
+  {
+    if(currentMenuPosition == 0)
+    {
+      currentMenuPosition = NUM_MENU_OPTIONS - 1;
+    }
+    else
+    {
+      --currentMenuPosition;
+    }
+    
+    menuPositionChanged = true;
   }
 }

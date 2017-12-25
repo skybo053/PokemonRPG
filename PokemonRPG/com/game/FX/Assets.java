@@ -17,15 +17,19 @@ public class Assets
   public static final int ASHWIDTH  = 20;
   
   public static BufferedImage 
-  imgGameFreakLogo        = null,
-  imgPkmnIntLogo          = null,
-  imgPkmnMenuBg           = null,
-  imgMenuPlayBtn          = null,
-  imgMenuSelectedPlayBtn  = null,
-  imgMenuClickedPlayBtn   = null,
-  imgMenuExitBtn          = null,
-  imgMenuSelectedExitBtn  = null,
-  imgMenuClickedExitBtn   = null,
+  imgGameFreakLogo            = null,
+  imgPkmnIntLogo              = null,
+  imgPkmnMenuBg               = null,
+  imgMenuPlayBtn              = null,
+  imgMenuSelectedPlayBtn      = null,
+  imgMenuClickedPlayBtn       = null,
+  imgMenuExitBtn              = null,
+  imgMenuSelectedExitBtn      = null,
+  imgMenuClickedExitBtn       = null,
+  imgMenuUnselectedOptionsBtn = null,
+  imgMenuFocusOptionsBtn      = null,
+  imgMenuSelectedOptionsBtn   = null,
+  
   
   ashSpriteSheet          = null,
   spriteAshStandForward   = null,
@@ -43,15 +47,18 @@ public class Assets
   {
     try
     {
-      imgGameFreakLogo        = ImageIO.read(new File("Resources/Images/GameFreakLogo.png"));
-      imgPkmnIntLogo          = ImageIO.read(new File("Resources/Images/PkmnIntLogo.png"));
-      imgPkmnMenuBg           = ImageIO.read(new File("Resources/Images/PkmnMenuBackground.png"));
-      imgMenuPlayBtn          = ImageIO.read(new File("Resources/Images/MenuUnselectedPlayBtn.png"));
-      imgMenuSelectedPlayBtn  = ImageIO.read(new File("Resources/Images/MenuMousedOverPlayBtn.png"));
-      imgMenuClickedPlayBtn   = ImageIO.read(new File("Resources/Images/MenuClickedPlayBtn.png"));
-      imgMenuExitBtn          = ImageIO.read(new File("Resources/Images/MenuUnselectedExitBtn.png"));
-      imgMenuSelectedExitBtn  = ImageIO.read(new File("Resources/Images/MenuMousedOverExitBtn.png"));
-      imgMenuClickedExitBtn   = ImageIO.read(new File("Resources/Images/MenuClickedExitBtn.png"));
+      imgGameFreakLogo            = ImageIO.read(new File("Resources/Images/GameFreakLogo.png"));
+      imgPkmnIntLogo              = ImageIO.read(new File("Resources/Images/PkmnIntLogo.png"));
+      imgPkmnMenuBg               = ImageIO.read(new File("Resources/Images/PkmnMenuBackground.png"));
+      imgMenuPlayBtn              = ImageIO.read(new File("Resources/Images/MenuUnselectedPlayBtn.png"));
+      imgMenuSelectedPlayBtn      = ImageIO.read(new File("Resources/Images/MenuMousedOverPlayBtn.png"));
+      imgMenuClickedPlayBtn       = ImageIO.read(new File("Resources/Images/MenuClickedPlayBtn.png"));
+      imgMenuExitBtn              = ImageIO.read(new File("Resources/Images/MenuUnselectedExitBtn.png"));
+      imgMenuSelectedExitBtn      = ImageIO.read(new File("Resources/Images/MenuMousedOverExitBtn.png"));
+      imgMenuClickedExitBtn       = ImageIO.read(new File("Resources/Images/MenuClickedExitBtn.png"));
+      imgMenuUnselectedOptionsBtn = ImageIO.read(new File("Resources/Images/MenuUnselectedOptionsBtn.png"));
+      imgMenuFocusOptionsBtn      = ImageIO.read(new File("Resources/Images/MenuMouseOverOptionsBtn.png"));
+      imgMenuSelectedOptionsBtn   = ImageIO.read(new File("Resources/Images/MenuClickedOptionsBtn.png"));
       
       ashSpriteSheet          = ImageIO.read(new File("Resources/Images/AshSpriteSheet.png"));
       spriteAshStandForward   = crop(ashSpriteSheet, 1, 1, ASHWIDTH, ASHHEIGHT);
