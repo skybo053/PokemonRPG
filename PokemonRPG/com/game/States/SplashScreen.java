@@ -47,6 +47,15 @@ public class SplashScreen
       jukeBox   = new JukeBox(pAudioStream);
     }
   }
+  
+  
+  public void initSplashScreen()
+  {
+    if(jukeBox != null)
+    {
+      jukeBox.open();
+    }
+  }
 
   
   public void update() 

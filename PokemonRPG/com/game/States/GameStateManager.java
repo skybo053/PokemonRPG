@@ -102,7 +102,7 @@ public class GameStateManager
         state.cleanUpState();
         state            = statesCollection.get(positionCollection.get(currStatePos));
         currentGameState = gamestateCollection.get(currStatePos);
-        state.setUpState();
+        state.initializeState();
         game.setKeyListener(currentGameState);
       }
     

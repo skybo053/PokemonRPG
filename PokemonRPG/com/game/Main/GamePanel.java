@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable
     
     this.setPreferredSize(new Dimension(displayWidth, displayHeight));
     this.setBackground(Color.white);
+    this.setLayout(null);
     this.setFocusable(true);
     
     mainThread = new Thread(this, "GameLoop");

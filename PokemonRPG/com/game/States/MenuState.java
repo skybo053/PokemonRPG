@@ -60,14 +60,14 @@ public class MenuState implements State
     exitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
     
     btnOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
+    
+    
   }
   
   
-  public void setUpState()
+  public void initializeState()
   {
     isActive = true;
-    
-    game.setLayout(null);
     
     playButton.setBounds(
         GamePanel.displayWidth /2 - btnOffset, 
@@ -86,10 +86,15 @@ public class MenuState implements State
         calcPercentFromTop(0.49), 
         Assets.getWidth(Assets.imgMenuExitBtn), 
         Assets.getHeight(Assets.imgMenuExitBtn));
+   
     
     game.add(playButton);
     game.add(optionsButton);
     game.add(exitButton);
+    
+    buttonSoundFX.open();
+    bgSoundFX.open();
+    selectPlayBtnSoundFX.open();
     
     bgSoundFX.setLoopContinuous();
     bgSoundFX.play();

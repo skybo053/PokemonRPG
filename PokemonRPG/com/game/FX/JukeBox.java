@@ -11,23 +11,37 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class JukeBox 
 {
-  Clip audio = null;
+  Clip             audio            = null;
+  AudioInputStream audioInputStream = null;
   
   public JukeBox(AudioInputStream pAudioInputStream)
   {
     try
     {
-      audio = AudioSystem.getClip();
-      audio.open(pAudioInputStream);
+      audio            = AudioSystem.getClip();
+      audioInputStream = pAudioInputStream;
       
     }
     catch(LineUnavailableException pException)
     {
       System.out.println("Error opening audioStream " + pAudioInputStream);
     }
-    catch(IOException pIOException)
+  }
+
+  
+  public void open()
+  {
+    try
     {
-      System.out.println("Error opening audioStream " + pAudioInputStream);
+      audio.open(audioInputStream);
+    }
+    catch(IOException pException)
+    {
+      System.out.println("Jukebox.open() - " + pException.getMessage());
+    }
+    catch(LineUnavailableException pException)
+    {
+      System.out.println("Jukebox.open() " + pException.getMessage());
     }
   }
   

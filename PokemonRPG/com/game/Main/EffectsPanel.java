@@ -73,6 +73,9 @@ public class EffectsPanel extends JPanel
   
   public void addEffect(FadeEffect pFadeEffect)
   {
-    effectsList.add(pFadeEffect);
+    if(effectsList.contains(pFadeEffect) == false)
+    {
+      effectsList.add(pFadeEffect);
+    }
   }
 }

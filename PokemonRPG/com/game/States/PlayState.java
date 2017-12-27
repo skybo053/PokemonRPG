@@ -26,10 +26,11 @@ public class PlayState implements State
   }
   
   
-  public void setUpState()
+  public void initializeState()
   {
     isActive = true;
     
+    worldTheme.open();
     worldTheme.play();
     worldTheme.setLoopContinuous();
     

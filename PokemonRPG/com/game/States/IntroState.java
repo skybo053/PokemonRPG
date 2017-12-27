@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
@@ -27,7 +28,7 @@ public class IntroState implements State
   }
   
   
-  public void setUpState()
+  public void initializeState()
   {
     FadeEffect   vGameFreakFadeEffect = null;
     FadeEffect   vPkmnIntFadeEffect   = null;
@@ -82,22 +83,31 @@ public class IntroState implements State
   
   public void update()
   {
-    removeFinishedSplashScreens();
     
-    if(currentSplashScreen == null &&
-       splashScreens.size() > 0)
+    if(removeFinishedSplashScreens() && splashScreens.size() > 0)
     {
-      currentSplashScreen = splashScreens.get(0);
-      game.addFadeEffect(currentSplashScreen.getFadeEffect());
+      game.addFadeEffect(splashScreens.get(0).getFadeEffect());
     }
-    else if(splashScreens.size() == 0)
+    else if(currentSplashScreen == null &&
+            splashScreens.size() > 0       )
+     {
+       currentSplashScreen = splashScreens.get(0);
+       currentSplashScreen.initSplashScreen();
+       game.addFadeEffect(splashScreens.get(0).getFadeEffect());
+     }
+     else if(splashScreens.size() == 0)
+     {
+       isActive = false;
+       return;
+     }
+    
+    if(currentSplashScreen != null)
     {
-      isActive = false;
-      return;
+      currentSplashScreen.update();
     }
     
-    currentSplashScreen.update();
   }
+  
   
   
   public void draw(Graphics pGraphics)
@@ -109,24 +119,19 @@ public class IntroState implements State
   }
   
   
-  private void removeFinishedSplashScreens()
+  private boolean removeFinishedSplashScreens()
   {
     Iterator<SplashScreen> vIt           = null;
     SplashScreen           vSplashScreen = null;
     
-    vIt = splashScreens.iterator();
-    
-    while(vIt.hasNext())
+    if(splashScreens.get(0).isDone())
     {
-      vSplashScreen = vIt.next();
-      
-      if(vSplashScreen.isDone())
-      {
-        vIt.remove();
-        
-        currentSplashScreen = null;
-      }
+      splashScreens.remove(0);
+      currentSplashScreen = null;
+      return true;
     }
+    
+    return false;
   }
   
   
