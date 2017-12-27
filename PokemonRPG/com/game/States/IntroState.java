@@ -83,31 +83,32 @@ public class IntroState implements State
   
   public void update()
   {
+    boolean vRemovedScreen;
     
-    if(removeFinishedSplashScreens() && splashScreens.size() > 0)
+    vRemovedScreen = removedFinishedSplashScreen();
+    
+    if(splashScreens.size() > 0)
     {
-      game.addFadeEffect(splashScreens.get(0).getFadeEffect());
+      if(vRemovedScreen)
+      {
+        game.addFadeEffect(splashScreens.get(0).getFadeEffect());
+      }
+      else if(currentSplashScreen == null)
+      {
+        currentSplashScreen = splashScreens.get(0);
+        currentSplashScreen.initSplashScreen();
+        game.addFadeEffect(splashScreens.get(0).getFadeEffect());
+      }
+      else
+      {
+        currentSplashScreen.update();
+      }
     }
-    else if(currentSplashScreen == null &&
-            splashScreens.size() > 0       )
-     {
-       currentSplashScreen = splashScreens.get(0);
-       currentSplashScreen.initSplashScreen();
-       game.addFadeEffect(splashScreens.get(0).getFadeEffect());
-     }
-     else if(splashScreens.size() == 0)
-     {
-       isActive = false;
-       return;
-     }
-    
-    if(currentSplashScreen != null)
+    else
     {
-      currentSplashScreen.update();
+      isActive = false;
     }
-    
   }
-  
   
   
   public void draw(Graphics pGraphics)
@@ -119,11 +120,8 @@ public class IntroState implements State
   }
   
   
-  private boolean removeFinishedSplashScreens()
+  private boolean removedFinishedSplashScreen()
   {
-    Iterator<SplashScreen> vIt           = null;
-    SplashScreen           vSplashScreen = null;
-    
     if(splashScreens.get(0).isDone())
     {
       splashScreens.remove(0);
