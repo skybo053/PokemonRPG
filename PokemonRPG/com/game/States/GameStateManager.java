@@ -101,8 +101,8 @@ public class GameStateManager
         
         state.cleanUpState();
         state            = statesCollection.get(positionCollection.get(currStatePos));
-        currentGameState = gamestateCollection.get(currStatePos);
         state.initializeState();
+        currentGameState = gamestateCollection.get(currStatePos);
         game.setKeyListener(currentGameState);
       }
     
