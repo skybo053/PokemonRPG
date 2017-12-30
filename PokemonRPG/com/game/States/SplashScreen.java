@@ -76,6 +76,7 @@ public class SplashScreen
     if((System.currentTimeMillis() - splashScreenStartTime) >= splashScreenDuration)
     {
       isDone = true;
+      fadeEffect.setIsDone();
       
       if(jukeBox != null)
       {
@@ -163,7 +164,6 @@ public class SplashScreen
   
   public void interrupt()
   {
-    System.out.println("calling interrupt");
     Thread.currentThread().interrupt();
   }
 }

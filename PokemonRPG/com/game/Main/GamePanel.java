@@ -160,13 +160,14 @@ public class GamePanel extends JPanel implements Runnable
   
   
   public FadeEffect createFadeEffect(
-      Color pColor, 
-      int   pStartAlpha, 
-      int   pEndAlpha,
-      int   pDeltaAlpha,
-      long  pWaitTime,
-      long  pDuration,
-      State pCurrentState)
+      Color  pColor, 
+      int    pStartAlpha, 
+      int    pEndAlpha,
+      int    pDeltaAlpha,
+      long   pWaitTime,
+      long   pDuration,
+      String pName,
+      State  pCurrentState)
   {
     FadeEffect vFadeEffect   = null;
     
@@ -177,6 +178,7 @@ public class GamePanel extends JPanel implements Runnable
         pDeltaAlpha,
         pWaitTime,
         pDuration,
+        pName,
         pCurrentState);
     
     return vFadeEffect;

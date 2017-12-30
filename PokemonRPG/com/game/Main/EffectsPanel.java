@@ -30,25 +30,22 @@ public class EffectsPanel extends JPanel
   
   public void update()
   {
-    Iterator<FadeEffect> vIt         = null;
-    FadeEffect           vFadeEffect = null;
+    FadeEffect vFadeEffect = null;
     
    if(effectsList.isEmpty() == false)
    {
-     vIt = effectsList.iterator();
+     vFadeEffect = effectsList.get(0);
      
-     while(vIt.hasNext())
+     if(vFadeEffect.isDone())
      {
-       vFadeEffect = vIt.next();
+       System.out.println("EffectsPanel.update() - " +
+                          "Removing " + vFadeEffect.getName());
        
-       if(vFadeEffect.isDone())
-       {
-         vIt.remove();
-       }
-       else
-       {
-         vFadeEffect.update();
-       }
+       effectsList.remove(0);
+     }
+     else
+     {
+       vFadeEffect.update();
      }
    }
  }

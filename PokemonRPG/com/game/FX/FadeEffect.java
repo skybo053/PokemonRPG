@@ -23,15 +23,18 @@ public class FadeEffect
   
   boolean isDone = false;
   
+  String  oName  = null;
+  
   
   public FadeEffect(
-      Color pColor, 
-      int   pStartAlpha, 
-      int   pEndAlpha,
-      int   pDeltaAlpha,
-      long  pWaitTime,
-      long  pDuration,
-      State pCurrentState)
+      Color  pColor, 
+      int    pStartAlpha, 
+      int    pEndAlpha,
+      int    pDeltaAlpha,
+      long   pWaitTime,
+      long   pDuration,
+      String pName,
+      State  pCurrentState)
   {
     oColor        = pColor;
     oStartAlpha   = pStartAlpha;
@@ -40,6 +43,7 @@ public class FadeEffect
     oWaitTime     = pWaitTime;
     oDuration     = pDuration;
     oCurrentState = pCurrentState;
+    oName         = pName;
     
     oRed   = oColor.getRed();
     oGreen = oColor.getGreen();
@@ -116,6 +120,16 @@ public class FadeEffect
     return oWaitTime;
   }
   
-  public long getDuration(){return oDuration;}
+  
+  public long getDuration()
+  {
+    return oDuration;
+  }
+  
+  
+  public String getName()
+  {
+    return oName;
+  }
 
 }

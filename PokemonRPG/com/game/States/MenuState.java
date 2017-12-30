@@ -60,8 +60,6 @@ public class MenuState implements State
     exitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
     
     btnOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
-    
-    
   }
   
   
@@ -293,6 +291,7 @@ public class MenuState implements State
        pDeltaAlpha, 
        pWaitTime, 
        pDuration,
+       getStateType().name() + " FadeEffect",
        this);
    
    game.addFadeEffect(vFadeEffect);
