@@ -55,16 +55,13 @@ public class SplashScreen
     {
       jukeBox.open();
     }
+    
+    splashScreenStartTime = System.currentTimeMillis();
   }
 
   
   public void update() 
   {
-    if(splashScreenStartTime == 0)
-    {
-      splashScreenStartTime = System.currentTimeMillis();
-    }
-    
     if((   System.currentTimeMillis() - splashScreenStartTime) >= fadeEffect.getWaitTime()
         && jukeBox != null 
         && jukeBox.isPlaying() == false)

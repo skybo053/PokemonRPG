@@ -13,8 +13,9 @@ import com.game.Exceptions.AssetLoaderException;
 
 public class Assets 
 {
-  public static final int ASHHEIGHT = 30;
-  public static final int ASHWIDTH  = 20;
+  public static final int ASH_HEIGHT  = 30;
+  public static final int ASH_WIDTH   = 20;
+  public static final int GRID_OFFSET = 1;
   
   public static BufferedImage 
   imgGameFreakLogo            = null,
@@ -33,6 +34,9 @@ public class Assets
   
   ashSpriteSheet          = null,
   spriteAshStandForward   = null,
+  spriteAshStandLeft      = null,
+  spriteAshStandRight     = null,
+  spriteAshStandBackwards = null,
   spriteGrassTile         = null;
   
   public static AudioInputStream
@@ -61,7 +65,10 @@ public class Assets
       imgMenuSelectedOptionsBtn   = ImageIO.read(new File("Resources/Images/MenuClickedOptionsBtn.png"));
       
       ashSpriteSheet          = ImageIO.read(new File("Resources/Images/AshSpriteSheet.png"));
-      spriteAshStandForward   = crop(ashSpriteSheet, 1, 1, ASHWIDTH, ASHHEIGHT);
+      spriteAshStandForward   = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshStandLeft      = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshStandBackwards = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 2 + (2 *ASH_HEIGHT), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshStandRight     = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 3 + (3 * ASH_HEIGHT), ASH_WIDTH, ASH_HEIGHT);
       
       soundMSIntro              = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
       soundMainMenuBtnSelect    = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));

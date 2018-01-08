@@ -2,6 +2,7 @@ package com.game.States;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import com.game.Entities.Player;
 import com.game.FX.Assets;
@@ -14,6 +15,7 @@ public class PlayState implements State
   private GamePanel  game          = null;
   private GameStates gameStateType = null;
   private JukeBox    worldTheme    = null;
+  
   private Player     player        = null;
   
   
@@ -21,14 +23,17 @@ public class PlayState implements State
   {
     game = pGamePanel;
     
-    worldTheme = new JukeBox(Assets.soundWorldTheme);
-    player     = new Player(300,300, 37, 50);
+    worldTheme  = new JukeBox(Assets.soundWorldTheme);
+    player      = new Player(300,300, 37, 50);
   }
   
   
   public void initializeState()
   {
     isActive = true;
+    
+    player.setCurrentPlayerDirection(Player.PLAYER_STANDING);
+    player.setCurrentPlayerImage(Assets.spriteAshStandForward);
     
     worldTheme.open();
     worldTheme.play();
@@ -53,6 +58,7 @@ public class PlayState implements State
     pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
     
     player.draw(pGraphics);
+    
   }
   
 
@@ -78,6 +84,34 @@ public class PlayState implements State
   {
     return gameStateType;
   }
-
+  
+  
+  public void addPlayerDirection(int pDirection)
+  {
+    player.addPlayerDirection(pDirection);
+  }
+  
+  
+  public void removePlayerDirection(int pDirection)
+  {
+    player.removePlayerDirection(pDirection);
+  }
+  
+  
+  public int getLastPlayerDirection()
+  {
+    return player.getLastPlayerDirection();
+  }
+  
+  
+  public void setCurrentPlayerDirection(int pDirection)
+  {
+    player.setCurrentPlayerDirection(pDirection);
+  }
+  
+  public void setCurrentPlayerImage(BufferedImage pImage)
+  {
+    player.setCurrentPlayerImage(pImage);
+  }
   
 }
