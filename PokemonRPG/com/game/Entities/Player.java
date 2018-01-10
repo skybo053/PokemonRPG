@@ -15,7 +15,6 @@ import com.game.FX.Assets;
 public class Player extends Creature implements ActionListener
 {
   private BufferedImage currPlayerImage = null;
-  private BufferedImage tempPlayerImage = null;
   
   private Set<Integer>      playerDirectionQ   = null;
   private Iterator<Integer> playerDirectionQIt = null;
@@ -37,8 +36,9 @@ public class Player extends Creature implements ActionListener
   
   private final int ANIMATION_ARRAY_SIZE = 6;
   private int       animationIndex;
-  private int       animationSwitchTime = 150;
+  private int       animationSwitchTime = 100;
   private Timer     timer               = null;
+  
   
   public Player(int pXPos, int pYPos, int pWidth, int pHeight)
   {
@@ -124,6 +124,7 @@ public class Player extends Creature implements ActionListener
     if(currPlayerDirection == PLAYER_STANDING)
     {
       timer.stop();
+      animationIndex = 0;
       
       switch(lastPlayerDirection)
       {
@@ -164,7 +165,6 @@ public class Player extends Creature implements ActionListener
       }
       
       pGraphics.drawImage(currAnimations[animationIndex], xPos, yPos, width, height, null);
-    
     }
   }
   
@@ -179,8 +179,6 @@ public class Player extends Creature implements ActionListener
     {
       animationIndex = 0;
     }
-    
-    System.out.println("Player.actionPerformed() - AnimationIndex = " + animationIndex);
   }
   
   
@@ -229,13 +227,4 @@ public class Player extends Creature implements ActionListener
   {
     currPlayerImage = pImage;
   }
-  
-  
-  public void setPlayerStop()
-  {
-    currPlayerDirection = PLAYER_STANDING;
-  }
-  
- 
-  
 }
