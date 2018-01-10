@@ -32,9 +32,6 @@ public class PlayState implements State
   {
     isActive = true;
     
-    player.setCurrentPlayerDirection(Player.PLAYER_STANDING);
-    player.setCurrentPlayerImage(Assets.spriteAshStandForward);
-    
     worldTheme.open();
     worldTheme.play();
     worldTheme.setLoopContinuous();
@@ -95,12 +92,6 @@ public class PlayState implements State
   public void removePlayerDirection(int pDirection)
   {
     player.removePlayerDirection(pDirection);
-  }
-  
-  
-  public int getLastPlayerDirection()
-  {
-    return player.getLastPlayerDirection();
   }
   
   

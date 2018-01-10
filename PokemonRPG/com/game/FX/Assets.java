@@ -37,7 +37,28 @@ public class Assets
   spriteAshStandLeft      = null,
   spriteAshStandRight     = null,
   spriteAshStandBackwards = null,
-  spriteGrassTile         = null;
+  
+  spriteAshRunForward1   = null,
+  spriteAshRunForward2   = null,
+  spriteAshRunForward3   = null,
+  spriteAshRunForward4   = null,
+  
+  spriteAshRunBackwards1 = null,
+  spriteAshRunBackwards2 = null,
+  spriteAshRunBackwards3 = null,
+  spriteAshRunBackwards4 = null,
+  
+  spriteAshRunLeft1      = null,
+  spriteAshRunLeft2      = null,
+  spriteAshRunLeft3      = null,
+  spriteAshRunLeft4      = null,
+  
+  spriteAshRunRight1     = null,
+  spriteAshRunRight2     = null,
+  spriteAshRunRight3     = null,
+  spriteAshRunRight4     = null
+  
+  ;
   
   public static AudioInputStream
   soundMSIntro              = null,
@@ -69,6 +90,26 @@ public class Assets
       spriteAshStandLeft      = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
       spriteAshStandBackwards = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 2 + (2 *ASH_HEIGHT), ASH_WIDTH, ASH_HEIGHT);
       spriteAshStandRight     = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 3 + (3 * ASH_HEIGHT), ASH_WIDTH, ASH_HEIGHT);
+      
+      spriteAshRunForward1 = crop(ashSpriteSheet, GRID_OFFSET + 1 + ASH_WIDTH, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunForward2 = crop(ashSpriteSheet, GRID_OFFSET + 2 + ASH_WIDTH * 2, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunForward3 = crop(ashSpriteSheet, GRID_OFFSET + 3 + ASH_WIDTH * 3, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunForward4 = crop(ashSpriteSheet, GRID_OFFSET + 4 + ASH_WIDTH * 4, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
+      
+      spriteAshRunBackwards1 = crop(ashSpriteSheet, GRID_OFFSET + 1 + ASH_WIDTH, GRID_OFFSET + 2 + (ASH_HEIGHT * 2), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunBackwards2 = crop(ashSpriteSheet, GRID_OFFSET + 2 + (ASH_WIDTH * 2), GRID_OFFSET + 2 + (ASH_HEIGHT * 2), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunBackwards3 = crop(ashSpriteSheet, GRID_OFFSET + 3 + (ASH_WIDTH * 3), GRID_OFFSET + 2 + (ASH_HEIGHT * 2), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunBackwards4 = crop(ashSpriteSheet, GRID_OFFSET + 4 + (ASH_WIDTH * 4), GRID_OFFSET + 2 + (ASH_HEIGHT * 2), ASH_WIDTH, ASH_HEIGHT);
+      
+      spriteAshRunLeft1 = crop(ashSpriteSheet, GRID_OFFSET + 1 + ASH_WIDTH,  GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunLeft2 = crop(ashSpriteSheet, GRID_OFFSET + 2 + (ASH_WIDTH * 2),  GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunLeft3 = crop(ashSpriteSheet, GRID_OFFSET + 3 + (ASH_WIDTH * 3),  GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunLeft4 = crop(ashSpriteSheet, GRID_OFFSET + 4 + (ASH_WIDTH * 4),  GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
+      
+      spriteAshRunRight1 = crop(ashSpriteSheet, GRID_OFFSET + 1 + ASH_WIDTH, GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunRight2 = crop(ashSpriteSheet, GRID_OFFSET + 2 + (ASH_WIDTH * 2), GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunRight3 = crop(ashSpriteSheet, GRID_OFFSET + 3 + (ASH_WIDTH * 3), GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
+      spriteAshRunRight4 = crop(ashSpriteSheet, GRID_OFFSET + 4 + (ASH_WIDTH * 4), GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
       
       soundMSIntro              = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
       soundMainMenuBtnSelect    = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
