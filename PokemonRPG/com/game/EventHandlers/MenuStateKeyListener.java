@@ -66,7 +66,7 @@ public class MenuStateKeyListener implements KeyListener
         menuState.disableGamePanel();
         menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
         menuState.playSelectPlayBtnSoundFX();
-        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 1000); //Temporarily set
+        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 5000); //Temporarily set
                                                                    //duration to 1000 from 5000
                                                                   // for testing
       }
