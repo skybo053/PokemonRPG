@@ -11,9 +11,9 @@ public class KeyHandler
 {
   private GamePanel game = null;
 
-  private IntroStateKeyListener introStateKeyListener    = null;
-  private MenuStateKeyListener  menuStateKeyListener     = null;
-  private PlayStateKeyListener  playStateKeyListener     = null;
+  private IntroStateKeyListener introStateKeyListener   = null;
+  private MenuStateKeyListener  menuStateKeyListener    = null;
+  private PlayStateKeyListener  playStateKeyListener    = null;
   
   private HashMap<GameStates, KeyListener> keyListeners = null;
   
