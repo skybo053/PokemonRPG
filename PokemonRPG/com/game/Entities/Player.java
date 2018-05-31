@@ -14,7 +14,9 @@ import com.game.FX.Assets;
 
 public class Player extends Creature implements ActionListener
 {
-  private BufferedImage currPlayerImage = null;
+  private final int ANIMATION_ARRAY_SIZE  = 7;
+  private final int ANIMATION_START_INDEX = 1;
+  private final int ANIMATION_SWITCH_TIME = 100;
   
   private Set<Integer>      playerDirectionQ   = null;
   private Iterator<Integer> playerDirectionQIt = null;
@@ -25,22 +27,15 @@ public class Player extends Creature implements ActionListener
   public static final int PLAYER_MOVE_LEFT  = 2;
   public static final int PLAYER_MOVE_RIGHT = 3;
   
-  private int currPlayerDirection = PLAYER_STANDING;
-  
   private BufferedImage[] currAnimations      = null;
   private BufferedImage[] ashForwardSprites   = null;
   private BufferedImage[] ashBackwardsSprites = null;
   private BufferedImage[] ashLeftSprites      = null;
   private BufferedImage[] ashRightSprites     = null;
   
-  private final int ANIMATION_ARRAY_SIZE  = 7;
-  private final int ANIMATION_START_INDEX = 1;
-  private int       animationIndex        = ANIMATION_START_INDEX;
-  
-  private int       animationSwitchTime = 100;
-  private Timer     timer               = null;
-  
-  
+  private int   currPlayerDirection = PLAYER_STANDING;
+  private int   animationIndex      = ANIMATION_START_INDEX;
+  private Timer timer               = null;
   
   
   public Player(int pXPos, int pYPos, int pWidth, int pHeight)
@@ -48,7 +43,7 @@ public class Player extends Creature implements ActionListener
     super(pXPos, pYPos, pWidth, pHeight);
     
     playerDirectionQ   = new LinkedHashSet<Integer>();
-    timer              = new Timer(animationSwitchTime, this);
+    timer              = new Timer(ANIMATION_SWITCH_TIME, this);
    
     ashForwardSprites = new BufferedImage[]
         {
