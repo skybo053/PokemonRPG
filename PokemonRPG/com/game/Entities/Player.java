@@ -11,7 +11,7 @@ import java.util.Set;
 import javax.swing.Timer;
 
 import com.game.FX.Assets;
-//added comment to player
+
 public class Player extends Creature implements ActionListener
 {
   private final int ANIMATION_ARRAY_SIZE  = 7;
