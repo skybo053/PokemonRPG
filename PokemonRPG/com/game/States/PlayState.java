@@ -93,16 +93,4 @@ public class PlayState implements State
   {
     player.removePlayerDirection(pDirection);
   }
-  
-  
-  public void setCurrentPlayerDirection(int pDirection)
-  {
-    player.setCurrentPlayerDirection(pDirection);
-  }
-  
-  public void setCurrentPlayerImage(BufferedImage pImage)
-  {
-    player.setCurrentPlayerImage(pImage);
-  }
-  
 }

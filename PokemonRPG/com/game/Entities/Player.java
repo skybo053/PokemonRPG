@@ -14,7 +14,9 @@ import com.game.FX.Assets;
 
 public class Player extends Creature implements ActionListener
 {
-  private BufferedImage currPlayerImage = null;
+  private final int ANIMATION_ARRAY_SIZE  = 7;
+  private final int ANIMATION_START_INDEX = 1;
+  private final int ANIMATION_SWITCH_TIME = 100;
   
   private Set<Integer>      playerDirectionQ   = null;
   private Iterator<Integer> playerDirectionQIt = null;
@@ -25,19 +27,15 @@ public class Player extends Creature implements ActionListener
   public static final int PLAYER_MOVE_LEFT  = 2;
   public static final int PLAYER_MOVE_RIGHT = 3;
   
-  private int currPlayerDirection;
-  private int lastPlayerDirection;
-  
   private BufferedImage[] currAnimations      = null;
   private BufferedImage[] ashForwardSprites   = null;
   private BufferedImage[] ashBackwardsSprites = null;
   private BufferedImage[] ashLeftSprites      = null;
   private BufferedImage[] ashRightSprites     = null;
   
-  private final int ANIMATION_ARRAY_SIZE = 6;
-  private int       animationIndex;
-  private int       animationSwitchTime = 100;
-  private Timer     timer               = null;
+  private int   currPlayerDirection = PLAYER_STANDING;
+  private int   animationIndex      = ANIMATION_START_INDEX;
+  private Timer timer               = null;
   
   
   public Player(int pXPos, int pYPos, int pWidth, int pHeight)
@@ -45,13 +43,11 @@ public class Player extends Creature implements ActionListener
     super(pXPos, pYPos, pWidth, pHeight);
     
     playerDirectionQ   = new LinkedHashSet<Integer>();
-    timer              = new Timer(animationSwitchTime, this);
-    
-    setCurrentPlayerDirection(Player.PLAYER_STANDING);
-    setCurrentPlayerImage(Assets.spriteAshStandForward);
+    timer              = new Timer(ANIMATION_SWITCH_TIME, this);
    
     ashForwardSprites = new BufferedImage[]
         {
+        Assets.spriteAshStandForward,
         Assets.spriteAshRunForward1,
         Assets.spriteAshRunForward2,
         Assets.spriteAshRunForward3,
@@ -62,6 +58,7 @@ public class Player extends Creature implements ActionListener
     
     ashBackwardsSprites = new BufferedImage[]
         {
+        Assets.spriteAshStandBackwards,
         Assets.spriteAshRunBackwards1,
         Assets.spriteAshRunBackwards2,
         Assets.spriteAshRunBackwards3,
@@ -72,6 +69,7 @@ public class Player extends Creature implements ActionListener
     
     ashLeftSprites = new BufferedImage[]
         {
+        Assets.spriteAshStandLeft,
         Assets.spriteAshRunLeft1,
         Assets.spriteAshRunLeft2,
         Assets.spriteAshRunLeft3,
@@ -82,6 +80,7 @@ public class Player extends Creature implements ActionListener
     
     ashRightSprites = new BufferedImage[]
         {
+        Assets.spriteAshStandRight,    
         Assets.spriteAshRunRight1,
         Assets.spriteAshRunRight2,
         Assets.spriteAshRunRight3,
@@ -89,13 +88,16 @@ public class Player extends Creature implements ActionListener
         Assets.spriteAshRunRight3,
         Assets.spriteAshRunRight2
         };
+    
+    currAnimations = ashForwardSprites;
   }
   
   
   public void update()
   {
+    currPlayerDirection = getPlayerDirection();
     
-    switch(currPlayerDirection = getPlayerDirection())
+    switch(currPlayerDirection)
     {
     case PLAYER_MOVE_UP:
       yPos += -speed;
@@ -124,29 +126,17 @@ public class Player extends Creature implements ActionListener
     if(currPlayerDirection == PLAYER_STANDING)
     {
       timer.stop();
-      animationIndex = 0;
+      animationIndex = ANIMATION_START_INDEX;
       
-      switch(lastPlayerDirection)
-      {
-      case PLAYER_MOVE_UP:
-        currPlayerImage = Assets.spriteAshStandBackwards;
-        break;
-      case PLAYER_MOVE_DOWN:
-        currPlayerImage = Assets.spriteAshStandForward;
-        break;
-      case PLAYER_MOVE_LEFT:
-        currPlayerImage = Assets.spriteAshStandLeft;
-        break;
-      case PLAYER_MOVE_RIGHT:
-        currPlayerImage = Assets.spriteAshStandRight;
-        break;
-      }
-      
-      pGraphics.drawImage(currPlayerImage, xPos, yPos, width, height, null);
+      pGraphics.drawImage(currAnimations[0], xPos, yPos, width, height, null);
     }
     else
     {
-      timer.start();
+      
+      if(timer.isRunning() == false)
+      {
+        timer.start();
+      }
       
       switch(currPlayerDirection)
       {
@@ -177,7 +167,7 @@ public class Player extends Creature implements ActionListener
     }
     else
     {
-      animationIndex = 0;
+      animationIndex = ANIMATION_START_INDEX;
     }
   }
   
@@ -211,20 +201,7 @@ public class Player extends Creature implements ActionListener
         vDirection = playerDirectionQIt.next();
       }
       
-      return (lastPlayerDirection = vDirection);
+      return vDirection;
     }
-  }
-  
-  
-  public void setCurrentPlayerDirection(int pDirection)
-  {
-    currPlayerDirection = pDirection;
-    lastPlayerDirection = pDirection;
-  }
-  
-  
-  public void setCurrentPlayerImage(BufferedImage pImage)
-  {
-    currPlayerImage = pImage;
   }
 }
