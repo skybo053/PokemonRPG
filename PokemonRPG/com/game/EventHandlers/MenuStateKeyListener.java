@@ -10,15 +10,12 @@ import com.game.States.MenuState;
 
 public class MenuStateKeyListener implements KeyListener
 {
-
-  private KeyHandler keyHandler = null;
-  private MenuState  menuState  = null;
+  private MenuState  oMenuState  = null;
   
   
-  public MenuStateKeyListener(KeyHandler pKeyHandler)
+  public MenuStateKeyListener(MenuState pMenuState)
   {
-    keyHandler = pKeyHandler;
-    menuState  = (MenuState)keyHandler.getState(GameStates.MENU_STATE);
+    oMenuState = pMenuState;
   }
   
   
@@ -29,25 +26,25 @@ public class MenuStateKeyListener implements KeyListener
     switch(vKeyCode)
     {
     case KeyEvent.VK_UP:
-      menuState.moveMenuPositionUp();
+      oMenuState.moveMenuPositionUp();
       break;
     
     case KeyEvent.VK_DOWN:
-      menuState.moveMenuPositionDown();
+      oMenuState.moveMenuPositionDown();
       break;
       
     case KeyEvent.VK_ENTER:
-      if(menuState.playBtnIsSelected())
+      if(oMenuState.playBtnIsSelected())
       {
-        menuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
+        oMenuState.setPlayButtonIcon(Assets.imgMenuClickedPlayBtn);
       }
-      else if(menuState.optionsBtnIsSelected())
+      else if(oMenuState.optionsBtnIsSelected())
       {
-        menuState.setOptionsButtonIcon(Assets.imgMenuSelectedOptionsBtn);
+        oMenuState.setOptionsButtonIcon(Assets.imgMenuSelectedOptionsBtn);
       }
-      else if(menuState.exitBtnIsSelected())
+      else if(oMenuState.exitBtnIsSelected())
       {
-        menuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
+        oMenuState.setExitButtonIcon(Assets.imgMenuClickedExitBtn);
       }
     }
   }
@@ -61,22 +58,22 @@ public class MenuStateKeyListener implements KeyListener
     {
     case KeyEvent.VK_ENTER:
       
-      if(menuState.playBtnIsSelected())
+      if(oMenuState.playBtnIsSelected())
       {
-        menuState.disableGamePanel();
-        menuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-        menuState.playSelectPlayBtnSoundFX();
-        menuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 1000); //Temporarily set
+        oMenuState.disableGamePanel();
+        oMenuState.setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
+        oMenuState.playSelectPlayBtnSoundFX();
+        oMenuState.addFadeEffect(Color.black, 0, 255, 3, 0L, 1000); //Temporarily set
                                                                    //duration to 1000 from 5000
                                                                   // for testing
       }
-      else if(menuState.optionsBtnIsSelected())
+      else if(oMenuState.optionsBtnIsSelected())
       {
-        menuState.setOptionsButtonIcon(Assets.imgMenuFocusOptionsBtn);
+        oMenuState.setOptionsButtonIcon(Assets.imgMenuFocusOptionsBtn);
       }
-      else if(menuState.exitBtnIsSelected())
+      else if(oMenuState.exitBtnIsSelected())
       {
-        menuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
+        oMenuState.setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
         System.exit(0);
       }
     

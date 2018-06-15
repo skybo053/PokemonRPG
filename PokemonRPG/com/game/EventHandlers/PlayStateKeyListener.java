@@ -10,15 +10,12 @@ import com.game.States.PlayState;
 
 public class PlayStateKeyListener implements KeyListener
 {
-  
-  private KeyHandler keyHandler = null;
-  private PlayState  playState  = null;
+  private PlayState oPlayState  = null;
   
   
-  public PlayStateKeyListener(KeyHandler pKeyHandler)
+  public PlayStateKeyListener(PlayState pPlayState)
   {
-    keyHandler = pKeyHandler;
-    playState  = (PlayState)pKeyHandler.getState(GameStates.PLAY_STATE);
+    oPlayState = pPlayState;
   }
 
  
@@ -29,25 +26,23 @@ public class PlayStateKeyListener implements KeyListener
     switch(vKeyCode)
     {
     case KeyEvent.VK_UP:
-      playState.addPlayerDirection(Player.PLAYER_MOVE_UP);
+      oPlayState.addPlayerDirection(Player.PLAYER_MOVE_UP);
       break;
       
     case KeyEvent.VK_DOWN:
-      playState.addPlayerDirection(Player.PLAYER_MOVE_DOWN);
+      oPlayState.addPlayerDirection(Player.PLAYER_MOVE_DOWN);
       
       break;
       
     case KeyEvent.VK_LEFT:
-      playState.addPlayerDirection(Player.PLAYER_MOVE_LEFT);
+      oPlayState.addPlayerDirection(Player.PLAYER_MOVE_LEFT);
      
       break;
       
     case KeyEvent.VK_RIGHT:
-      playState.addPlayerDirection(Player.PLAYER_MOVE_RIGHT);
+      oPlayState.addPlayerDirection(Player.PLAYER_MOVE_RIGHT);
       
-     
-      
-      break;
+     break;
       
     case KeyEvent.VK_ESCAPE:
       System.exit(0);
@@ -63,19 +58,19 @@ public class PlayStateKeyListener implements KeyListener
     switch(vKeyCode)
     {
     case KeyEvent.VK_UP:
-      playState.removePlayerDirection(Player.PLAYER_MOVE_UP);
+      oPlayState.removePlayerDirection(Player.PLAYER_MOVE_UP);
       break;
       
     case KeyEvent.VK_DOWN:
-      playState.removePlayerDirection(Player.PLAYER_MOVE_DOWN);
+      oPlayState.removePlayerDirection(Player.PLAYER_MOVE_DOWN);
       break;
       
     case KeyEvent.VK_LEFT:
-      playState.removePlayerDirection(Player.PLAYER_MOVE_LEFT);
+      oPlayState.removePlayerDirection(Player.PLAYER_MOVE_LEFT);
       break;
       
     case KeyEvent.VK_RIGHT:
-      playState.removePlayerDirection(Player.PLAYER_MOVE_RIGHT);
+      oPlayState.removePlayerDirection(Player.PLAYER_MOVE_RIGHT);
       break;
     }
   }

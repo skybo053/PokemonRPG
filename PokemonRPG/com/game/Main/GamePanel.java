@@ -8,7 +8,6 @@ import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.game.EventHandlers.KeyHandler;
 import com.game.Exceptions.AssetLoaderException;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
@@ -41,7 +40,6 @@ public class GamePanel extends JPanel implements Runnable
   private HudPanel               hudPanel         = null;
   private EffectsPanel           effectsPanel     = null;
   private Thread                 mainThread       = null;
-  private KeyHandler             keyHandler       = null;
   
   
   public GamePanel(HudPanel pHudPanel, EffectsPanel pEffectsPanel)
@@ -69,19 +67,13 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
-  public void setKeyListener(GameStates pGameState)
-  {
-    keyHandler.setKeyListener(pGameState);
-  }
-  
-  
   private void init()
   {
     try
     {
       Assets.load();
-      gameStateManager = new GameStateManager(this);
-      keyHandler       = new KeyHandler(this);
+      
+      gameStateManager       = new GameStateManager(this);
       
       running                = true;
       FPS                    = 30;
@@ -203,9 +195,9 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
-  public State getState(GameStates pStateType)
+  public GameStates getCurrentGameStateType()
   {
-    return gameStateManager.getState(pStateType);
+    return gameStateManager.getCurrentGameStateType();
   }
   
   
@@ -215,15 +207,21 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
-  public void removeKeyListeners()
+  public void removeKeyListener()
   {
-    KeyListener[] vListener = null;
+    KeyListener[] vListener = getKeyListeners();
     
-    if((vListener = getKeyListeners()).length > 0)
+    if(vListener != null    &&
+       vListener.length > 0    )
     {
       removeKeyListener(vListener[0]);
     }
   }
   
+  
+  public void setKeyListener(KeyListener pKeyListener)
+  {
+    addKeyListener(pKeyListener);
+  }
   
 } // end GamePanel class

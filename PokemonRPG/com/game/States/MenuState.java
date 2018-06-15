@@ -2,11 +2,13 @@ package com.game.States;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.game.EventHandlers.MenuStateKeyListener;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
 import com.game.FX.JukeBox;
@@ -15,98 +17,106 @@ import com.game.Main.GamePanel;
 
 public class MenuState implements State
 {
-  private final int NUM_MENU_OPTIONS = 3;
+  private final int NUM_MENU_OPTIONS       = 3;
   
-  private static final int PLAY_BTN    = 0;
-  private static final int OPTIONS_BTN = 1;
-  private static final int EXIT_BTN    = 2;
+  private static final int PLAY_BTN        = 0;
+  private static final int OPTIONS_BTN     = 1;
+  private static final int EXIT_BTN        = 2;
   
-  private int     currentMenuPosition = 0;
-  private boolean menuPositionChanged = false;
+  private int     oCurrentMenuPosition      = 0;
+  private boolean oMenuPositionChanged      = false;
   
-  private boolean    isActive           = false;
-  private boolean    playBtnSelected    = false;
-  private boolean    optionsBtnSelected = false;
-  private boolean    exitBtnSelected    = false;
+  private boolean    oIsActive              = false;
+  private boolean    oPlayBtnSelected       = false;
+  private boolean    oOptionsBtnSelected    = false;
+  private boolean    oExitBtnSelected       = false;
   
-  private JLabel     playButton        = null;
-  private JLabel     optionsButton     = null;  
-  private JLabel     exitButton        = null;
-  private int        btnOffset         = 0;
+  private JLabel     oPlayButton            = null;
+  private JLabel     oOptionsButton         = null;  
+  private JLabel     oExitButton            = null;
+  private int        oBtnOffset             = 0;
   
-  private GamePanel  game              = null;
-  private GameStates gameStateType     = null;
+  private GamePanel  oGame                  = null;
+  private GameStates oGameStateType         = null;
   
-  private JukeBox    buttonSoundFX        = null;
-  private JukeBox    bgSoundFX            = null;
-  private JukeBox    selectPlayBtnSoundFX = null;
+  private JukeBox    oButtonSoundFX         = null;
+  private JukeBox    oBgSoundFX             = null;
+  private JukeBox    oSelectPlayBtnSoundFX  = null;
   
-  private FadeEffect fadeEffect           = null;
+  private FadeEffect oFadeEffect            = null;
+  
+  private KeyListener oMenuStateKeyListener = null;
+  
   
   public MenuState(GamePanel pGamePanel)
   {
-    isActive      = false;
-    game          = pGamePanel;
-    gameStateType = GameStates.MENU_STATE;
+    oIsActive      = false;
+    oGame          = pGamePanel;
+    oGameStateType = GameStates.MENU_STATE;
     
-    buttonSoundFX        = new JukeBox(Assets.soundMainMenuBtnSelect);
-    bgSoundFX            = new JukeBox(Assets.soundMainMenuBGMusic);
-    selectPlayBtnSoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
+    oButtonSoundFX        = new JukeBox(Assets.soundMainMenuBtnSelect);
+    oBgSoundFX            = new JukeBox(Assets.soundMainMenuBGMusic);
+    oSelectPlayBtnSoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
     
-    playButton      = new JLabel(new ImageIcon(Assets.imgMenuSelectedPlayBtn));
-    playBtnSelected = true;
+    oPlayButton      = new JLabel(new ImageIcon(Assets.imgMenuSelectedPlayBtn));
+    oPlayBtnSelected = true;
     
-    optionsButton   = new JLabel(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
-    exitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
+    oOptionsButton   = new JLabel(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
+    oExitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
     
-    btnOffset = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
+    oBtnOffset       = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
+    
+    oMenuStateKeyListener = new MenuStateKeyListener(this);
   }
   
   
   public void initializeState()
   {
-    isActive = true;
+    oIsActive = true;
     
-    playButton.setBounds(
-        GamePanel.displayWidth /2 - btnOffset, 
+    oPlayButton.setBounds(
+        GamePanel.displayWidth /2 - oBtnOffset, 
         calcPercentFromTop(0.35), 
         Assets.getWidth(Assets.imgMenuPlayBtn), 
         Assets.getHeight(Assets.imgMenuPlayBtn));
     
-    optionsButton.setBounds(
-        GamePanel.displayWidth / 2 - btnOffset, 
+    oOptionsButton.setBounds(
+        GamePanel.displayWidth / 2 - oBtnOffset, 
         calcPercentFromTop(.42), 
         Assets.getWidth(Assets.imgMenuUnselectedOptionsBtn), 
         Assets.getHeight(Assets.imgMenuUnselectedOptionsBtn));
     
-    exitButton.setBounds(
-        GamePanel.displayWidth /2 - btnOffset, 
+    oExitButton.setBounds(
+        GamePanel.displayWidth /2 - oBtnOffset, 
         calcPercentFromTop(0.49), 
         Assets.getWidth(Assets.imgMenuExitBtn), 
         Assets.getHeight(Assets.imgMenuExitBtn));
    
     
-    game.add(playButton);
-    game.add(optionsButton);
-    game.add(exitButton);
+    oGame.add(oPlayButton);
+    oGame.add(oOptionsButton);
+    oGame.add(oExitButton);
     
-    buttonSoundFX.open();
-    bgSoundFX.open();
-    selectPlayBtnSoundFX.open();
+    oButtonSoundFX.open();
+    oBgSoundFX.open();
+    oSelectPlayBtnSoundFX.open();
     
-    bgSoundFX.setLoopContinuous();
-    bgSoundFX.play();
+    oBgSoundFX.setLoopContinuous();
+    oBgSoundFX.play();
+    
+    oGame.removeKeyListener();
+    oGame.setKeyListener(oMenuStateKeyListener);
   }
   
   
   public void update() 
   {
-    if(menuPositionChanged)
+    if(oMenuPositionChanged)
     {
-      menuPositionChanged = false;
+      oMenuPositionChanged = false;
       resetMenu();
       
-      switch(currentMenuPosition)
+      switch(oCurrentMenuPosition)
       {
       case PLAY_BTN:
         playButtonSelected();
@@ -127,33 +137,33 @@ public class MenuState implements State
   public void exitButtonSelected()
   {
     setExitButtonIcon(Assets.imgMenuSelectedExitBtn);
-    exitBtnSelected = true;
+    oExitBtnSelected = true;
   }
   
   
   public void optionsButtonSelected()
   {
     setOptionsButtonIcon(Assets.imgMenuFocusOptionsBtn);
-    optionsBtnSelected = true;
+    oOptionsBtnSelected = true;
   }
   
   
   public void playButtonSelected()
   {
     setPlayButtonIcon(Assets.imgMenuSelectedPlayBtn);
-    playBtnSelected = true;
+    oPlayBtnSelected = true;
   }
   
   
   public void resetMenu()
   {
-    playButton.setIcon(new ImageIcon(Assets.imgMenuPlayBtn));
-    optionsButton.setIcon(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
-    exitButton.setIcon(new ImageIcon(Assets.imgMenuExitBtn));
+    oPlayButton.setIcon(new ImageIcon(Assets.imgMenuPlayBtn));
+    oOptionsButton.setIcon(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
+    oExitButton.setIcon(new ImageIcon(Assets.imgMenuExitBtn));
     
-    playBtnSelected    = false;
-    optionsBtnSelected = false;
-    exitBtnSelected    = false;
+    oPlayBtnSelected    = false;
+    oOptionsBtnSelected = false;
+    oExitBtnSelected    = false;
   }
   
   
@@ -172,13 +182,13 @@ public class MenuState implements State
   
   public boolean isActive()
   {
-    return isActive;
+    return oIsActive;
   }
   
   
   public void setIsActive(boolean pIsActive)
   {
-    isActive = pIsActive;
+    oIsActive = pIsActive;
   }
   
   
@@ -190,87 +200,87 @@ public class MenuState implements State
   
   public void setPlayButtonIcon(BufferedImage pImage)
   {
-        playButton.setIcon(new ImageIcon(pImage));
+        oPlayButton.setIcon(new ImageIcon(pImage));
    }
   
   public void setOptionsButtonIcon(BufferedImage pImage)
   {
-    optionsButton.setIcon(new ImageIcon(pImage));
+    oOptionsButton.setIcon(new ImageIcon(pImage));
   }
   
   
   public void setExitButtonIcon(BufferedImage pImage)
   {
-        exitButton.setIcon(new ImageIcon(pImage));
+        oExitButton.setIcon(new ImageIcon(pImage));
   }
   
   
   public boolean playBtnIsSelected()
   {
-    return playBtnSelected;
+    return oPlayBtnSelected;
   }
   
   
   public boolean optionsBtnIsSelected()
   {
-    return optionsBtnSelected;
+    return oOptionsBtnSelected;
   }
   
   
   public boolean exitBtnIsSelected()
   {
-    return exitBtnSelected;
+    return oExitBtnSelected;
   }
   
   
   
   public void cleanUpState()
   {
-    isActive = false;
+    oIsActive = false;
     
-    game.remove(playButton);
-    game.remove(optionsButton);
-    game.remove(exitButton);
+    oGame.remove(oPlayButton);
+    oGame.remove(oOptionsButton);
+    oGame.remove(oExitButton);
     
-    buttonSoundFX.stop();
-    bgSoundFX.stop();
-    selectPlayBtnSoundFX.stop();
+    oButtonSoundFX.stop();
+    oBgSoundFX.stop();
+    oSelectPlayBtnSoundFX.stop();
     
-    bgSoundFX.close();
-    buttonSoundFX.close();
-    selectPlayBtnSoundFX.close();
+    oBgSoundFX.close();
+    oButtonSoundFX.close();
+    oSelectPlayBtnSoundFX.close();
     
-    game.validate();
+    oGame.validate();
   }
   
   
   public GameStates getStateType() 
   {
-    return gameStateType;
+    return oGameStateType;
   }
   
   
   public void playBTNSoundFX()
   {
-    buttonSoundFX.play();
+    oButtonSoundFX.play();
   }
   
   
   public void rewindBTNSoundFX()
   {
-    buttonSoundFX.rewind();
+    oButtonSoundFX.rewind();
   }
   
   
   public void playSelectPlayBtnSoundFX()
   {
-    selectPlayBtnSoundFX.play();
+    oSelectPlayBtnSoundFX.play();
   }
   
   
   public void rewindSelectPlaySoundFX()
   {
-    selectPlayBtnSoundFX.rewind();
+    oSelectPlayBtnSoundFX.rewind();
   }
   
   
@@ -284,7 +294,7 @@ public class MenuState implements State
   {
     FadeEffect vFadeEffect = null;
     
-   vFadeEffect =  game.createFadeEffect(
+   vFadeEffect =  oGame.createFadeEffect(
        pColor, 
        pStartAlpha, 
        pEndAlpha, 
@@ -294,41 +304,41 @@ public class MenuState implements State
        getStateType().name() + " FadeEffect",
        this);
    
-   game.addFadeEffect(vFadeEffect);
+   oGame.addFadeEffect(vFadeEffect);
   }
   
   
   public void disableGamePanel()
   {
-    game.setFocusable(false);
+    oGame.setFocusable(false);
   }
   
   
   public void moveMenuPositionDown()
   {
-    if(currentMenuPosition == NUM_MENU_OPTIONS - 1)
+    if(oCurrentMenuPosition == NUM_MENU_OPTIONS - 1)
     {
-      currentMenuPosition = 0;
+      oCurrentMenuPosition = 0;
     }
     else
     {
-      ++currentMenuPosition;
+      ++oCurrentMenuPosition;
     }
-    menuPositionChanged = true;
+    oMenuPositionChanged = true;
   }
   
   
   public void moveMenuPositionUp()
   {
-    if(currentMenuPosition == 0)
+    if(oCurrentMenuPosition == 0)
     {
-      currentMenuPosition = NUM_MENU_OPTIONS - 1;
+      oCurrentMenuPosition = NUM_MENU_OPTIONS - 1;
     }
     else
     {
-      --currentMenuPosition;
+      --oCurrentMenuPosition;
     }
     
-    menuPositionChanged = true;
+    oMenuPositionChanged = true;
   }
 }
