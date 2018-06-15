@@ -3,9 +3,8 @@ package com.game.States;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
+import com.game.EventHandlers.IntroStateKeyListener;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
 import com.game.Main.GamePanel;
@@ -13,18 +12,20 @@ import com.game.Main.GamePanel;
 public class IntroState implements State 
 {
   
-  private ArrayList<SplashScreen> splashScreens       = null;
-  private SplashScreen            currentSplashScreen = null;
-  private boolean                 isActive;
-  private GamePanel               game                = null;
-  private GameStates              gameStateType       = null;
+  private ArrayList<SplashScreen> oSplashScreens         = null;
+  private SplashScreen            oCurrentSplashScreen   = null;
+  private boolean                 oIsActive;
+  private GamePanel               oGame                  = null;
+  private GameStates              oGameStateType         = null;
+  private IntroStateKeyListener   oIntroStateKeyListener = null;
   
-  public IntroState(GamePanel pGamePanel)
+  public IntroState(GamePanel pGame)
   {
-    splashScreens = new ArrayList<>();
-    isActive      = false;
-    game          = pGamePanel;
-    gameStateType = GameStates.INTRO_STATE;
+    oSplashScreens         = new ArrayList<>();
+    oIsActive              = false;
+    oGame                  = pGame;
+    oGameStateType         = GameStates.INTRO_STATE;
+    oIntroStateKeyListener = new IntroStateKeyListener(this);
   }
   
   
@@ -34,7 +35,7 @@ public class IntroState implements State
     FadeEffect   vPkmnIntFadeEffect   = null;
     SplashScreen vSplashScreen        = null;
     
-    isActive = true;
+    oIsActive = true;
     
     //create first splash screen and effect
     
@@ -44,7 +45,7 @@ public class IntroState implements State
         Assets.imgGameFreakLogo, 
         null);
     
-    vGameFreakFadeEffect = game.createFadeEffect(
+    vGameFreakFadeEffect = oGame.createFadeEffect(
         Color.white, 
         255, 
         0, 
@@ -56,7 +57,7 @@ public class IntroState implements State
     
     vSplashScreen.setFadeEffect(vGameFreakFadeEffect);
     
-    splashScreens.add(vSplashScreen);
+    oSplashScreens.add(vSplashScreen);
     
     
     //create second splash screen and effect
@@ -67,7 +68,7 @@ public class IntroState implements State
         Assets.imgPkmnIntLogo,
         Assets.soundMSIntro);
     
-    vPkmnIntFadeEffect = game.createFadeEffect(
+    vPkmnIntFadeEffect = oGame.createFadeEffect(
         Color.white, 
         255, 
         0, 
@@ -79,7 +80,10 @@ public class IntroState implements State
     
     vSplashScreen.setFadeEffect(vPkmnIntFadeEffect);
     
-    splashScreens.add(vSplashScreen);
+    oSplashScreens.add(vSplashScreen);
+    
+    oGame.removeKeyListener();
+    oGame.setKeyListener(oIntroStateKeyListener);
   }
   
   
@@ -89,47 +93,47 @@ public class IntroState implements State
     
     vRemovedScreen = removedFinishedSplashScreen();
     
-    if(splashScreens.size() > 0)
+    if(oSplashScreens.size() > 0)
     {
       if(vRemovedScreen)
       {
-        game.addFadeEffect(splashScreens.get(0).getFadeEffect());
+        oGame.addFadeEffect(oSplashScreens.get(0).getFadeEffect());
       }
-      else if(currentSplashScreen == null)
+      else if(oCurrentSplashScreen == null)
       {
-        currentSplashScreen = splashScreens.get(0);
-        currentSplashScreen.initSplashScreen();
-        game.addFadeEffect(splashScreens.get(0).getFadeEffect());
+        oCurrentSplashScreen = oSplashScreens.get(0);
+        oCurrentSplashScreen.initSplashScreen();
+        oGame.addFadeEffect(oSplashScreens.get(0).getFadeEffect());
       }
       else
       {
-        currentSplashScreen.update();
+        oCurrentSplashScreen.update();
       }
     }
     else
     {
-      isActive = false;
+      oIsActive = false;
     }
   }
   
   
   public void draw(Graphics pGraphics)
   {
-    if(currentSplashScreen != null)
+    if(oCurrentSplashScreen != null)
     {
-      currentSplashScreen.draw(pGraphics);
+      oCurrentSplashScreen.draw(pGraphics);
     }
   }
   
   
   private boolean removedFinishedSplashScreen()
   {
-    if(splashScreens.get(0).isDone())
+    if(oSplashScreens.get(0).isDone())
     {
       System.out.println("IntroState.removedFinishedSplashScreen - " + 
-                         "Removing splash screen " + splashScreens.get(0).getName());
-      splashScreens.remove(0);
-      currentSplashScreen = null;
+                         "Removing splash screen " + oSplashScreens.get(0).getName());
+      oSplashScreens.remove(0);
+      oCurrentSplashScreen = null;
       return true;
     }
     
@@ -139,45 +143,42 @@ public class IntroState implements State
   
   public void skipSplashScreen()
   {
-    if(currentSplashScreen != null)
+    if(oCurrentSplashScreen != null)
     {
-      currentSplashScreen.setIsDone();
-      currentSplashScreen.getFadeEffect().setIsDone();
-      game.interrupt();
-    }
-    if(currentSplashScreen != null && currentSplashScreen.hasAudio())
-    {
-      currentSplashScreen.closeAudio();
+      oCurrentSplashScreen.setIsDone();
+      oCurrentSplashScreen.getFadeEffect().setIsDone();
+      oCurrentSplashScreen.closeAudio();
+      oGame.interrupt();
     }
   }
   
   
   public boolean isActive()
   {
-    return isActive;
+    return oIsActive;
   }
   
   
   public void setIsActive(boolean pIsActive)
   {
-    isActive = pIsActive;
+    oIsActive = pIsActive;
   }
   
   
   public SplashScreen getCurrentSplashScreen()
   {
-    return currentSplashScreen;
+    return oCurrentSplashScreen;
   }
   
   
   public void cleanUpState()
   {
-    isActive = false;
+    oIsActive = false;
   }
   
   
   public GameStates getStateType() 
   {
-    return gameStateType;
+    return oGameStateType;
   }
 }

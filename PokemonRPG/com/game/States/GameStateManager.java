@@ -3,143 +3,91 @@ package com.game.States;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import com.game.Main.GamePanel;
 
 public class GameStateManager 
 {
-  private int currStatePos = 0;
+  private IntroState oIntroState        = null;
+  private MenuState  oMenuState         = null;
+  private PlayState  oPlayState         = null;
   
-  private IntroState introState               = null;
-  private MenuState  menuState                = null;
-  private PlayState  playState                = null;
+  private GameStates oCurrentStateType  = GameStates.UNINITIALIZED;
+  private State      oCurrentState      = null;
   
-  private GameStates currentGameState         = null;
-  private State      state                    = null;
+  private Stack<State> oGameStateStack = null;
   
-  private Map<GameStates, State>   statesCollection    = null;
-  private Map<Integer, GameStates> positionCollection  = null;
-  private Map<Integer, GameStates> gamestateCollection = null;
   
-  private GamePanel game = null;
-  //test
- 
-  public GameStateManager(GamePanel pGamePanel)
+  public GameStateManager(GamePanel pGame)
   {
-    game                = pGamePanel;
+    oGameStateStack = new Stack<State>();
     
-    statesCollection    = new HashMap<>();
-    positionCollection  = new HashMap<>();
-    gamestateCollection = new HashMap<>();
+    oIntroState     = new IntroState(pGame);
+    oMenuState      = new MenuState(pGame);
+    oPlayState      = new PlayState(pGame);
     
-    introState      = new IntroState(pGamePanel);
-    menuState       = new MenuState(pGamePanel);
-    playState       = new PlayState(pGamePanel);
-    
-    state               = introState;
-    currentGameState    = GameStates.UNINITIALIZED;
-    
-    statesCollection.put(GameStates.UNINITIALIZED, null);
-    statesCollection.put(GameStates.INTRO_STATE,   introState);
-    statesCollection.put(GameStates.MENU_STATE,    menuState);
-    statesCollection.put(GameStates.PLAY_STATE,    playState);
-    
-    positionCollection.put(0, GameStates.UNINITIALIZED);
-    positionCollection.put(1, GameStates.INTRO_STATE);
-    positionCollection.put(2, GameStates.MENU_STATE);
-    positionCollection.put(3, GameStates.PLAY_STATE);
-    
-    gamestateCollection.put(0, GameStates.UNINITIALIZED);
-    gamestateCollection.put(1, GameStates.INTRO_STATE);
-    gamestateCollection.put(2, GameStates.MENU_STATE);
-    gamestateCollection.put(3, GameStates.PLAY_STATE);
-    
+    initialize();
+  }
+  
+  
+  public void initialize()
+  {
+    if(oCurrentStateType == GameStates.UNINITIALIZED)
+    {
+      oGameStateStack.push(oPlayState);
+      oGameStateStack.push(oMenuState);
+      oGameStateStack.push(oIntroState);
+      
+      oCurrentState = oGameStateStack.peek();
+      oCurrentState.initializeState();
+      oCurrentStateType = oCurrentState.getStateType();
+    }
   }
   
   
   public void update()
   {
     manageStates();
-    state.update();
+    oCurrentState.update();
   }
   
   
   public void draw(Graphics pGraphics)
   {
-    state.draw(pGraphics);
+    oCurrentState.draw(pGraphics);
   }
   
   
   public GameStates getCurrentGameStateType()
   {
-    return currentGameState;
+    return oCurrentStateType;
   }
   
   
   public State getCurrentGameState()
   {
-    return state;
-  }
-  
-  
-  public State getState(GameStates pStateType)
-  {
-    return statesCollection.get(pStateType);
+    return oCurrentState;
   }
   
   
   private void manageStates()
   {
-    if( currentGameState == GameStates.UNINITIALIZED           || 
-        statesCollection.get(positionCollection.get(currStatePos)).isActive() == false   )
-      {
-        statesCollection.remove(positionCollection.get(currStatePos));
-        positionCollection.remove(currStatePos);
-        gamestateCollection.remove(currStatePos);
-        
-        currStatePos++;
-        
-        state.cleanUpState();
-        state            = statesCollection.get(positionCollection.get(currStatePos));
-        state.initializeState();
-        currentGameState = gamestateCollection.get(currStatePos);
-        game.setKeyListener(currentGameState);
-      }
+    State vCurrState = null;
     
+    vCurrState = oGameStateStack.peek();
     
-    
-    
-    /*switch(currentGameState)
+    if(vCurrState.isActive() == false)
     {
-    case UNINITIALIZED:
+      vCurrState = oGameStateStack.pop();
+      vCurrState.cleanUpState();
       
-      state = introState;
-      currentGameState = GameStates.INTRO_STATE;
-      state.setUpState();
-      break;
-      
-    case INTRO_STATE:
-      if(state.isActive() == false)
-      {
-        state = menuState;
-        currentGameState = GameStates.MENU_STATE;
-        state.setUpState();
-        break;
-      }
-      
-    case MENU_STATE:
-      
-      if(state.isActive() == false)
-      {
-        state.cleanUpState();
-        state = playState;
-        currentGameState = GameStates.PLAY_STATE;
-        state.setUpState();
-        break;
-      }
-    }*/
-    
+      oCurrentState = oGameStateStack.peek();
+      oCurrentState.initializeState();
+      oCurrentStateType = oCurrentState.getStateType();
+    }
   }
+    
   
 }// end GameStateManager
 

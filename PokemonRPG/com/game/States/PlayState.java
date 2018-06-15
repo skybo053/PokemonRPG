@@ -2,50 +2,58 @@ package com.game.States;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
+import java.awt.event.KeyListener;
 
 import com.game.Entities.Player;
+import com.game.EventHandlers.PlayStateKeyListener;
 import com.game.FX.Assets;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
 
 public class PlayState implements State 
 {
-  private boolean    isActive      = false;
-  private GamePanel  game          = null;
-  private GameStates gameStateType = null;
-  private JukeBox    worldTheme    = null;
+  private boolean    oIsActive      = false;
+  private GamePanel  oGame          = null;
+  private GameStates oGameStateType = null;
+  private JukeBox    oWorldTheme    = null;
+  private Player     oPlayer        = null;
   
-  private Player     player        = null;
+  
+  private KeyListener oPlayStateKeyListener = null;
   
   
   public PlayState(GamePanel pGamePanel)
   {
-    game = pGamePanel;
+    oGame        = pGamePanel;
+    oIsActive    = false;
+    oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
+    oPlayer      = new Player(300,300, 37, 50);
     
-    worldTheme  = new JukeBox(Assets.soundWorldTheme);
-    player      = new Player(300,300, 37, 50);
+    oPlayStateKeyListener = new PlayStateKeyListener(this);
   }
   
   
   public void initializeState()
   {
-    isActive = true;
+    oIsActive = true;
     
-    worldTheme.open();
-    worldTheme.play();
-    worldTheme.setLoopContinuous();
+    oWorldTheme.open();
+    oWorldTheme.play();
+    oWorldTheme.setLoopContinuous();
     
-    game.setFocusable(true);
-    game.requestFocusInWindow();
+    oGame.setFocusable(true);
+    oGame.requestFocusInWindow();
     
-    game.showHUD();
+    oGame.showHUD();
+    
+    oGame.removeKeyListener();
+    oGame.setKeyListener(oPlayStateKeyListener);
   }
   
   
   public void update()
   {
-    player.update();
+    oPlayer.update();
   }
   
   
@@ -54,43 +62,43 @@ public class PlayState implements State
     pGraphics.setColor(Color.gray);
     pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
     
-    player.draw(pGraphics);
+    oPlayer.draw(pGraphics);
     
   }
   
 
   public boolean isActive()
   {
-    return isActive;
+    return oIsActive;
   }
   
   
   public void setIsActive(boolean pIsActive)
   {
-    isActive = pIsActive;
+    oIsActive = pIsActive;
   }
   
   
   public void cleanUpState()
   {
-    isActive = false;
+    oIsActive = false;
   }
 
   
   public GameStates getStateType() 
   {
-    return gameStateType;
+    return oGameStateType;
   }
   
   
   public void addPlayerDirection(int pDirection)
   {
-    player.addPlayerDirection(pDirection);
+    oPlayer.addPlayerDirection(pDirection);
   }
   
   
   public void removePlayerDirection(int pDirection)
   {
-    player.removePlayerDirection(pDirection);
+    oPlayer.removePlayerDirection(pDirection);
   }
 }

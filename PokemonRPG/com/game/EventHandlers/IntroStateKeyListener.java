@@ -10,14 +10,12 @@ import com.game.States.IntroState;
 public class IntroStateKeyListener implements KeyListener
 {
   
-  private KeyHandler keyHandler = null;
-  private IntroState introState = null;
+  private IntroState oIntroState = null;
 
   
-  public IntroStateKeyListener(KeyHandler pKeyHandler)
+  public IntroStateKeyListener(IntroState pIntroState)
   {
-    keyHandler = pKeyHandler;
-    introState = (IntroState)keyHandler.getState(GameStates.INTRO_STATE);
+    oIntroState = pIntroState;
   }
   
   
@@ -27,7 +25,7 @@ public class IntroStateKeyListener implements KeyListener
     switch(pEvent.getKeyCode())
     {
     case KeyEvent.VK_ESCAPE:
-      introState.skipSplashScreen();
+      oIntroState.skipSplashScreen();
       break;
     }
   }
