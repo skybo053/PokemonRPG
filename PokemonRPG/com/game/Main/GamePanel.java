@@ -27,14 +27,14 @@ public class GamePanel extends JPanel implements Runnable
     displayHeight = Launcher.screenHeight;
   }
  
-  private int  FPS;
-  private int  frameTicksPerSecond;
-  private long overallSleepTime;
-  private long ninetyPercentSleepTime;
-  private long remainingSleepTime;
-  private long startTime;
-  private long endTime;
-  boolean      running;
+  private int     FPS;
+  private int     frameTicksPerSecond;
+  private long    overallSleepTime;
+  private long    ninetyPercentSleepTime;
+  private long    remainingSleepTime;
+  private long    startTime;
+  private long    endTime;
+  private boolean running;
   
   private GameStateManager       gameStateManager = null;
   private HudPanel               hudPanel         = null;
@@ -209,12 +209,9 @@ public class GamePanel extends JPanel implements Runnable
   
   public void removeKeyListener()
   {
-    KeyListener[] vListener = getKeyListeners();
-    
-    if(vListener != null    &&
-       vListener.length > 0    )
+    for(KeyListener vListener : getKeyListeners())
     {
-      removeKeyListener(vListener[0]);
+      removeKeyListener(vListener);
     }
   }
   

@@ -45,9 +45,6 @@ public class PlayState implements State
     oGame.requestFocusInWindow();
     
     oGame.showHUD();
-    
-    oGame.removeKeyListener();
-    oGame.setKeyListener(oPlayStateKeyListener);
   }
   
   
@@ -100,5 +97,11 @@ public class PlayState implements State
   public void removePlayerDirection(int pDirection)
   {
     oPlayer.removePlayerDirection(pDirection);
+  }
+  
+  
+  public KeyListener getKeyListener()
+  {
+    return oPlayStateKeyListener;
   }
 }

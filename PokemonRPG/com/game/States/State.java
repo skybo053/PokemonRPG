@@ -1,6 +1,7 @@
 package com.game.States;
 
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 
 public interface State 
 {
@@ -13,5 +14,6 @@ public interface State
   public void initializeState();
   public void cleanUpState();
   
-  public GameStates getStateType();
+  public GameStates  getStateType();
+  public KeyListener getKeyListener();
 }

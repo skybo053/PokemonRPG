@@ -2,6 +2,7 @@ package com.game.States;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import com.game.EventHandlers.IntroStateKeyListener;
@@ -81,9 +82,6 @@ public class IntroState implements State
     vSplashScreen.setFadeEffect(vPkmnIntFadeEffect);
     
     oSplashScreens.add(vSplashScreen);
-    
-    oGame.removeKeyListener();
-    oGame.setKeyListener(oIntroStateKeyListener);
   }
   
   
@@ -130,8 +128,6 @@ public class IntroState implements State
   {
     if(oSplashScreens.get(0).isDone())
     {
-      System.out.println("IntroState.removedFinishedSplashScreen - " + 
-                         "Removing splash screen " + oSplashScreens.get(0).getName());
       oSplashScreens.remove(0);
       oCurrentSplashScreen = null;
       return true;
@@ -180,5 +176,11 @@ public class IntroState implements State
   public GameStates getStateType() 
   {
     return oGameStateType;
+  }
+  
+  
+  public KeyListener getKeyListener()
+  {
+    return oIntroStateKeyListener;
   }
 }

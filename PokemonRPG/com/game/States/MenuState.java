@@ -103,9 +103,6 @@ public class MenuState implements State
     
     oBgSoundFX.setLoopContinuous();
     oBgSoundFX.play();
-    
-    oGame.removeKeyListener();
-    oGame.setKeyListener(oMenuStateKeyListener);
   }
   
   
@@ -340,5 +337,11 @@ public class MenuState implements State
     }
     
     oMenuPositionChanged = true;
+  }
+  
+  
+  public KeyListener getKeyListener()
+  {
+    return oMenuStateKeyListener;
   }
 }

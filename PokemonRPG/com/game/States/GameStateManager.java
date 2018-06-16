@@ -14,6 +14,7 @@ public class GameStateManager
   private PlayState  oPlayState         = null;
   
   private GameStates oCurrentStateType  = GameStates.UNINITIALIZED;
+  private GamePanel  oGame              = null;
   private State      oCurrentState      = null;
   
   private Stack<State> oGameStateStack = null;
@@ -23,15 +24,17 @@ public class GameStateManager
   {
     oGameStateStack = new Stack<State>();
     
-    oIntroState     = new IntroState(pGame);
-    oMenuState      = new MenuState(pGame);
-    oPlayState      = new PlayState(pGame);
+    oGame           = pGame;
     
-    initialize();
+    oIntroState     = new IntroState(oGame);
+    oMenuState      = new MenuState(oGame);
+    oPlayState      = new PlayState(oGame);
+    
+    initializeManager();
   }
   
   
-  public void initialize()
+  public void initializeManager()
   {
     if(oCurrentStateType == GameStates.UNINITIALIZED)
     {
@@ -39,9 +42,7 @@ public class GameStateManager
       oGameStateStack.push(oMenuState);
       oGameStateStack.push(oIntroState);
       
-      oCurrentState = oGameStateStack.peek();
-      oCurrentState.initializeState();
-      oCurrentStateType = oCurrentState.getStateType();
+      initializeNewState();
     }
   }
   
@@ -82,10 +83,20 @@ public class GameStateManager
       vCurrState = oGameStateStack.pop();
       vCurrState.cleanUpState();
       
-      oCurrentState = oGameStateStack.peek();
-      oCurrentState.initializeState();
-      oCurrentStateType = oCurrentState.getStateType();
+      initializeNewState();
     }
+  }
+  
+  
+  private void initializeNewState()
+  {
+    oCurrentState = oGameStateStack.peek();
+    oCurrentState.initializeState();
+    
+    oGame.removeKeyListener();
+    oGame.setKeyListener(oCurrentState.getKeyListener());
+    
+    oCurrentStateType = oCurrentState.getStateType();
   }
     
   
