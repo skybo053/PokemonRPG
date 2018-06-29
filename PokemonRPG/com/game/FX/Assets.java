@@ -56,9 +56,18 @@ public class Assets
   spriteAshRunRight1     = null,
   spriteAshRunRight2     = null,
   spriteAshRunRight3     = null,
-  spriteAshRunRight4     = null
+  spriteAshRunRight4     = null,
   
-  ;
+  terrainSpriteSheet        = null,
+  spriteTileGrass           = null,
+  spriteTileWater           = null,
+  spriteTileDirt            = null,
+  spriteTileWeed            = null,
+  spriteTileTreeTopLeft     = null,
+  spriteTileTreeTopRight    = null,
+  spriteTileTreeBottomLeft  = null,
+  spriteTileTreeBottomRight = null;
+  
   
   public static AudioInputStream
   soundMSIntro              = null,
@@ -85,6 +94,7 @@ public class Assets
       imgMenuFocusOptionsBtn      = ImageIO.read(new File("Resources/Images/MenuMouseOverOptionsBtn.png"));
       imgMenuSelectedOptionsBtn   = ImageIO.read(new File("Resources/Images/MenuClickedOptionsBtn.png"));
       
+      //PLAYER
       ashSpriteSheet          = ImageIO.read(new File("Resources/Images/AshSpriteSheet.png"));
       spriteAshStandForward   = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
       spriteAshStandLeft      = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
@@ -110,6 +120,17 @@ public class Assets
       spriteAshRunRight2 = crop(ashSpriteSheet, GRID_OFFSET + 2 + (ASH_WIDTH * 2), GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
       spriteAshRunRight3 = crop(ashSpriteSheet, GRID_OFFSET + 3 + (ASH_WIDTH * 3), GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
       spriteAshRunRight4 = crop(ashSpriteSheet, GRID_OFFSET + 4 + (ASH_WIDTH * 4), GRID_OFFSET + 3 + (ASH_HEIGHT * 3), ASH_WIDTH, ASH_HEIGHT);
+      
+      //TERRAIN
+      terrainSpriteSheet        = ImageIO.read(new File("Resources/Images/TerrainSpriteSheet.png"));
+      spriteTileGrass           = crop(terrainSpriteSheet, 0, 0, 16, 16);
+      spriteTileWater           = crop(terrainSpriteSheet, 17, 0, 16, 16);
+      spriteTileDirt            = crop(terrainSpriteSheet, 34, 0, 16, 16);
+      spriteTileWeed            = crop(terrainSpriteSheet, 51, 0, 16, 16);
+      spriteTileTreeTopLeft     = crop(terrainSpriteSheet, 0, 17, 17, 22);
+      spriteTileTreeTopRight    = crop(terrainSpriteSheet, 16, 17, 15, 22);
+      spriteTileTreeBottomLeft  = crop(terrainSpriteSheet, 32, 17, 15, 22);
+      spriteTileTreeBottomRight = crop(terrainSpriteSheet, 48, 17, 15, 22);
       
       soundMSIntro              = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
       soundMainMenuBtnSelect    = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
@@ -140,6 +161,7 @@ public class Assets
   {
     return pImage.getWidth();
   }
+  
   
   public static BufferedImage crop(BufferedImage pImage, int pX, int pY, int pWidth, int pHeight)
   {

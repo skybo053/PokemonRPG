@@ -100,19 +100,19 @@ public class Player extends Creature implements ActionListener
     switch(currPlayerDirection)
     {
     case PLAYER_MOVE_UP:
-      yPos += -speed;
+      oYPos += -speed;
       break;
       
     case PLAYER_MOVE_DOWN:
-     yPos += speed;
+     oYPos += speed;
      break;
      
    case PLAYER_MOVE_LEFT:
-     xPos += -speed;
+     oXPos += -speed;
      break;
      
    case PLAYER_MOVE_RIGHT:
-     xPos += speed;
+     oXPos += speed;
      break;
      
    case PLAYER_STANDING:
@@ -128,7 +128,7 @@ public class Player extends Creature implements ActionListener
       timer.stop();
       animationIndex = ANIMATION_START_INDEX;
       
-      pGraphics.drawImage(currAnimations[0], xPos, yPos, width, height, null);
+      pGraphics.drawImage(currAnimations[0], oXPos, oYPos, oWidth, oHeight, null);
     }
     else
     {
@@ -154,7 +154,7 @@ public class Player extends Creature implements ActionListener
         break;
       }
       
-      pGraphics.drawImage(currAnimations[animationIndex], xPos, yPos, width, height, null);
+      pGraphics.drawImage(currAnimations[animationIndex], oXPos, oYPos, oWidth, oHeight, null);
     }
   }
   
@@ -203,5 +203,17 @@ public class Player extends Creature implements ActionListener
       
       return vDirection;
     }
+  }
+  
+  
+  public int getPlayerWidth()
+  {
+    return oWidth;
+  }
+  
+  
+  public int getPlayerHeight()
+  {
+    return oHeight;
   }
 }

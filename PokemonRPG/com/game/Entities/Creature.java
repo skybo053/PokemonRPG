@@ -19,13 +19,13 @@ public abstract class Creature extends Entity
   
   public void setXPos(int pXPos)
   {
-    xPos += pXPos;
+    oXPos += pXPos;
   }
   
   
   public void setYPos(int pYPos)
   {
-    yPos += pYPos;
+    oYPos += pYPos;
   }
   
   

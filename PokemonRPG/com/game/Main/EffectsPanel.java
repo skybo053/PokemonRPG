@@ -38,9 +38,6 @@ public class EffectsPanel extends JPanel
      
      if(vFadeEffect.isDone())
      {
-       System.out.println("EffectsPanel.update() - " +
-                          "Removing " + vFadeEffect.getName());
-       
        effectsList.remove(0);
      }
      else

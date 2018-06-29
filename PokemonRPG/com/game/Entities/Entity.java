@@ -4,20 +4,47 @@ import java.awt.Graphics;
 
 public abstract class Entity
 {
-  protected int xPos   = 0;
-  protected int yPos   = 0;
-  protected int width  = 0;
-  protected int height = 0;
+  protected int oXPos   = 0;
+  protected int oYPos   = 0;
+  protected int oWidth  = 0;
+  protected int oHeight = 0;
+  
   
   public Entity(int pXPos, int pYPos, int pWidth, int pHeight)
   {
-    xPos   = pXPos;
-    yPos   = pYPos;
+    oXPos   = pXPos;
+    oYPos   = pYPos;
     
-    width  = pWidth;
-    height = pHeight;
+    oWidth  = pWidth;
+    oHeight = pHeight;
   }
+  
   
   protected abstract void update();
   protected abstract void draw(Graphics pGraphics);
+  
+  
+  protected int getWidth()
+  {
+    return oWidth;
+  }
+  
+  
+  protected int getHeight()
+  {
+    return oHeight;
+  }
+  
+  
+  protected int getXPos()
+  {
+    return oXPos;
+  }
+  
+  
+  protected int getYPos()
+  {
+    return oYPos;
+  }
+  
 }

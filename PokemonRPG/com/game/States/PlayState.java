@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyListener;
 
 import com.game.Entities.Player;
+import com.game.Entities.World;
 import com.game.EventHandlers.PlayStateKeyListener;
 import com.game.FX.Assets;
 import com.game.FX.JukeBox;
@@ -17,7 +18,7 @@ public class PlayState implements State
   private GameStates oGameStateType = null;
   private JukeBox    oWorldTheme    = null;
   private Player     oPlayer        = null;
-  
+  private World      oWorld         = null;
   
   private KeyListener oPlayStateKeyListener = null;
   
@@ -28,6 +29,7 @@ public class PlayState implements State
     oIsActive    = false;
     oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
     oPlayer      = new Player(300,300, 37, 50);
+    oWorld       = new World(oPlayer.getPlayerWidth(), oPlayer.getPlayerHeight());
     
     oPlayStateKeyListener = new PlayStateKeyListener(this);
   }
@@ -56,9 +58,10 @@ public class PlayState implements State
   
   public void draw(Graphics pGraphics)
   {
-    pGraphics.setColor(Color.gray);
-    pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
+    //pGraphics.setColor(Color.gray);
+    //pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
     
+    oWorld.draw(pGraphics);
     oPlayer.draw(pGraphics);
     
   }
