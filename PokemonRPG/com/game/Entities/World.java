@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.game.Main.GamePanel;
+
 public class World 
 {
   
@@ -17,16 +19,40 @@ public class World
   private int oTileWidth;
   private int oTileHeight;
   
+  private int oNumVisibleTileRows;
+  private int oNumVisibleTileCols;
+
+  
+  private int oPlayerWidth;
+  private int oPlayerHeight;
   
   public World(int pPlayerWidth, int pPlayerHeight)
   {
-    oTileWidth  = pPlayerWidth;
-    oTileHeight = pPlayerHeight / 2;
+    oPlayerWidth  = pPlayerWidth;
+    oPlayerHeight = pPlayerHeight;
+    
+    oTileWidth    = pPlayerWidth;
+    oTileHeight   = pPlayerWidth;
     
     loadMap();
     
-    System.out.println();
-   
+    oNumVisibleTileRows = Math.round((float) GamePanel.displayHeight / oTileHeight);
+    oNumVisibleTileCols = Math.round((float) GamePanel.displayWidth / oTileWidth);
+    
+    System.out.println("visible rows: " + oNumVisibleTileRows +
+                       " visible cols: " + oNumVisibleTileCols);
+  }
+  
+  
+  public int getTileXPos(int pRow, int pCol)
+  {
+    return oTiles[pRow][pCol].getXPos();
+  }
+  
+  
+  public int getTileYPos(int pRow, int pCol)
+  {
+    return (oTiles[pRow][pCol].getYPos() - (oPlayerHeight / 2));
   }
   
   
@@ -62,8 +88,8 @@ public class World
     BufferedReader vFileReader = null;
     String         vLine       = null;
     String[]       vLineTokens = null;
-    int            vRows       = 0;
-    int            vCols       = 0;
+    int            vRowSize    = 0;
+    int            vColSize    = 0;
     int            vTileXPos   = 0;
     int            vTileYPos   = 0;
     int            vRowIndex   = 0;
@@ -84,17 +110,17 @@ public class World
             
             if(vTempTokens[0].equals("rows"))
             {
-              vRows = Integer.parseInt(vTempTokens[1]);
+              vRowSize = Integer.parseInt(vTempTokens[1]);
             }
             else if(vTempTokens[0].equals("cols"))
             {
-              vCols = Integer.parseInt(vTempTokens[1]);
+              vColSize = Integer.parseInt(vTempTokens[1]);
             }
           }
           
-          oTiles = new Tile[vRows][vCols];
+          oTiles = new Tile[vRowSize][vColSize];
         }
-        else if(Character.isDigit(vLineTokens[0].charAt(0)) == true)
+        else if(vRowIndex < vRowSize)
         {
           for(int vColIndex = 0; vColIndex < oTiles[vRowIndex].length; ++vColIndex)
           {

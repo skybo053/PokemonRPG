@@ -36,14 +36,12 @@ public class GameStateManager
   
   public void initializeManager()
   {
-    if(oCurrentStateType == GameStates.UNINITIALIZED)
-    {
-      oGameStateStack.push(oPlayState);
-      oGameStateStack.push(oMenuState);
-      oGameStateStack.push(oIntroState);
-      
-      initializeNewState();
-    }
+    oGameStateStack.push(oPlayState);
+    oGameStateStack.push(oMenuState);
+    oGameStateStack.push(oIntroState);
+    
+    initializeNewState();
+    
   }
   
   

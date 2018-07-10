@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.game.Entities.Player;
 import com.game.Exceptions.AssetLoaderException;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
@@ -103,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable
       try
       {
         gameStateManager.update(); 
+        hudPanel.update();
         effectsPanel.update();
         
         repaint();
@@ -189,9 +191,19 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
-  public void showHUD()
+  public void hudShowHUD()
   {
     hudPanel.setVisible(true);
+  }
+
+  public void hudSetHealthBarZero()
+  {
+    hudPanel.setHealthBarZero();
+  }
+  
+  public void hudSetPlayer(Player pPlayer)
+  {
+    hudPanel.setPlayer(pPlayer);
   }
   
   

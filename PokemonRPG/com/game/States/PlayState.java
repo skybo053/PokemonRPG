@@ -23,13 +23,22 @@ public class PlayState implements State
   private KeyListener oPlayStateKeyListener = null;
   
   
+  //hardcoded for now, will be based on screen size
+  private static int PLAYER_WIDTH  = 37;
+  private static int PLAYER_HEIGHT = 57;
+  
   public PlayState(GamePanel pGamePanel)
   {
     oGame        = pGamePanel;
     oIsActive    = false;
     oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
-    oPlayer      = new Player(300,300, 37, 50);
-    oWorld       = new World(oPlayer.getPlayerWidth(), oPlayer.getPlayerHeight());
+    
+    
+    oWorld       = new World(PLAYER_WIDTH,  PLAYER_HEIGHT);
+    oPlayer      = new Player(PLAYER_WIDTH, PLAYER_HEIGHT, oWorld);
+    
+    
+    oGame.hudSetPlayer(oPlayer);
     
     oPlayStateKeyListener = new PlayStateKeyListener(this);
   }
@@ -43,10 +52,16 @@ public class PlayState implements State
     oWorldTheme.play();
     oWorldTheme.setLoopContinuous();
     
+    oPlayer.setHealth(100);
+    oPlayer.setSpeed(5);
+    oPlayer.setTilePositionX(2, 20);
+    oPlayer.setTilePositionY(2, 20);
+    
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();
     
-    oGame.showHUD();
+    oGame.hudSetHealthBarZero();
+    oGame.hudShowHUD();
   }
   
   

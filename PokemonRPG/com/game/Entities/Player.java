@@ -37,11 +37,14 @@ public class Player extends Creature implements ActionListener
   private int   animationIndex      = ANIMATION_START_INDEX;
   private Timer timer               = null;
   
+  private World oWorld = null;
   
-  public Player(int pXPos, int pYPos, int pWidth, int pHeight)
+  
+  public Player(int pWidth, int pHeight, World pWorld)
   {
-    super(pXPos, pYPos, pWidth, pHeight);
+    super(pWidth, pHeight);
     
+    oWorld             = pWorld;
     playerDirectionQ   = new LinkedHashSet<Integer>();
     timer              = new Timer(ANIMATION_SWITCH_TIME, this);
    
@@ -203,6 +206,18 @@ public class Player extends Creature implements ActionListener
       
       return vDirection;
     }
+  }
+  
+  
+  public void setTilePositionX(int pRow, int pCol)
+  {
+    oXPos = oWorld.getTileXPos(pRow, pCol);
+  }
+  
+  
+  public void setTilePositionY(int pRow, int pCol)
+  {
+    oYPos = oWorld.getTileYPos(pRow, pCol);
   }
   
   

@@ -16,6 +16,10 @@ public class Tile extends Entity
     put(1, Assets.spriteTileDirt);
     put(2, Assets.spriteTileWater);
     put(3, Assets.spriteTileWeed);
+    put(4, Assets.spriteTileTreeTopLeft);
+    put(5, Assets.spriteTileTreeTopRight);
+    put(6, Assets.spriteTileTreeBottomLeft);
+    put(7, Assets.spriteTileTreeBottomRight);
   }};
   
   private BufferedImage oImage   = null;
@@ -33,8 +37,6 @@ public class Tile extends Entity
     
     oImage   = TILE_IMAGES.get(pImageID);
     oIsSolid = pIsSolid;
-    
-    System.out.println("Tile created at X: " + oXPos + " Y: " + oYPos + " with ID: " + pImageID);
   }
 
  

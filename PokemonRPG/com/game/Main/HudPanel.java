@@ -2,30 +2,32 @@ package com.game.Main;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+
+import com.game.Entities.Player;
 
 
 public class HudPanel extends JPanel
 {
-  int         displayWidth;
-  int         displayHeight;
-  Graphics2D  oGraphics2d;
+  private Player      oPlayer              = null;
+  private int         oHealthBarHealth      = 0;
+  private int         oPlayerHealth         = 0;
+  
+  private int         displayWidth;
+  private int         displayHeight;
+  private Graphics2D  oGraphics2d;
   
   //Health meter variables
-  Graphics2D  graphics2D           = null;
-  int         distanceFromLeft     = 0;    
-  double      percentFromLeft      = .08;
-  int         distanceFromTop      = 20;
-  int         healthMeterWidth     = 50;
-  int         percentHealth        = 50;
-  int         healthMeterHeight    = 100;
-  int         damageMeterStartYPos = healthMeterHeight + distanceFromTop - percentHealth;
+  private Graphics2D  graphics2D           = null;
+  private int         distanceFromLeft     = 0;    
+  private double      percentFromLeft      = .08;
+  private int         distanceFromTop      = 20;
+  private int         healthMeterWidth     = 50;
+  private int         healthMeterHeight    = 100;
+  private int         damageMeterStartYPos = healthMeterHeight + distanceFromTop - oHealthBarHealth;
   
   
   public HudPanel(int pWidth, int pHeight)
@@ -37,6 +39,21 @@ public class HudPanel extends JPanel
     this.setOpaque(false);
     
     distanceFromLeft = (int)(displayWidth * percentFromLeft);
+  }
+  
+  
+  public void update()
+  {
+    oPlayerHealth = oPlayer.getHealth();
+    
+   if(oHealthBarHealth < oPlayerHealth)
+    {
+      setHealthBar(1);
+    }
+    else if(oHealthBarHealth > oPlayerHealth)
+    {
+      setHealthBar(-1);
+    }
   }
   
   
@@ -66,7 +83,7 @@ public class HudPanel extends JPanel
     //health bar
     oGraphics2d.setStroke(new BasicStroke(0));
     oGraphics2d.setColor(Color.red);
-    oGraphics2d.fillRect(distanceFromLeft, damageMeterStartYPos, healthMeterWidth, percentHealth);
+    oGraphics2d.fillRect(distanceFromLeft, damageMeterStartYPos, healthMeterWidth, oHealthBarHealth);
     
     //Border
     oGraphics2d.setStroke(new BasicStroke(5));
@@ -75,22 +92,35 @@ public class HudPanel extends JPanel
   }
   
   
-  public void setHealth(int pHealth)
+  public void setHealthBar(int pHealth)
   {
-    if(percentHealth + pHealth < 0)
+    if(oHealthBarHealth + pHealth < 0)
     {
-      percentHealth = 0;
+      oHealthBarHealth = 0;
       return;
     }
     
-    if(percentHealth + pHealth > 100)
+    if(oHealthBarHealth + pHealth > 100)
     {
-      percentHealth = 100;
+      oHealthBarHealth = 100;
       return;
     }
     
-    percentHealth        += pHealth;
+    oHealthBarHealth        += pHealth;
     damageMeterStartYPos -= pHealth;
+  }
+  
+  
+  public void setHealthBarZero()
+  {
+    oHealthBarHealth     = 0;
+    damageMeterStartYPos = healthMeterHeight + distanceFromTop - oHealthBarHealth;
+  }
+  
+  
+  public void setPlayer(Player pPlayer)
+  {
+    oPlayer = pPlayer;
   }
  
 }

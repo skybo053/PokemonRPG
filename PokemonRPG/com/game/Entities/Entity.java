@@ -20,6 +20,16 @@ public abstract class Entity
   }
   
   
+  public Entity(int pWidth, int pHeight)
+  {
+    oWidth  = pWidth;
+    oHeight = pHeight;
+    
+    oXPos   = 0;
+    oYPos   = 0;
+  }
+  
+  
   protected abstract void update();
   protected abstract void draw(Graphics pGraphics);
   
@@ -45,6 +55,18 @@ public abstract class Entity
   protected int getYPos()
   {
     return oYPos;
+  }
+  
+  
+  protected void setXPos(int pXPos)
+  {
+    oXPos = pXPos;
+  }
+  
+  
+  protected void setYPos(int pYPos)
+  {
+    oYPos = pYPos;
   }
   
 }
