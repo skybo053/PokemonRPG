@@ -44,15 +44,9 @@ public class World
   }
   
   
-  public int getTileXPos(int pRow, int pCol)
+  public Tile getTileAtPosition(int pRow, int pCol)
   {
-    return oTiles[pRow][pCol].getXPos();
-  }
-  
-  
-  public int getTileYPos(int pRow, int pCol)
-  {
-    return (oTiles[pRow][pCol].getYPos() - (oPlayerHeight / 2));
+    return oTiles[pRow][pCol];
   }
   
   

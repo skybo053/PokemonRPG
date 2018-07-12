@@ -40,13 +40,13 @@ public class Tile extends Entity
   }
 
  
-  protected void update() 
+  public void update() 
   {
     
   }
 
   
-  protected void draw(Graphics pGraphics) 
+  public void draw(Graphics pGraphics) 
   {
     pGraphics.drawImage(oImage, oXPos, oYPos, oWidth, oHeight, null);
   }

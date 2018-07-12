@@ -54,8 +54,8 @@ public class PlayState implements State
     
     oPlayer.setHealth(100);
     oPlayer.setSpeed(5);
-    oPlayer.setTilePositionX(2, 20);
-    oPlayer.setTilePositionY(2, 20);
+    oPlayer.setPlayerPosition(2, 20);
+    oPlayer.setPlayerDirection(Player.PLAYER_MOVE_LEFT);
     
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();
@@ -67,6 +67,7 @@ public class PlayState implements State
   
   public void update()
   {
+    oWorld.update();
     oPlayer.update();
   }
   

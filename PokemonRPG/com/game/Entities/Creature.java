@@ -1,7 +1,5 @@
 package com.game.Entities;
 
-import java.awt.Graphics;
-
 public abstract class Creature extends Entity
 {
   protected int health = 0;
