@@ -34,8 +34,8 @@ public class PlayState implements State
     oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
     
     
-    oWorld       = new World(PLAYER_WIDTH,  PLAYER_HEIGHT);
-    oPlayer      = new Player(PLAYER_WIDTH, PLAYER_HEIGHT, oWorld);
+    oWorld       = new World(PLAYER_WIDTH);
+    oPlayer      = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
     
     
     oGame.hudSetPlayer(oPlayer);
@@ -54,8 +54,8 @@ public class PlayState implements State
     
     oPlayer.setHealth(100);
     oPlayer.setSpeed(5);
-    oPlayer.setPlayerPosition(2, 20);
-    oPlayer.setPlayerDirection(Player.PLAYER_MOVE_LEFT);
+    oPlayer.setPlayerPosition(oWorld.getTileAtPosition(2, 20));
+    oPlayer.setPlayerDirection(Player.PLAYER_MOVE_DOWN);
     
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();

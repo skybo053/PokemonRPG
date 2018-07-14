@@ -14,25 +14,19 @@ public class World
   
   private static final String MAP_FILE = "Resources/Maps/map1";
   
-  private Tile[][] oTiles = null;
+  private Tile[][] oTiles     = null;
   
   private int oTileWidth;
   private int oTileHeight;
   
   private int oNumVisibleTileRows;
   private int oNumVisibleTileCols;
-
   
-  private int oPlayerWidth;
-  private int oPlayerHeight;
   
-  public World(int pPlayerWidth, int pPlayerHeight)
+  public World(int pTileWidth)
   {
-    oPlayerWidth  = pPlayerWidth;
-    oPlayerHeight = pPlayerHeight;
-    
-    oTileWidth    = pPlayerWidth;
-    oTileHeight   = pPlayerWidth;
+    oTileWidth    = pTileWidth;
+    oTileHeight   = pTileWidth;
     
     loadMap();
     

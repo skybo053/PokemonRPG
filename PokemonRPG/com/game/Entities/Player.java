@@ -40,10 +40,10 @@ public class Player extends Creature implements ActionListener
   private World oWorld = null;
   
   
-  public Player(int pWidth, int pHeight, World pWorld)
+  public Player(int pWidth, int pHeight)
   {
     super(pWidth, pHeight);
-    oWorld             = pWorld;
+    
     playerDirectionQ   = new LinkedHashSet<Integer>();
     timer              = new Timer(ANIMATION_SWITCH_TIME, this);
    
@@ -208,17 +208,14 @@ public class Player extends Creature implements ActionListener
   }
   
   
-  public void setPlayerPosition(int pRow, int pCol)
+  public void setPlayerPosition(Tile pTile)
   {
-    Tile vTile         = null;
     int  vPlayerOffset = 0;
     
-    vTile = oWorld.getTileAtPosition(pRow, pCol);
+    vPlayerOffset = pTile.getHeight() / 2;
     
-    vPlayerOffset = vTile.getHeight() / 2;
-    
-    oXPos = vTile.getXPos();
-    oYPos = vTile.getYPos() - vPlayerOffset;
+    oXPos = pTile.getXPos();
+    oYPos = pTile.getYPos() - vPlayerOffset;
   }
   
   
