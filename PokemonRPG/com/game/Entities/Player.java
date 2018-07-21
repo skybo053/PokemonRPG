@@ -37,7 +37,10 @@ public class Player extends Creature implements ActionListener
   private int   animationIndex      = ANIMATION_START_INDEX;
   private Timer timer               = null;
   
-  private World oWorld = null;
+  private Integer oDestXPos = null;
+  private Integer oDestYPos = null;
+  
+  private boolean oProcessingMove = false;
   
   
   public Player(int pWidth, int pHeight)
@@ -102,19 +105,19 @@ public class Player extends Creature implements ActionListener
     switch(currPlayerDirection)
     {
     case PLAYER_MOVE_UP:
-      oYPos += -speed;
+      processUpMove();
       break;
       
     case PLAYER_MOVE_DOWN:
-     oYPos += speed;
+     processDownMove();
      break;
      
    case PLAYER_MOVE_LEFT:
-     oXPos += -speed;
+     processLeftMove();
      break;
      
    case PLAYER_MOVE_RIGHT:
-     oXPos += speed;
+     processRightMove();
      break;
      
    case PLAYER_STANDING:
@@ -138,22 +141,6 @@ public class Player extends Creature implements ActionListener
       if(timer.isRunning() == false)
       {
         timer.start();
-      }
-      
-      switch(currPlayerDirection)
-      {
-      case PLAYER_MOVE_UP:
-        currAnimations = ashBackwardsSprites;
-        break;
-      case PLAYER_MOVE_DOWN:
-        currAnimations = ashForwardSprites;
-        break;
-      case PLAYER_MOVE_LEFT:
-        currAnimations = ashLeftSprites;
-        break;
-      case PLAYER_MOVE_RIGHT:
-        currAnimations = ashRightSprites;
-        break;
       }
       
       pGraphics.drawImage(currAnimations[animationIndex], oXPos, oYPos, oWidth, oHeight, null);
@@ -190,7 +177,11 @@ public class Player extends Creature implements ActionListener
   {
     int vDirection = 0;
     
-    if(playerDirectionQ.isEmpty())
+    if(oProcessingMove)
+    {
+      return currPlayerDirection;
+    }
+    else if(playerDirectionQ.isEmpty())
     {
       return PLAYER_STANDING;
     }
@@ -203,6 +194,8 @@ public class Player extends Creature implements ActionListener
         vDirection = playerDirectionQIt.next();
       }
       
+      setPlayerDirectionAnimations(vDirection);
+      
       return vDirection;
     }
   }
@@ -212,43 +205,137 @@ public class Player extends Creature implements ActionListener
   {
     int  vPlayerOffset = 0;
     
-    vPlayerOffset = pTile.getHeight() / 2;
+    vPlayerOffset  = pTile.getHeight() / 2;
     
     oXPos = pTile.getXPos();
     oYPos = pTile.getYPos() - vPlayerOffset;
   }
   
   
-  public void setPlayerDirection(int pPlayerDirection)
+  public void setPlayerDirectionAnimations(int pPlayerDirection)
   {
-    switch(pPlayerDirection)
+    if(currPlayerDirection == pPlayerDirection)
     {
-    case PLAYER_MOVE_UP:
-      currAnimations = ashBackwardsSprites;
-      break;
-    case PLAYER_STANDING:
-    case PLAYER_MOVE_DOWN:
-      currAnimations = ashForwardSprites;
-      break;
-    case PLAYER_MOVE_LEFT:
-      currAnimations = ashLeftSprites;
-      break;
-    case PLAYER_MOVE_RIGHT:
-      currAnimations = ashRightSprites;
-      break;
+      return;
+    }
+    else
+    {
+      switch(pPlayerDirection)
+      {
+      case PLAYER_MOVE_UP:
+        currAnimations = ashBackwardsSprites;
+        break;
+      case PLAYER_MOVE_DOWN:
+        currAnimations = ashForwardSprites;
+        break;
+      case PLAYER_MOVE_LEFT:
+        currAnimations = ashLeftSprites;
+        break;
+      case PLAYER_MOVE_RIGHT:
+        currAnimations = ashRightSprites;
+        break;
+      }
     }
   }
   
   
-  
-  public int getPlayerWidth()
+  private void processLeftMove()
   {
-    return oWidth;
+    if(oDestXPos == null)
+    {
+      oDestXPos       = oXPos - oWidth;
+      oProcessingMove = true;
+    }
+    
+    if(oXPos - speed < oDestXPos)
+    {
+      oXPos = oDestXPos;
+    }
+    else
+    {
+      oXPos -= speed;
+    }
+    
+    if(oXPos == oDestXPos)
+    {
+      oDestXPos       = null;
+      oProcessingMove = false;
+    }
   }
   
   
-  public int getPlayerHeight()
+  private void processRightMove()
   {
-    return oHeight;
+    if(oDestXPos == null)
+    {
+      oDestXPos       = oXPos + oWidth;
+      oProcessingMove = true;
+    }
+    
+    if(oXPos + speed > oDestXPos)
+    {
+      oXPos = oDestXPos;
+    }
+    else
+    {
+      oXPos += speed;
+    }
+    
+    if(oXPos == oDestXPos)
+    {
+      oDestXPos       = null;
+      oProcessingMove = false;
+    }
   }
-}
+  
+  
+  private void processDownMove()
+  {
+    if(oDestYPos == null)
+    {
+      oDestYPos       = oYPos + oWidth;  //oWidth = player width = dimensions of tile
+      oProcessingMove = true;
+    }
+    
+    if(oYPos + speed > oDestYPos)
+    {
+      oYPos = oDestYPos;
+    }
+    else
+    {
+      oYPos += speed;
+    }
+    
+    if(oYPos == oDestYPos)
+    {
+      oDestYPos       = null;
+      oProcessingMove = false;
+    }
+  }
+  
+  
+  private void processUpMove()
+  {
+    if(oDestYPos == null)
+    {
+      oDestYPos       = oYPos - oWidth;  //oWidth = player width = dimensions of tile
+      oProcessingMove = true;
+    }
+    
+    if(oYPos - speed < oDestYPos)
+    {
+      oYPos = oDestYPos;
+    }
+    else
+    {
+      oYPos -= speed;
+    }
+    
+    if(oYPos == oDestYPos)
+    {
+      oDestYPos       = null;
+      oProcessingMove = false;
+    }
+  }
+ 
+} // end player class

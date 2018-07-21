@@ -24,8 +24,8 @@ public class PlayState implements State
   
   
   //hardcoded for now, will be based on screen size
-  private static int PLAYER_WIDTH  = 37;
-  private static int PLAYER_HEIGHT = 57;
+  private static int PLAYER_WIDTH  = 35;
+  private static int PLAYER_HEIGHT = 55;
   
   public PlayState(GamePanel pGamePanel)
   {
@@ -42,7 +42,7 @@ public class PlayState implements State
     
     oPlayStateKeyListener = new PlayStateKeyListener(this);
   }
-  //commit
+  
   
   public void initializeState()
   {
@@ -54,13 +54,13 @@ public class PlayState implements State
     
     oPlayer.setHealth(100);
     oPlayer.setSpeed(5);
-    oPlayer.setPlayerPosition(oWorld.getTileAtPosition(2, 20));
-    oPlayer.setPlayerDirection(Player.PLAYER_MOVE_DOWN);
+    oPlayer.setPlayerPosition(oWorld.getTileAtPosition(1, 10));
+    oPlayer.setPlayerDirectionAnimations(Player.PLAYER_MOVE_DOWN);
     
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();
     
-    oGame.hudSetHealthBarZero();
+    oGame.hudSetHealthBar(-100);
     oGame.hudShowHUD();
   }
   
@@ -74,12 +74,8 @@ public class PlayState implements State
   
   public void draw(Graphics pGraphics)
   {
-    //pGraphics.setColor(Color.gray);
-    //pGraphics.fillRect(0, 0, GamePanel.displayWidth, GamePanel.displayHeight);
-    
     oWorld.draw(pGraphics);
     oPlayer.draw(pGraphics);
-    
   }
   
 

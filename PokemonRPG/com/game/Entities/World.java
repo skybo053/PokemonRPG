@@ -14,7 +14,7 @@ public class World
   
   private static final String MAP_FILE = "Resources/Maps/map1";
   
-  private Tile[][] oTiles     = null;
+  private Tile[][] oMap     = null;
   
   private int oTileWidth;
   private int oTileHeight;
@@ -30,17 +30,20 @@ public class World
     
     loadMap();
     
-    oNumVisibleTileRows = Math.round((float) GamePanel.displayHeight / oTileHeight);
-    oNumVisibleTileCols = Math.round((float) GamePanel.displayWidth / oTileWidth);
+    
+    oNumVisibleTileRows = (int)Math.ceil((double) GamePanel.displayHeight / oTileHeight);
+    oNumVisibleTileCols = (int)Math.ceil((double) GamePanel.displayWidth / oTileWidth);
     
     System.out.println("visible rows: " + oNumVisibleTileRows +
                        " visible cols: " + oNumVisibleTileCols);
+    
+    System.out.println("Tile width: " + oTileWidth);
   }
   
   
   public Tile getTileAtPosition(int pRow, int pCol)
   {
-    return oTiles[pRow][pCol];
+    return oMap[pRow][pCol];
   }
   
   
@@ -54,11 +57,11 @@ public class World
   {
     try
     {
-      for(int vRowIndex = 0; vRowIndex < oTiles.length; ++vRowIndex)
+      for(int vRowIndex = 0; vRowIndex < oMap.length; ++vRowIndex)
       {
-        for(int vColIndex = 0; vColIndex < oTiles[vRowIndex].length; ++vColIndex)
+        for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
         {
-          oTiles[vRowIndex][vColIndex].draw(pGraphics);
+          oMap[vRowIndex][vColIndex].draw(pGraphics);
         }
       }
     }
@@ -106,13 +109,13 @@ public class World
             }
           }
           
-          oTiles = new Tile[vRowSize][vColSize];
+          oMap = new Tile[vRowSize][vColSize];
         }
         else if(vRowIndex < vRowSize)
         {
-          for(int vColIndex = 0; vColIndex < oTiles[vRowIndex].length; ++vColIndex)
+          for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
           {
-              oTiles[vRowIndex][vColIndex] = new Tile(
+              oMap[vRowIndex][vColIndex] = new Tile(
                   vTileXPos,
                   vTileYPos,
                   oTileWidth,
@@ -143,6 +146,16 @@ public class World
     {
       
     }
+    finally
+    {
+      try
+      {
+        vFileReader.close();
+      }
+      catch(IOException pIOException)
+      {
+        return;
+      }
+    }
   }
-
 }

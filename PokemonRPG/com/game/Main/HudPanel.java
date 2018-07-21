@@ -111,18 +111,9 @@ public class HudPanel extends JPanel
   }
   
   
-  public void setHealthBarZero()
-  {
-    oHealthBarHealth     = 0;
-    damageMeterStartYPos = healthMeterHeight + distanceFromTop - oHealthBarHealth;
-  }
-  
-  
   public void setPlayer(Player pPlayer)
   {
     oPlayer = pPlayer;
   }
  
 }
-
-

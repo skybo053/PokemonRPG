@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable
   
   public void interrupt()
   {
-    Thread.currentThread().interrupt();
+    mainThread.interrupt();
   }
   
   
@@ -196,10 +196,12 @@ public class GamePanel extends JPanel implements Runnable
     hudPanel.setVisible(true);
   }
 
-  public void hudSetHealthBarZero()
+  
+  public void hudSetHealthBar(int pHealth)
   {
-    hudPanel.setHealthBarZero();
+    hudPanel.setHealthBar(pHealth);
   }
+  
   
   public void hudSetPlayer(Player pPlayer)
   {
