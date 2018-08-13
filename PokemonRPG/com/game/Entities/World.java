@@ -113,6 +113,12 @@ public class World
           
           oMap = new Tile[vRowSize][vColSize];
         }
+        else if(vRowSize == 0 || 
+                vColSize == 0   )
+        {
+          throw new WorldLoaderException("World.loadMap - Rows and Columns " +
+              "were not configured correctly.");
+        }
         else
         {
           if(vCurrProcessedRow < vRowSize)
