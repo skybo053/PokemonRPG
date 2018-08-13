@@ -1,12 +1,12 @@
 package com.game.States;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
 
 import com.game.Entities.Player;
 import com.game.Entities.World;
 import com.game.EventHandlers.PlayStateKeyListener;
+import com.game.Exceptions.WorldLoaderException;
 import com.game.FX.Assets;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
@@ -27,7 +27,7 @@ public class PlayState implements State
   private static int PLAYER_WIDTH  = 35;
   private static int PLAYER_HEIGHT = 55;
   
-  public PlayState(GamePanel pGamePanel)
+  public PlayState(GamePanel pGamePanel) throws WorldLoaderException
   {
     oGame        = pGamePanel;
     oIsActive    = false;

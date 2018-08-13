@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.game.Entities.Player;
 import com.game.Exceptions.AssetLoaderException;
+import com.game.Exceptions.WorldLoaderException;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
 import com.game.States.GameStateManager;
@@ -87,11 +88,16 @@ public class GamePanel extends JPanel implements Runnable
       ninetyPercentSleepTime = 0L;
       remainingSleepTime     = 0L;
     }
-    catch(AssetLoaderException pLoaderException)
+    catch(AssetLoaderException pAssetLoaderException)
     {
-      JOptionPane.showMessageDialog(null, pLoaderException.getMessage());
+      JOptionPane.showMessageDialog(null, pAssetLoaderException.getMessage());
       System.exit(1);
      }
+    catch(WorldLoaderException pWorldLoaderException)
+    {
+      JOptionPane.showMessageDialog(null, pWorldLoaderException.getMessage());
+      System.exit(1);
+    }
   }
   
   
@@ -103,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable
     {
       try
       {
+        
         gameStateManager.update(); 
         hudPanel.update();
         effectsPanel.update();
@@ -130,7 +137,7 @@ public class GamePanel extends JPanel implements Runnable
       }
       catch(InterruptedException e)
       {
-       
+       continue;
       }
       
     } //end while loop

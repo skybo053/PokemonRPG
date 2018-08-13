@@ -1,10 +1,9 @@
 package com.game.States;
 
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
+import com.game.Exceptions.WorldLoaderException;
 import com.game.Main.GamePanel;
 
 public class GameStateManager 
@@ -20,7 +19,7 @@ public class GameStateManager
   private Stack<State> oGameStateStack = null;
   
   
-  public GameStateManager(GamePanel pGame)
+  public GameStateManager(GamePanel pGame) throws WorldLoaderException
   {
     oGameStateStack = new Stack<State>();
     
@@ -41,13 +40,13 @@ public class GameStateManager
     oGameStateStack.push(oIntroState);
     
     initializeNewState();
-    
   }
   
   
   public void update()
   {
     manageStates();
+    
     oCurrentState.update();
   }
   
@@ -72,14 +71,9 @@ public class GameStateManager
   
   private void manageStates()
   {
-    State vCurrState = null;
-    
-    vCurrState = oGameStateStack.peek();
-    
-    if(vCurrState.isActive() == false)
+    if(oCurrentState.isActive() == false)
     {
-      vCurrState = oGameStateStack.pop();
-      vCurrState.cleanUpState();
+      oCurrentState.cleanUpState();
       
       initializeNewState();
     }
@@ -88,7 +82,7 @@ public class GameStateManager
   
   private void initializeNewState()
   {
-    oCurrentState = oGameStateStack.peek();
+    oCurrentState = oGameStateStack.pop();
     oCurrentState.initializeState();
     
     oGame.removeKeyListener();

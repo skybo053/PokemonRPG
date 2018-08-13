@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.game.Exceptions.WorldLoaderException;
 import com.game.Main.GamePanel;
 
 public class World 
@@ -23,7 +24,7 @@ public class World
   private int oNumVisibleTileCols;
   
   
-  public World(int pTileWidth)
+  public World(int pTileWidth) throws WorldLoaderException
   {
     oTileWidth    = pTileWidth;
     oTileHeight   = pTileWidth;
@@ -74,16 +75,17 @@ public class World
   }
   
   
-  private void loadMap()
+  private void loadMap() throws WorldLoaderException
   {
-    BufferedReader vFileReader = null;
-    String         vLine       = null;
-    String[]       vLineTokens = null;
-    int            vRowSize    = 0;
-    int            vColSize    = 0;
-    int            vTileXPos   = 0;
-    int            vTileYPos   = 0;
-    int            vRowIndex   = 0;
+    BufferedReader vFileReader       = null;
+    String         vLine             = null;
+    String[]       vLineTokens       = null;
+    String[]       vTokenElements    = null;
+    int            vRowSize          = 0;
+    int            vColSize          = 0;
+    int            vTileXPos         = 0;
+    int            vTileYPos         = 0;
+    int            vCurrProcessedRow = 0;
     
     try
     {
@@ -93,33 +95,35 @@ public class World
       {
         vLineTokens = vLine.split("\\s+");
         
-        if(vLineTokens[0].equals("#")) 
+        if(vLineTokens[0].equals("#") &&
+           vLineTokens.length == 3      )
         {
-          for(int vIndex = 1; vIndex < vLineTokens.length; ++vIndex)
+          vTokenElements = vLineTokens[1].split("=", 2);
+          vRowSize       = Integer.parseInt(vTokenElements[1]);
+          
+          vTokenElements = vLineTokens[2].split("=", 2);
+          vColSize       = Integer.parseInt(vTokenElements[1]);
+          
+          if(vRowSize == 0 || 
+             vColSize == 0   )
           {
-            String[] vTempTokens = vLineTokens[vIndex].split("=", 2);
-            
-            if(vTempTokens[0].equals("rows"))
-            {
-              vRowSize = Integer.parseInt(vTempTokens[1]);
-            }
-            else if(vTempTokens[0].equals("cols"))
-            {
-              vColSize = Integer.parseInt(vTempTokens[1]);
-            }
+            throw new WorldLoaderException("World.loadMap - Rows and Columns " +
+                "were not configured correctly.");
           }
           
           oMap = new Tile[vRowSize][vColSize];
         }
-        else if(vRowIndex < vRowSize)
+        else
         {
-          for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
+          if(vCurrProcessedRow < vRowSize)
           {
-              oMap[vRowIndex][vColIndex] = new Tile(
+            for(int vColIndex = 0; vColIndex < vColSize; ++vColIndex)
+            {
+              oMap[vCurrProcessedRow][vColIndex] = new Tile(
                   vTileXPos,
                   vTileYPos,
                   oTileWidth,
-                  oTileHeight,
+                  oTileHeight, 
                   Integer.parseInt(vLineTokens[vColIndex]),
                   true
                   );
@@ -127,24 +131,30 @@ public class World
               vTileXPos += oTileWidth;
             }
             
+            ++vCurrProcessedRow;
+            vTileXPos = 0;
             vTileYPos += oTileHeight;
-            vTileXPos  = 0;
-            
-            ++vRowIndex;
           }
-        else
-        {
-          break;
+          else
+          {
+            break;
+          }
         }
       }
     }
     catch(FileNotFoundException pException)
     {
-      
+      throw new WorldLoaderException("World.loadMap - " + pException.getMessage(),
+                                      pException);
     }
     catch(IOException pIOException)
     {
       
+    }
+    catch(NullPointerException pNullPointerException)
+    {
+      throw new WorldLoaderException("World.loadMap - " + pNullPointerException.getMessage(),
+                                      pNullPointerException);
     }
     finally
     {
