@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable
  
   private int     FPS;
   private int     frameTicksPerSecond;
-  private long    overallSleepTime;
+  private long    sleepTime;
   private long    ninetyPercentSleepTime;
   private long    remainingSleepTime;
   private long    startTime;
@@ -84,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable
       startTime              = System.currentTimeMillis();
       endTime                = 0L;
       
-      overallSleepTime       = 0L;
+      sleepTime              = 0L;
       ninetyPercentSleepTime = 0L;
       remainingSleepTime     = 0L;
     }
@@ -109,30 +109,19 @@ public class GamePanel extends JPanel implements Runnable
     {
       try
       {
-        
         gameStateManager.update(); 
         hudPanel.update();
         effectsPanel.update();
         
         repaint();
         
-        startTime             += frameTicksPerSecond;
-        endTime                = System.currentTimeMillis();
-        overallSleepTime       = startTime - endTime;
-        ninetyPercentSleepTime = (long)(overallSleepTime * 0.9);
+        startTime  += frameTicksPerSecond;
+        endTime     = System.currentTimeMillis();
+        sleepTime   = startTime - endTime;
         
-        if(ninetyPercentSleepTime > 0)
+        if(sleepTime > 0)
         {
-          Thread.sleep(ninetyPercentSleepTime);
-        }
-        
-        //after wake up recalculate
-        endTime            = System.currentTimeMillis();
-        remainingSleepTime = startTime - endTime;
-        
-        if(remainingSleepTime > 0)
-        {
-          Thread.sleep(remainingSleepTime);
+          Thread.sleep(sleepTime);
         }
       }
       catch(InterruptedException e)
@@ -153,10 +142,8 @@ public class GamePanel extends JPanel implements Runnable
     
     
     gameStateManager.draw(pGraphics);
-    effectsPanel.drawEffect();
     hudPanel.drawHUD();
-    
-    
+    effectsPanel.drawEffect();
   }
   
   
