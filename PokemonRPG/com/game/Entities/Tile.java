@@ -35,22 +35,32 @@ public class Tile extends Entity
   }};
   
   
+  private static Map<String, BufferedImage> TILE_STRING_IMAGE =
+      new HashMap<String, BufferedImage>()
+      {{
+        put("grass", Assets.spriteTileGrass);
+        put("dirt",  Assets.spriteTileDirt);
+        put("water", Assets.spriteTileWater);
+        put("weed",  Assets.spriteTileWeed);
+      }};
+  
+  
   private BufferedImage oImage   = null;
   private Boolean       oIsSolid = null;
 
-  
+ 
   public Tile(
       int           pXPos, 
       int           pYPos, 
       int           pWidth, 
       int           pHeight, 
-      int           pImageID, 
+      String        pImage, 
       Boolean       pIsSolid)
   {
     super(pXPos, pYPos, pWidth, pHeight);
     
-    oImage   = TILE_IMAGES.get(pImageID);
     oIsSolid = pIsSolid;
+    oImage   = TILE_STRING_IMAGE.get(pImage);
   }
 
  

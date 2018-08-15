@@ -1,11 +1,14 @@
 package com.game.Entities;
 
 import java.awt.Graphics;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.game.Exceptions.WorldLoaderException;
 import com.game.Main.GamePanel;
@@ -13,7 +16,7 @@ import com.game.Main.GamePanel;
 public class World 
 {
   
-  private static final String MAP_FILE = "Resources/Maps/map1";
+  private static final String MAP_FILE = "Resources/Maps/json-map.json";
   
   private Tile[][] oMap     = null;
   
@@ -22,6 +25,9 @@ public class World
   
   private int oNumVisibleTileRows;
   private int oNumVisibleTileCols;
+  
+  private int oTotalMapRows;
+  private int oTotalMapCols;
   
   
   public World(int pTileWidth) throws WorldLoaderException
@@ -77,101 +83,96 @@ public class World
   
   private void loadMap() throws WorldLoaderException
   {
-    BufferedReader vFileReader       = null;
-    String         vLine             = null;
-    String[]       vLineTokens       = null;
-    String[]       vTokenElements    = null;
-    int            vRowSize          = 0;
-    int            vColSize          = 0;
-    int            vTileXPos         = 0;
-    int            vTileYPos         = 0;
-    int            vCurrProcessedRow = 0;
+    JSONParser vParser            = null; 
+    JSONObject vMapObject         = null;
+    JSONObject vDimensions        = null;
+    JSONObject vCurrTileToProcess = null;
+    JSONObject vCurrTileObj       = null;
+    JSONArray  vTileDataArray     = null;
+    
+    String  vTileImage = null;
+    Boolean vIsSolid   = null;
+    
+    int vRow        = 0;
+    int vCol        = 0;
+    int vTileXPos   = 0;
+    int vTileYPos   = 0;
+    int vRowCounter = 0;
+    int vColCounter = 0;
     
     try
     {
-      vFileReader = new BufferedReader(new FileReader(new File(MAP_FILE)));
+      vParser    = new JSONParser();
+      vMapObject = (JSONObject)vParser.parse(new InputStreamReader(new FileInputStream(MAP_FILE)));
       
-      while((vLine = vFileReader.readLine()) != null)
+      vDimensions = (JSONObject)vMapObject.get("map");
+      
+      oTotalMapRows = Integer.parseInt(vDimensions.get("rows").toString());
+      oTotalMapCols = Integer.parseInt(vDimensions.get("cols").toString());
+      
+      if(oTotalMapRows == 0 ||
+         oTotalMapCols == 0   )
       {
-        vLineTokens = vLine.split("\\s+");
+        throw new WorldLoaderException("World.loadMap - Map rows " +
+                                       "and columns not configured correctly");
+      }
+      
+      oMap = new Tile[oTotalMapRows][oTotalMapCols];
+      
+      vTileDataArray = (JSONArray)vMapObject.get("tiles");
+      
+      for(int vIndex = 0; vIndex < vTileDataArray.size(); ++vIndex)
+      {
+        vCurrTileToProcess = (JSONObject)vTileDataArray.get(vIndex);
+        vCurrTileObj       = (JSONObject)vCurrTileToProcess.get("tile");
         
-        if(vLineTokens[0].equals("#") &&
-           vLineTokens.length == 3      )
+        vRow       = Integer.parseInt(vCurrTileObj.get("row").toString());
+        vCol       = Integer.parseInt(vCurrTileObj.get("col").toString());
+        vTileImage = vCurrTileObj.get("image").toString();
+        vIsSolid   = Boolean.valueOf(vCurrTileObj.get("solid").toString());
+        
+        oMap[vRow][vCol] = new Tile(
+            vTileXPos,
+            vTileYPos,
+            oTileWidth,
+            oTileHeight,
+            vTileImage,
+            vIsSolid
+            );
+        
+        if(vColCounter + 1 <= oTotalMapCols)
         {
-          vTokenElements = vLineTokens[1].split("=", 2);
-          vRowSize       = Integer.parseInt(vTokenElements[1]);
+          ++vColCounter;
           
-          vTokenElements = vLineTokens[2].split("=", 2);
-          vColSize       = Integer.parseInt(vTokenElements[1]);
-          
-          if(vRowSize == 0 || 
-             vColSize == 0   )
-          {
-            throw new WorldLoaderException("World.loadMap - Rows and Columns " +
-                "were not configured correctly.");
-          }
-          
-          oMap = new Tile[vRowSize][vColSize];
-        }
-        else if(vRowSize == 0 || 
-                vColSize == 0   )
-        {
-          throw new WorldLoaderException("World.loadMap - Rows and Columns " +
-              "were not configured correctly.");
+          vTileXPos += oTileWidth;
         }
         else
         {
-          if(vCurrProcessedRow < vRowSize)
-          {
-            for(int vColIndex = 0; vColIndex < vColSize; ++vColIndex)
-            {
-              oMap[vCurrProcessedRow][vColIndex] = new Tile(
-                  vTileXPos,
-                  vTileYPos,
-                  oTileWidth,
-                  oTileHeight, 
-                  Integer.parseInt(vLineTokens[vColIndex]),
-                  true
-                  );
-              
-              vTileXPos += oTileWidth;
-            }
-            
-            ++vCurrProcessedRow;
-            vTileXPos = 0;
-            vTileYPos += oTileHeight;
-          }
-          else
-          {
-            break;
-          }
+          vColCounter = 0;
+          ++vRowCounter;
+          vTileXPos = 0;
+          vTileYPos += oTileHeight;
         }
       }
+      
     }
-    catch(FileNotFoundException pException)
+    catch(NumberFormatException pNumberFormatException)
     {
-      throw new WorldLoaderException("World.loadMap - " + pException.getMessage(),
-                                      pException);
+      throw new WorldLoaderException("World.loadMap - " +
+                                      pNumberFormatException.getMessage(),
+                                      pNumberFormatException);
+    }
+    catch(ParseException pParseException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+                                      pParseException.getMessage(),
+                                      pParseException);
     }
     catch(IOException pIOException)
     {
-      
-    }
-    catch(NullPointerException pNullPointerException)
-    {
-      throw new WorldLoaderException("World.loadMap - " + pNullPointerException.getMessage(),
-                                      pNullPointerException);
-    }
-    finally
-    {
-      try
-      {
-        vFileReader.close();
-      }
-      catch(IOException pIOException)
-      {
-        return;
-      }
+      throw new WorldLoaderException("World.loadMap - " +
+                                      pIOException.getMessage(),
+                                      pIOException);
     }
   }
 }
