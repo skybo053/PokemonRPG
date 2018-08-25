@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.game.FX.Assets;
+import com.game.TileEvents.TileEvent;
 
 public class Tile extends Entity
 {
@@ -47,6 +48,7 @@ public class Tile extends Entity
   
   private BufferedImage oImage   = null;
   private Boolean       oIsSolid = null;
+  private TileEvent[]   oEvents  = null;
 
  
   public Tile(
@@ -68,7 +70,7 @@ public class Tile extends Entity
   {
     
   }
-
+  
   
   public void draw(Graphics pGraphics) 
   {
