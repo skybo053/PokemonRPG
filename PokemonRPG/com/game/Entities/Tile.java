@@ -46,9 +46,9 @@ public class Tile extends Entity
       }};
   
   
-  private BufferedImage oImage   = null;
-  private Boolean       oIsSolid = null;
-  private TileEvent[]   oEvents  = null;
+  private BufferedImage oImage       = null;
+  private Boolean       oIsSolid     = null;
+  private TileEvent[]   oTileEvents  = null;
 
  
   public Tile(
@@ -57,12 +57,14 @@ public class Tile extends Entity
       int           pWidth, 
       int           pHeight, 
       String        pImage, 
-      Boolean       pIsSolid)
+      Boolean       pIsSolid,
+      TileEvent[]   pTileEvents)
   {
     super(pXPos, pYPos, pWidth, pHeight);
     
-    oIsSolid = pIsSolid;
-    oImage   = TILE_STRING_IMAGE.get(pImage);
+    oImage      = TILE_STRING_IMAGE.get(pImage);
+    oIsSolid    = pIsSolid;
+    oTileEvents = pTileEvents;
   }
 
  

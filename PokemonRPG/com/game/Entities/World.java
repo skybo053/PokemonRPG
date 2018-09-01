@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -144,12 +146,13 @@ public class World
         
         vTileEventsArray = (JSONArray)vCurrTileObj.get("events");
         
-        for(int vEventsIndex = 0; vEventsIndex < vTileEventsArray.size(); ++vEventsIndex)
+        if(vTileEventsArray.size() > 0)
         {
-          JSONObject vTileEventsObj = (JSONObject)vTileEventsArray.get(vEventsIndex);
-          JSONObject vTileEvent     = (JSONObject)vTileEventsObj.get("event");
-          String     vEventType     = vTileEvent.get("type").toString();
-          
+          vTileEvents = parseEventsArray(vTileEventsArray);
+        }
+        else
+        {
+          vTileEvents = null;
         }
         
         oMap[vRow][vCol] = new Tile(
@@ -158,7 +161,8 @@ public class World
             oTileWidth,
             oTileHeight,
             vTileImage,
-            vIsSolid
+            vIsSolid,
+            vTileEvents
             );
         
         
@@ -201,5 +205,102 @@ public class World
                                       pIOException.getMessage(),
                                       pIOException);
     }
+    catch(NullPointerException pNullPointerException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+                                      pNullPointerException.getMessage(),
+                                      pNullPointerException);
+    }
+    finally
+    {
+      if(vImageIDWriter != null)
+      {
+        try
+        {
+          vImageIDWriter.close();
+        }
+        catch(IOException pIOException)
+        {
+          return;
+        }
+      }
+    }
   }
-}
+  
+  
+  private TileEvent[] parseEventsArray(JSONArray pEventsArray) throws WorldLoaderException
+  {
+    TileEvent[] vTileEvents       = null;
+    Class<?>[]  vArgsClass        = null;
+    Object[]    vArgsObject       = null;
+    
+    JSONObject  vTileEventsObj    = null;
+    JSONObject  vTileEvent        = null;
+    JSONArray   vEventArgs        = null;
+    
+    String      vEventClassName   = null;
+    
+    try
+    {
+      vTileEvents = new TileEvent[pEventsArray.size()];
+      
+      for(int vIndex = 0; vIndex < pEventsArray.size(); ++vIndex)
+      {
+        vTileEventsObj   = (JSONObject)pEventsArray.get(vIndex);
+        vTileEvent       = (JSONObject)vTileEventsObj.get("event");
+        vEventClassName  = vTileEvent.get("name").toString();
+        vEventArgs       = (JSONArray)vTileEvent.get("args");
+        
+        vArgsClass  = new Class<?>[vEventArgs.size()];
+        vArgsObject = new Object[vEventArgs.size()];
+        
+        for(int vArgsIndex = 0; vArgsIndex < vEventArgs.size(); ++vArgsIndex)
+        {
+          String[] vArgTokens = vEventArgs.get(vArgsIndex).toString().split("\\|");
+          
+          vArgsClass[vArgsIndex]  = Class.forName(vArgTokens[0]);
+          vArgsObject[vArgsIndex] = vArgsClass[vArgsIndex]
+                                    .getConstructor(new Class<?>[]{vArgTokens[1].getClass()})
+                                    .newInstance(vArgTokens[1]);
+        }
+        
+        Class<?>       vEventClassObject = Class.forName(vEventClassName);
+        Constructor<?> vEventConstructor = vEventClassObject.getConstructor(vArgsClass);
+        vTileEvents[vIndex]              = (TileEvent)vEventConstructor.newInstance(vArgsObject);
+      }
+      return vTileEvents;
+    }
+    catch(IllegalAccessException pIllegalAccessException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+          pIllegalAccessException.getMessage(),
+          pIllegalAccessException);
+    }
+    catch(NoSuchMethodException pNoSuchMethodException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+          pNoSuchMethodException.getMessage(),
+          pNoSuchMethodException);
+    }
+    catch(ClassNotFoundException pClassNotFoundException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+          pClassNotFoundException.getMessage(),
+          pClassNotFoundException);
+    }
+    catch(InvocationTargetException pInvocationTargetException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+          pInvocationTargetException.getMessage(),
+          pInvocationTargetException);
+    }
+    catch(InstantiationException pInstantiationException)
+    {
+      throw new WorldLoaderException("World.loadMap - " +
+          pInstantiationException.getMessage(),
+          pInstantiationException);
+    }
+  }
+  
+  
+}//end World class
