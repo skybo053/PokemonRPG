@@ -1,0 +1,31 @@
+{
+  "map":
+  {
+	"rows" : 30,
+	"cols" : 37
+  },
+  "tiles": 
+    [
+	  {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "0",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :
+			[
+			  {
+				  "event" :
+				  {
+					"name" : "com.game.TileEvents.events.MoveEvent",
+					"args" :
+					["java.lang.Integer|20", "java.lang.Integer|40"]
+				  }
+			  }
+			]
+		  }
+	   }
+	]
+}
