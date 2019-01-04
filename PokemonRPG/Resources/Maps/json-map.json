@@ -1,7 +1,7 @@
 {
   "map":
   {
-	"rows" : 30,
+	"rows" : 2,
 	"cols" : 37
   },
   "tiles": 
@@ -11,21 +11,823 @@
 		  {
 		    "row" : "0",
 			"col" : "0",
-			"image" : "grass",
-			"imageID" : 0,
-			"solid" : "false",
+			"image" : "water",
+			"imageID" : 2,
+			"solid" : "true",
 			"events" :
 			[
 			  {
 				  "event" :
 				  {
 					"name" : "com.game.TileEvents.events.MoveEvent",
-					"args" :
-					["java.lang.Integer|20", "java.lang.Integer|40"]
+					"args" :["java.lang.Integer|20", "java.lang.Integer|40"]
 				  }
 			  }
 			]
 		  }
-	   }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "1",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "2",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "3",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "4",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "5",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "6",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "7",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "8",
+			"image" : "dirt",
+			"imageID" : 1,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "9",
+			"image" : "dirt",
+			"imageID" : 1,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "10",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "11",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "12",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "13",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "14",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "15",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "16",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "17",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "18",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "19",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "20",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "21",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "22",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "23",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "24",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "25",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "26",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "27",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "28",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "29",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "30",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "31",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "32",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "33",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "34",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "35",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "0",
+			"col" : "36",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "0",
+			"image" : "water",
+			"imageID" : 2,
+			"solid" : "true",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "1",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "2",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "3",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "4",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "5",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "6",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "7",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "8",
+			"image" : "dirt",
+			"imageID" : 1,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "9",
+			"image" : "dirt",
+			"imageID" : 1,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "10",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "11",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "12",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "13",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "14",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "15",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "16",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "17",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "18",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "19",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "20",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "21",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "22",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "23",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "24",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "25",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "26",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "27",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "28",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "29",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "30",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "31",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "32",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "33",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "34",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "35",
+			"image" : "grass",
+			"imageID" : 0,
+			"solid" : "false",
+			"events" :[]
+		  }
+	   },
+	   {
+		"tile":
+		  {
+		    "row" : "1",
+			"col" : "36",
+			"image" : "weed",
+			"imageID" : 3,
+			"solid" : "true",
+			"events" :[]
+		  }
+		}
 	]
 }

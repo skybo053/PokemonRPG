@@ -50,21 +50,10 @@ public class MenuState implements State
   
   public MenuState(GamePanel pGamePanel)
   {
-    oIsActive      = false;
-    oGame          = pGamePanel;
-    oGameStateType = GameStates.MENU_STATE;
-    
-    oButtonSoundFX        = new JukeBox(Assets.soundMainMenuBtnSelect);
-    oBgSoundFX            = new JukeBox(Assets.soundMainMenuBGMusic);
-    oSelectPlayBtnSoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
-    
-    oPlayButton      = new JLabel(new ImageIcon(Assets.imgMenuSelectedPlayBtn));
+    oIsActive        = false;
+    oGame            = pGamePanel;
+    oGameStateType   = GameStates.MENU_STATE;
     oPlayBtnSelected = true;
-    
-    oOptionsButton   = new JLabel(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
-    oExitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
-    
-    oBtnOffset       = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
     
     oMenuStateKeyListener = new MenuStateKeyListener(this);
   }
@@ -73,6 +62,16 @@ public class MenuState implements State
   public void initializeState()
   {
     oIsActive = true;
+    
+    oButtonSoundFX        = new JukeBox(Assets.soundMainMenuBtnSelect);
+    oBgSoundFX            = new JukeBox(Assets.soundMainMenuBGMusic);
+    oSelectPlayBtnSoundFX = new JukeBox(Assets.soundMainMenuPlayBtnEnter);
+    
+    oPlayButton      = new JLabel(new ImageIcon(Assets.imgMenuSelectedPlayBtn));
+    oOptionsButton   = new JLabel(new ImageIcon(Assets.imgMenuUnselectedOptionsBtn));
+    oExitButton      = new JLabel(new ImageIcon(Assets.imgMenuExitBtn));
+    
+    oBtnOffset       = Assets.getWidth(Assets.imgMenuPlayBtn) / 2;
     
     oPlayButton.setBounds(
         GamePanel.displayWidth /2 - oBtnOffset, 
@@ -247,7 +246,7 @@ public class MenuState implements State
     oButtonSoundFX.close();
     oSelectPlayBtnSoundFX.close();
     
-    oGame.validate();
+   // oGame.validate();
   }
   
   

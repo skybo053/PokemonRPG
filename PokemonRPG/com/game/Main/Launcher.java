@@ -18,18 +18,23 @@ public class Launcher
   private JLayeredPane oLayeredPane  = null;
   
   
-  public Launcher()
-  {
-    setScreenSizeVars();
-    buildLayeredPane();
-    createFrame();
-  }
-	
-  
-	public static void main(String args[])
+  public static void main(String[] args)
 	{
-	  new Launcher();
+	  Launcher vMainGame = null;
+	  
+	  vMainGame = new Launcher();
+	  
+	  vMainGame.setScreenSizeVars();
+	  vMainGame.buildLayeredPane();
+	  vMainGame.createFrame();
+	  vMainGame.startGame();
 	}
+  
+  
+  private void startGame()
+  {
+    oGamePanel.start();
+  }
 	
 	
 	private void createFrame()
@@ -42,9 +47,7 @@ public class Launcher
     oJFrame.setUndecorated(true);
     oJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     oJFrame.setVisible(true);
-    
-    oGamePanel.start();
-	}
+  }
 	
 	
 	private void buildLayeredPane()

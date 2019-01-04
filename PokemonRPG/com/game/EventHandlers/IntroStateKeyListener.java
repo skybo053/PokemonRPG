@@ -3,6 +3,7 @@ package com.game.EventHandlers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.game.FX.Assets;
 import com.game.States.GameStates;
 import com.game.States.IntroState;
 
@@ -25,7 +26,10 @@ public class IntroStateKeyListener implements KeyListener
     switch(pEvent.getKeyCode())
     {
     case KeyEvent.VK_ESCAPE:
-      oIntroState.skipSplashScreen();
+      if(Assets.IsLoaded == true)
+      {
+        oIntroState.skipSplashScreen();
+      }
       break;
     }
   }

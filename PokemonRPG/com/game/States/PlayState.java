@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import com.game.Entities.Player;
 import com.game.Entities.World;
 import com.game.EventHandlers.PlayStateKeyListener;
-import com.game.Exceptions.WorldLoaderException;
+import com.game.Exceptions.InitializeStateException;
 import com.game.FX.Assets;
 import com.game.FX.JukeBox;
 import com.game.Main.GamePanel;
@@ -24,19 +24,16 @@ public class PlayState implements State
   
   
   //hardcoded for now, will be based on screen size
-  private static int PLAYER_WIDTH  = 35;
-  private static int PLAYER_HEIGHT = 55;
+  public static final int PLAYER_WIDTH  = 35;
+  public static final int PLAYER_HEIGHT = 55;
   
-  public PlayState(GamePanel pGamePanel) throws WorldLoaderException
+  
+  public PlayState(GamePanel pGamePanel) 
   {
-    oGame        = pGamePanel;
-    oIsActive    = false;
-    oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
-    
-    
-    oWorld       = new World(PLAYER_WIDTH);
-    oPlayer      = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
-    
+    oGame      = pGamePanel;
+    oIsActive  = false;
+    oWorld     = new World(PLAYER_WIDTH);
+    oPlayer    = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
     
     oGame.hudSetPlayer(oPlayer);
     
@@ -44,9 +41,13 @@ public class PlayState implements State
   }
   
   
-  public void initializeState()
+  public void initializeState() throws InitializeStateException
   {
     oIsActive = true;
+    
+    oWorld.setMap(Assets.Map);
+    
+    oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
     
     oWorldTheme.open();
     oWorldTheme.play();
@@ -54,13 +55,12 @@ public class PlayState implements State
     
     oPlayer.setHealth(100);
     oPlayer.setSpeed(5);
-    oPlayer.setPlayerPosition(oWorld.getTileAtPosition(1, 10));
+    oPlayer.setPlayerPosition(oWorld.getTileAtPosition(1, 8));
     oPlayer.setPlayerDirectionAnimations(Player.PLAYER_MOVE_DOWN);
     
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();
     
-    oGame.hudSetHealthBar(-100);
     oGame.hudShowHUD();
   }
   

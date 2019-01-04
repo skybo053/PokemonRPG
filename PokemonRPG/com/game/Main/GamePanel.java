@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import com.game.Entities.Player;
 import com.game.Exceptions.AssetLoaderException;
-import com.game.Exceptions.WorldLoaderException;
+import com.game.Exceptions.InitializeStateException;
 import com.game.FX.Assets;
 import com.game.FX.FadeEffect;
 import com.game.States.GameStateManager;
@@ -38,10 +38,11 @@ public class GamePanel extends JPanel implements Runnable
   private long    endTime;
   private boolean running;
   
-  private GameStateManager       gameStateManager = null;
-  private HudPanel               hudPanel         = null;
-  private EffectsPanel           effectsPanel     = null;
-  private Thread                 mainThread       = null;
+  private GameStateManager       gameStateManager  = null;
+  private HudPanel               hudPanel          = null;
+  private EffectsPanel           effectsPanel      = null;
+  private Thread                 mainThread        = null;
+  private Thread                 assetLoaderThread = null;
   
   
   public GamePanel(HudPanel pHudPanel, EffectsPanel pEffectsPanel)
@@ -54,8 +55,8 @@ public class GamePanel extends JPanel implements Runnable
     this.setLayout(null);
     this.setFocusable(true);
     
-    mainThread = new Thread(this, "GameLoop");
-    
+    mainThread        = new Thread(this, "GameLoop");
+    assetLoaderThread = new Thread(new AssetLoader(), "AssetLoader");
   }
   
   
@@ -69,11 +70,38 @@ public class GamePanel extends JPanel implements Runnable
   }
   
   
+  public boolean assetsLoaded()
+  {
+    if(assetLoaderThread.getState() == Thread.State.TERMINATED &&
+       Assets.IsLoaded == true)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
+  
+  public boolean assetsLoading()
+  {
+    if(assetLoaderThread.getState() == Thread.State.RUNNABLE)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
+  
   private void init()
   {
     try
     {
-      Assets.load();
+      assetLoaderThread.start();
       
       gameStateManager       = new GameStateManager(this);
       
@@ -88,14 +116,9 @@ public class GamePanel extends JPanel implements Runnable
       ninetyPercentSleepTime = 0L;
       remainingSleepTime     = 0L;
     }
-    catch(AssetLoaderException pAssetLoaderException)
+    catch(InitializeStateException pInitializeStateException)
     {
-      JOptionPane.showMessageDialog(null, pAssetLoaderException.getMessage());
-      System.exit(1);
-     }
-    catch(WorldLoaderException pWorldLoaderException)
-    {
-      JOptionPane.showMessageDialog(null, pWorldLoaderException.getMessage());
+      JOptionPane.showMessageDialog(null, pInitializeStateException.getMessage());
       System.exit(1);
     }
   }
@@ -103,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable
   
   public void run()
   {
+    int count = 0;
     init();
     
     while(running)
@@ -124,7 +148,17 @@ public class GamePanel extends JPanel implements Runnable
           Thread.sleep(sleepTime);
         }
       }
-      catch(InterruptedException e)
+      catch(AssetLoaderException pAssetLoaderException)
+      {
+        JOptionPane.showMessageDialog(null, pAssetLoaderException.getMessage());
+        System.exit(1);
+      }
+      catch(InitializeStateException pInitializeStateException)
+      {
+        JOptionPane.showMessageDialog(null, pInitializeStateException.getMessage());
+        System.exit(1);
+      }
+      catch(InterruptedException pInterruptedException)
       {
        continue;
       }

@@ -1,21 +1,21 @@
 package com.game.Exceptions;
 
-public class WorldLoaderException extends Exception
+public class InitializeStateException extends Exception
 {
 
-  public WorldLoaderException()
+  public InitializeStateException()
   {
     super();
   }
   
   
-  public WorldLoaderException(String pMessage)
+  public InitializeStateException(String pMessage)
   {
     super(pMessage);
   }
   
   
-  public WorldLoaderException(String pMessage, Exception pException)
+  public InitializeStateException(String pMessage, Exception pException)
   {
     super(pMessage, pException);
   }

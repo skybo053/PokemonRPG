@@ -3,6 +3,8 @@ package com.game.States;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
 
+import com.game.Exceptions.InitializeStateException;
+
 public interface State 
 {
   public void update();
@@ -11,7 +13,7 @@ public interface State
   public boolean isActive();
   public void setIsActive(boolean pIsActive);
   
-  public void initializeState();
+  public void initializeState() throws InitializeStateException;
   public void cleanUpState();
   
   public GameStates  getStateType();

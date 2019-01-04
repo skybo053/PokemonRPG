@@ -3,47 +3,33 @@ package com.game.States;
 import java.awt.Graphics;
 import java.util.Stack;
 
-import com.game.Exceptions.WorldLoaderException;
+import com.game.Exceptions.AssetLoaderException;
+import com.game.Exceptions.InitializeStateException;
+import com.game.FX.Assets;
 import com.game.Main.GamePanel;
 
 public class GameStateManager 
 {
-  private IntroState oIntroState        = null;
-  private MenuState  oMenuState         = null;
-  private PlayState  oPlayState         = null;
-  
-  private GameStates oCurrentStateType  = GameStates.UNINITIALIZED;
-  private GamePanel  oGame              = null;
-  private State      oCurrentState      = null;
-  
-  private Stack<State> oGameStateStack = null;
+  private GameStates   oCurrentStateType  = GameStates.UNINITIALIZED;
+  private GamePanel    oGame              = null;
+  private State        oCurrentState      = null;
+  private Stack<State> oGameStateStack    = null;
   
   
-  public GameStateManager(GamePanel pGame) throws WorldLoaderException
+  public GameStateManager(GamePanel pGame) throws InitializeStateException
   {
     oGameStateStack = new Stack<State>();
-    
     oGame           = pGame;
     
-    oIntroState     = new IntroState(oGame);
-    oMenuState      = new MenuState(oGame);
-    oPlayState      = new PlayState(oGame);
+    oGameStateStack.push(new PlayState(oGame));
+    oGameStateStack.push(new MenuState(oGame));
+    oGameStateStack.push(new IntroState(oGame));
     
-    initializeManager();
+    oCurrentState = oGameStateStack.peek();
   }
   
   
-  public void initializeManager()
-  {
-    oGameStateStack.push(oPlayState);
-    oGameStateStack.push(oMenuState);
-    oGameStateStack.push(oIntroState);
-    
-    initializeNewState();
-  }
-  
-  
-  public void update()
+  public void update() throws InitializeStateException, AssetLoaderException
   {
     manageStates();
     
@@ -69,10 +55,19 @@ public class GameStateManager
   }
   
   
-  private void manageStates()
+  private void manageStates() throws InitializeStateException, AssetLoaderException
   {
     if(oCurrentState.isActive() == false)
     {
+      if(Assets.IsLoaded == false)
+      {
+        if(oGame.assetsLoading() == false)
+        {
+          throw new AssetLoaderException("GameStateManager.manageStates - " +
+                                         "Error loading assets");
+        }
+      }
+      
       oCurrentState.cleanUpState();
       
       initializeNewState();
@@ -80,7 +75,7 @@ public class GameStateManager
   }
   
   
-  private void initializeNewState()
+  private void initializeNewState() throws InitializeStateException
   {
     oCurrentState = oGameStateStack.pop();
     oCurrentState.initializeState();

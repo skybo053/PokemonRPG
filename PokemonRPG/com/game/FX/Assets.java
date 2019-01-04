@@ -1,21 +1,43 @@
 package com.game.FX;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.game.Entities.Tile;
 import com.game.Exceptions.AssetLoaderException;
+import com.game.States.PlayState;
+import com.game.TileEvents.TileEvent;
 
 public class Assets 
 {
-  public static final int ASH_HEIGHT  = 30;
-  public static final int ASH_WIDTH   = 20;
-  public static final int GRID_OFFSET = 1;
+  private static final int ASH_HEIGHT  = 30;
+  private static final int ASH_WIDTH   = 20;
+  private static final int GRID_OFFSET = 1;
+  
+  private static final String CONFIG_MAP_FILE = "Resources/Maps/json-map.json";
+  private static final String IMAGE_MAP_FILE  = "Resources/Maps/image_map.txt";
+  
+  public static boolean IsLoaded = false;
+  
+  public static Tile[][] Map     = null;
   
   public static BufferedImage 
   imgGameFreakLogo            = null,
@@ -93,8 +115,7 @@ public class Assets
   {
     try
     {
-      imgGameFreakLogo            = ImageIO.read(new File("Resources/Images/GameFreakLogo.png"));
-      imgPkmnIntLogo              = ImageIO.read(new File("Resources/Images/PkmnIntLogo.png"));
+      
       imgPkmnMenuBg               = ImageIO.read(new File("Resources/Images/PkmnMenuBackground.png"));
       imgMenuPlayBtn              = ImageIO.read(new File("Resources/Images/MenuUnselectedPlayBtn.png"));
       imgMenuSelectedPlayBtn      = ImageIO.read(new File("Resources/Images/MenuMousedOverPlayBtn.png"));
@@ -159,13 +180,15 @@ public class Assets
       spriteHouse14 = crop(terrainSpriteSheet, 17, 68, 16, 16);
       spriteHouse15 = crop(terrainSpriteSheet, 34, 68, 16, 16);
       spriteHouse16 = crop(terrainSpriteSheet, 51, 68, 16, 16);
-      
-      
-      soundMSIntro              = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MSIntroWAV.wav"));
+     
       soundMainMenuBtnSelect    = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
       soundMainMenuBGMusic      = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuBGMusic.wav"));
       soundMainMenuPlayBtnEnter = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuEnterButtonChimes.wav"));
       soundWorldTheme           = AudioSystem.getAudioInputStream(new File("Resources/Sounds/WorldMainTheme.wav"));
+      
+      loadMap();
+      
+      IsLoaded = true;
     }
     catch(IOException pException)
     { 
@@ -196,4 +219,221 @@ public class Assets
   {
     return pImage.getSubimage(pX, pY, pWidth, pHeight);
   }
-}
+  
+  
+  private static void loadMap() throws AssetLoaderException
+  {
+    BufferedWriter vImageIDWriter     = null;
+    JSONParser     vParser            = null; 
+    JSONObject     vMapObject         = null;
+    JSONObject     vDimensions        = null;
+    JSONObject     vCurrTileObject    = null;
+    JSONObject     vCurrTileData      = null;
+    JSONArray      vTileDataArray     = null;
+    JSONArray      vTileEventsArray   = null;
+    
+    String      vTileImage  = null;
+    String      vImageID    = null;
+    Boolean     vIsSolid    = null;
+    
+    int vMapRows = 0;
+    int vMapCols = 0;
+    
+    int vRow        = 0;
+    int vCol        = 0;
+    int vTileXPos   = 0;
+    int vTileYPos   = 0;
+    int vRowCounter = 0;
+    int vColCounter = 0;
+    
+    int IDWriter = 0;
+
+    try
+    {
+      vParser        = new JSONParser();
+      vMapObject     = (JSONObject)vParser.parse(new InputStreamReader(new FileInputStream(CONFIG_MAP_FILE)));
+      vImageIDWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(IMAGE_MAP_FILE)));
+
+      vDimensions = (JSONObject)vMapObject.get("map");
+      
+      vMapRows = Integer.parseInt(vDimensions.get("rows").toString());
+      vMapCols = Integer.parseInt(vDimensions.get("cols").toString());
+      
+      Map = new Tile[vMapRows][vMapCols];
+      
+      vTileDataArray = (JSONArray)vMapObject.get("tiles");
+      
+      for(int vIndex = 0; vIndex < vTileDataArray.size(); ++vIndex)
+      {
+        TileEvent[] vTileEvents = null;
+        
+        vCurrTileObject = (JSONObject)vTileDataArray.get(vIndex);
+        vCurrTileData   = (JSONObject)vCurrTileObject.get("tile");
+        
+        vRow       = Integer.parseInt(vCurrTileData.get("row").toString());
+        vCol       = Integer.parseInt(vCurrTileData.get("col").toString());
+        vTileImage = vCurrTileData.get("image").toString();
+        vImageID   = vCurrTileData.get("imageID").toString();
+        vIsSolid   = Boolean.valueOf(vCurrTileData.get("solid").toString());
+        
+        vTileEventsArray = (JSONArray)vCurrTileData.get("events");
+
+        if(vTileEventsArray.size() > 0)
+        {
+          vTileEvents = parseEventsArray(vTileEventsArray);
+        }
+        
+        Map[vRow][vCol] = new Tile(
+            vTileXPos,
+            vTileYPos,
+            PlayState.PLAYER_WIDTH,
+            PlayState.PLAYER_WIDTH,
+            vTileImage,
+            vIsSolid,
+            vTileEvents
+            );
+        
+        if(vColCounter + 1 < vMapCols)
+        {
+          ++vColCounter;
+          
+          vTileXPos += PlayState.PLAYER_WIDTH;
+          
+          vImageIDWriter.write(vImageID + "  ");
+          ++IDWriter;
+        }
+        else
+        {
+          vColCounter = 0;
+          ++vRowCounter;
+          vTileXPos = 0;
+          vTileYPos += PlayState.PLAYER_WIDTH;
+          vImageIDWriter.write(vImageID + '\n');
+          ++IDWriter;
+        }
+      }
+    }
+    catch(NumberFormatException pNumberFormatException)
+    {
+      throw new AssetLoaderException("Assets.loadMap - " +
+                                      pNumberFormatException.getMessage(),
+                                      pNumberFormatException);
+    }
+    catch(ParseException pParseException)
+    {
+      throw new AssetLoaderException("Assets.loadMap - " +
+                                      pParseException.getMessage(),
+                                      pParseException);
+    }
+    catch(IOException pIOException)
+    {
+      throw new AssetLoaderException("Assets.loadMap - " +
+                                      pIOException.getMessage(),
+                                      pIOException);
+    }
+    catch(ArrayIndexOutOfBoundsException pArrayIndexOutOfBoundsException)
+    {
+      throw new AssetLoaderException("Assets.loadMap - Given map size does not "   + 
+                                     "match tile array size. "                     +
+                                      pArrayIndexOutOfBoundsException.getMessage(),
+                                      pArrayIndexOutOfBoundsException);
+    }
+    catch(NullPointerException pNullPointerException)
+    {
+      throw new AssetLoaderException("Assets.loadMap - " +
+                                      pNullPointerException.getMessage(),
+                                      pNullPointerException);
+    }
+    finally
+    {
+      if(vImageIDWriter != null)
+      {
+        try
+        {
+          vImageIDWriter.close();
+        }
+        catch(IOException pIOException)
+        {
+          return;
+        }
+      }
+    }
+  }
+  
+  
+  private static TileEvent[] parseEventsArray(
+      JSONArray pEventsArray) throws AssetLoaderException
+  {
+    TileEvent[] vTileEvents       = null;
+    Class<?>[]  vArgsClass        = null;
+    Object[]    vArgsObject       = null;
+    
+    JSONObject  vCurrEventObject  = null;
+    JSONObject  vCurrEventData    = null;
+    JSONArray   vEventArgs        = null;
+    
+    String      vEventClassName   = null;
+    
+    try
+    {
+      vTileEvents = new TileEvent[pEventsArray.size()];
+      
+      for(int vIndex = 0; vIndex < pEventsArray.size(); ++vIndex)
+      {
+        vCurrEventObject  = (JSONObject)pEventsArray.get(vIndex);
+        vCurrEventData    = (JSONObject)vCurrEventObject.get("event");
+        vEventClassName  = vCurrEventData.get("name").toString();
+        vEventArgs       = (JSONArray)vCurrEventData.get("args");
+        
+        vArgsClass  = new Class<?>[vEventArgs.size()];
+        vArgsObject = new Object[vEventArgs.size()];
+        
+        for(int vArgsIndex = 0; vArgsIndex < vEventArgs.size(); ++vArgsIndex)
+        {
+          String[] vArgTokens = vEventArgs.get(vArgsIndex).toString().split("\\|");
+          
+          vArgsClass[vArgsIndex]  = Class.forName(vArgTokens[0]);
+          vArgsObject[vArgsIndex] = vArgsClass[vArgsIndex]
+                                    .getConstructor(new Class<?>[]{vArgTokens[1].getClass()})
+                                    .newInstance(vArgTokens[1]);
+        }
+        
+        Class<?>       vEventClassObject = Class.forName(vEventClassName);
+        Constructor<?> vEventConstructor = vEventClassObject.getConstructor(vArgsClass);
+        vTileEvents[vIndex]              = (TileEvent)vEventConstructor.newInstance(vArgsObject);
+      }
+      return vTileEvents;
+    }
+    catch(IllegalAccessException pIllegalAccessException)
+    {
+      throw new AssetLoaderException("Assets.parseEventsArray - " +
+          pIllegalAccessException.getMessage(),
+          pIllegalAccessException);
+    }
+    catch(NoSuchMethodException pNoSuchMethodException)
+    {
+      throw new AssetLoaderException("Assets.parseEventsArray - " +
+          pNoSuchMethodException.getMessage(),
+          pNoSuchMethodException);
+    }
+    catch(ClassNotFoundException pClassNotFoundException)
+    {
+      throw new AssetLoaderException("Assets.parseEventsArray - " +
+          pClassNotFoundException.getMessage(),
+          pClassNotFoundException);
+    }
+    catch(InvocationTargetException pInvocationTargetException)
+    {
+      throw new AssetLoaderException("Assets.parseEventsArray - " +
+          pInvocationTargetException.getMessage(),
+          pInvocationTargetException);
+    }
+    catch(InstantiationException pInstantiationException)
+    {
+      throw new AssetLoaderException("Assets.parseEventsArray - " +
+          pInstantiationException.getMessage(),
+          pInstantiationException);
+    }
+  }
+  
+}//end class

@@ -137,7 +137,6 @@ public class Player extends Creature implements ActionListener
     }
     else
     {
-      
       if(timer.isRunning() == false)
       {
         timer.start();

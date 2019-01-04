@@ -97,17 +97,16 @@ public class HudPanel extends JPanel
     if(oHealthBarHealth + pHealth < 0)
     {
       oHealthBarHealth = 0;
-      return;
     }
-    
-    if(oHealthBarHealth + pHealth > 100)
+    else if(oHealthBarHealth + pHealth > 100)
     {
       oHealthBarHealth = 100;
-      return;
     }
-    
-    oHealthBarHealth        += pHealth;
-    damageMeterStartYPos -= pHealth;
+    else
+    {
+      oHealthBarHealth     += pHealth;
+      damageMeterStartYPos -= pHealth;
+    }
   }
   
   
