@@ -56,6 +56,8 @@ public class PlayState implements State
     oPlayer.setHealth(100);
     oPlayer.setSpeed(5);
     oPlayer.setPlayerPosition(oWorld.getTileAtPosition(1, 8));
+
+    oPlayer.initializeSprites();
     oPlayer.setPlayerDirectionAnimations(Player.PLAYER_MOVE_DOWN);
     
     oGame.setFocusable(true);
@@ -74,8 +76,15 @@ public class PlayState implements State
   
   public void draw(Graphics pGraphics)
   {
-    oWorld.draw(pGraphics);
-    oPlayer.draw(pGraphics);
+    try
+    {
+      oWorld.draw(pGraphics);
+      oPlayer.draw(pGraphics);
+    }
+    catch(NullPointerException pNullPointerException)
+    {
+      return;
+    }
   }
   
 

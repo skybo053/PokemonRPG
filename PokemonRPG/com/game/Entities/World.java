@@ -65,20 +65,12 @@ public class World
   
   public void draw(Graphics pGraphics)
   {
-    try
+    for(int vRowIndex = 0; vRowIndex < oMap.length; ++vRowIndex)
     {
-      for(int vRowIndex = 0; vRowIndex < oMap.length; ++vRowIndex)
+      for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
       {
-        for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
-        {
-          oMap[vRowIndex][vColIndex].draw(pGraphics);
-        }
+        oMap[vRowIndex][vColIndex].draw(pGraphics);
       }
-    }
-    catch(NullPointerException e)
-    {
-      System.out.println("World.draw - " + e.getMessage());
-      e.printStackTrace();
     }
   }
   

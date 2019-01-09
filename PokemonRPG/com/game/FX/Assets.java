@@ -380,8 +380,8 @@ public class Assets
       
       for(int vIndex = 0; vIndex < pEventsArray.size(); ++vIndex)
       {
-        vCurrEventObject  = (JSONObject)pEventsArray.get(vIndex);
-        vCurrEventData    = (JSONObject)vCurrEventObject.get("event");
+        vCurrEventObject = (JSONObject)pEventsArray.get(vIndex);
+        vCurrEventData   = (JSONObject)vCurrEventObject.get("event");
         vEventClassName  = vCurrEventData.get("name").toString();
         vEventArgs       = (JSONArray)vCurrEventData.get("args");
         

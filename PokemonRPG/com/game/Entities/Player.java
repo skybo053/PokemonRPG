@@ -49,52 +49,6 @@ public class Player extends Creature implements ActionListener
     
     playerDirectionQ   = new LinkedHashSet<Integer>();
     timer              = new Timer(ANIMATION_SWITCH_TIME, this);
-   
-    ashForwardSprites = new BufferedImage[]
-        {
-        Assets.spriteAshStandForward,
-        Assets.spriteAshRunForward1,
-        Assets.spriteAshRunForward2,
-        Assets.spriteAshRunForward3,
-        Assets.spriteAshRunForward4,
-        Assets.spriteAshRunForward3,
-        Assets.spriteAshRunForward2
-        };
-    
-    ashBackwardsSprites = new BufferedImage[]
-        {
-        Assets.spriteAshStandBackwards,
-        Assets.spriteAshRunBackwards1,
-        Assets.spriteAshRunBackwards2,
-        Assets.spriteAshRunBackwards3,
-        Assets.spriteAshRunBackwards4,
-        Assets.spriteAshRunBackwards3,
-        Assets.spriteAshRunBackwards2
-        };
-    
-    ashLeftSprites = new BufferedImage[]
-        {
-        Assets.spriteAshStandLeft,
-        Assets.spriteAshRunLeft1,
-        Assets.spriteAshRunLeft2,
-        Assets.spriteAshRunLeft3,
-        Assets.spriteAshRunLeft4,
-        Assets.spriteAshRunLeft3,
-        Assets.spriteAshRunLeft2
-        };
-    
-    ashRightSprites = new BufferedImage[]
-        {
-        Assets.spriteAshStandRight,    
-        Assets.spriteAshRunRight1,
-        Assets.spriteAshRunRight2,
-        Assets.spriteAshRunRight3,
-        Assets.spriteAshRunRight4,
-        Assets.spriteAshRunRight3,
-        Assets.spriteAshRunRight2
-        };
-    
-    currAnimations = ashForwardSprites;
   }
   
   
@@ -213,27 +167,20 @@ public class Player extends Creature implements ActionListener
   
   public void setPlayerDirectionAnimations(int pPlayerDirection)
   {
-    if(currPlayerDirection == pPlayerDirection)
+    switch(pPlayerDirection)
     {
-      return;
-    }
-    else
-    {
-      switch(pPlayerDirection)
-      {
-      case PLAYER_MOVE_UP:
-        currAnimations = ashBackwardsSprites;
-        break;
-      case PLAYER_MOVE_DOWN:
-        currAnimations = ashForwardSprites;
-        break;
-      case PLAYER_MOVE_LEFT:
-        currAnimations = ashLeftSprites;
-        break;
-      case PLAYER_MOVE_RIGHT:
-        currAnimations = ashRightSprites;
-        break;
-      }
+    case PLAYER_MOVE_UP:
+      currAnimations = ashBackwardsSprites;
+      break;
+    case PLAYER_MOVE_DOWN:
+      currAnimations = ashForwardSprites;
+      break;
+    case PLAYER_MOVE_LEFT:
+      currAnimations = ashLeftSprites;
+      break;
+    case PLAYER_MOVE_RIGHT:
+      currAnimations = ashRightSprites;
+      break;
     }
   }
   
@@ -335,6 +282,54 @@ public class Player extends Creature implements ActionListener
       oDestYPos       = null;
       oProcessingMove = false;
     }
+  }
+  
+  
+  public void initializeSprites()
+  {
+    ashForwardSprites = new BufferedImage[]
+        {
+        Assets.spriteAshStandForward,
+        Assets.spriteAshRunForward1,
+        Assets.spriteAshRunForward2,
+        Assets.spriteAshRunForward3,
+        Assets.spriteAshRunForward4,
+        Assets.spriteAshRunForward3,
+        Assets.spriteAshRunForward2
+        };
+    
+    ashBackwardsSprites = new BufferedImage[]
+        {
+        Assets.spriteAshStandBackwards,
+        Assets.spriteAshRunBackwards1,
+        Assets.spriteAshRunBackwards2,
+        Assets.spriteAshRunBackwards3,
+        Assets.spriteAshRunBackwards4,
+        Assets.spriteAshRunBackwards3,
+        Assets.spriteAshRunBackwards2
+        };
+    
+    ashLeftSprites = new BufferedImage[]
+        {
+        Assets.spriteAshStandLeft,
+        Assets.spriteAshRunLeft1,
+        Assets.spriteAshRunLeft2,
+        Assets.spriteAshRunLeft3,
+        Assets.spriteAshRunLeft4,
+        Assets.spriteAshRunLeft3,
+        Assets.spriteAshRunLeft2
+        };
+    
+    ashRightSprites = new BufferedImage[]
+        {
+        Assets.spriteAshStandRight,    
+        Assets.spriteAshRunRight1,
+        Assets.spriteAshRunRight2,
+        Assets.spriteAshRunRight3,
+        Assets.spriteAshRunRight4,
+        Assets.spriteAshRunRight3,
+        Assets.spriteAshRunRight2
+        };
   }
  
 } // end player class

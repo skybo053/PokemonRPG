@@ -150,9 +150,13 @@ public class IntroState implements State
   
   public void draw(Graphics pGraphics)
   {
-    if(oCurrentSplashScreen != null)
+    try
     {
       oCurrentSplashScreen.draw(pGraphics);
+    }
+    catch(NullPointerException pNullPointerException)
+    {
+      return;
     }
   }
   

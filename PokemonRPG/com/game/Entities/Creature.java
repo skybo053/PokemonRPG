@@ -6,6 +6,7 @@ public abstract class Creature extends Entity
   protected int speed  = 0;
   protected int attack = 0;
   
+  
   public Creature(int pXPos, int pYPos, int pWidth, int pHeight)
   {
     super(pXPos, pYPos, pWidth, pHeight);
