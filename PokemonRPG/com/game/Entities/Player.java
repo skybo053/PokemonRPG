@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.swing.Timer;
 
 import com.game.FX.Assets;
+import com.game.States.PlayState;
+import com.game.TileEvents.TileEvent;
 
 public class Player extends Creature implements ActionListener
 {
@@ -42,6 +44,9 @@ public class Player extends Creature implements ActionListener
   
   private boolean oProcessingMove = false;
   
+  private Tile      oTile      = null;
+  private PlayState oPlayState = null;
+
   
   public Player(int pWidth, int pHeight)
   {
@@ -54,7 +59,16 @@ public class Player extends Creature implements ActionListener
   
   public void update()
   {
-    currPlayerDirection = getPlayerDirection();
+    if(oProcessingMove == false)
+    {
+      currPlayerDirection = getPlayerDirection();
+      
+      if(currPlayerDirection      != PLAYER_STANDING &&
+          isDestinationTileSolid() == true)
+       {
+         return;
+       }
+    }
     
     switch(currPlayerDirection)
     {
@@ -73,10 +87,18 @@ public class Player extends Creature implements ActionListener
    case PLAYER_MOVE_RIGHT:
      processRightMove();
      break;
-     
-   case PLAYER_STANDING:
-     break;
    }
+    
+    if(oProcessingMove   == false &&
+       oTile.hasEvents() == true)
+    {
+      oTile.getEvents().forEach(vTileEvent->{
+        
+        vTileEvent.setPlayState(oPlayState);
+        vTileEvent.processEvent();
+        
+      });
+    }
   }
   
   
@@ -130,11 +152,7 @@ public class Player extends Creature implements ActionListener
   {
     int vDirection = 0;
     
-    if(oProcessingMove)
-    {
-      return currPlayerDirection;
-    }
-    else if(playerDirectionQ.isEmpty())
+    if(playerDirectionQ.isEmpty())
     {
       return PLAYER_STANDING;
     }
@@ -154,7 +172,60 @@ public class Player extends Creature implements ActionListener
   }
   
   
-  public void setPlayerPosition(Tile pTile)
+  private boolean isDestinationTileSolid()
+  {
+    Tile    vDestTile = null;
+    Boolean vIsSolid  = null;
+    
+    switch(currPlayerDirection)
+    {
+    case Player.PLAYER_MOVE_UP:
+      
+      vDestTile = oPlayState.getTileAtPosition(
+          oTile.getRow() - 1, 
+          oTile.getCol());
+      
+      vIsSolid = vDestTile.isSolid();
+    break;
+    
+    case Player.PLAYER_MOVE_DOWN:
+      
+      vDestTile = oPlayState.getTileAtPosition(
+          oTile.getRow() + 1, 
+          oTile.getCol());
+      
+      vIsSolid = vDestTile.isSolid();
+      break;
+      
+    case Player.PLAYER_MOVE_LEFT:
+      
+      vDestTile = oPlayState.getTileAtPosition(
+          oTile.getRow(), 
+          oTile.getCol() - 1);
+      
+      vIsSolid = vDestTile.isSolid();
+      break;
+      
+    case Player.PLAYER_MOVE_RIGHT:
+      
+      vDestTile = oPlayState.getTileAtPosition(
+          oTile.getRow(), 
+          oTile.getCol() + 1);
+      
+      vIsSolid = vDestTile.isSolid();
+      break;
+    }
+    
+    if(vIsSolid == false)
+    {
+      setPlayerTile(vDestTile);
+    }
+ 
+    return vIsSolid;
+  }
+  
+  
+  public void setPlayerPositionInWorld(Tile pTile)
   {
     int  vPlayerOffset = 0;
     
@@ -162,6 +233,21 @@ public class Player extends Creature implements ActionListener
     
     oXPos = pTile.getXPos();
     oYPos = pTile.getYPos() - vPlayerOffset;
+    
+    setPlayerTile(pTile);
+  }
+  
+  
+  private void setPlayerTile(Tile pTile)
+  {
+    oTile = pTile;
+    System.out.println("Player moved to tile at " + oTile.getRow() + " " + oTile.getCol());
+  }
+  
+  
+  public void setPlayState(PlayState pPlayState)
+  {
+    oPlayState = pPlayState;
   }
   
   

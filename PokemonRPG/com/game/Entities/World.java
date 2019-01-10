@@ -1,24 +1,8 @@
 package com.game.Entities;
 
 import java.awt.Graphics;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import com.game.Exceptions.InitializeStateException;
-import com.game.FX.Assets;
 import com.game.Main.GamePanel;
-import com.game.TileEvents.TileEvent;
 
 public class World 
 {

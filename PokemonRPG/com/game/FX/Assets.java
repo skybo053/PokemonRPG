@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -265,7 +266,7 @@ public class Assets
       
       for(int vIndex = 0; vIndex < vTileDataArray.size(); ++vIndex)
       {
-        TileEvent[] vTileEvents = null;
+        ArrayList<TileEvent> vTileEvents = null;
         
         vCurrTileObject = (JSONObject)vTileDataArray.get(vIndex);
         vCurrTileData   = (JSONObject)vCurrTileObject.get("tile");
@@ -284,6 +285,8 @@ public class Assets
         }
         
         Map[vRow][vCol] = new Tile(
+            vRow,
+            vCol,
             vTileXPos,
             vTileYPos,
             PlayState.PLAYER_WIDTH,
@@ -361,12 +364,13 @@ public class Assets
   }
   
   
-  private static TileEvent[] parseEventsArray(
+  private static ArrayList<TileEvent> parseEventsArray(
       JSONArray pEventsArray) throws AssetLoaderException
   {
-    TileEvent[] vTileEvents       = null;
-    Class<?>[]  vArgsClass        = null;
-    Object[]    vArgsObject       = null;
+    ArrayList<TileEvent> vTileEvents = null;
+    
+    Class<?>[]  vArgsClass      = null;
+    Object[]    vArgsObject     = null;
     
     JSONObject  vCurrEventObject  = null;
     JSONObject  vCurrEventData    = null;
@@ -376,7 +380,7 @@ public class Assets
     
     try
     {
-      vTileEvents = new TileEvent[pEventsArray.size()];
+      vTileEvents = new ArrayList<TileEvent>();
       
       for(int vIndex = 0; vIndex < pEventsArray.size(); ++vIndex)
       {
@@ -400,7 +404,8 @@ public class Assets
         
         Class<?>       vEventClassObject = Class.forName(vEventClassName);
         Constructor<?> vEventConstructor = vEventClassObject.getConstructor(vArgsClass);
-        vTileEvents[vIndex]              = (TileEvent)vEventConstructor.newInstance(vArgsObject);
+        
+        vTileEvents.add( (TileEvent)vEventConstructor.newInstance(vArgsObject) );
       }
       return vTileEvents;
     }

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyListener;
 
 import com.game.Entities.Player;
+import com.game.Entities.Tile;
 import com.game.Entities.World;
 import com.game.EventHandlers.PlayStateKeyListener;
 import com.game.Exceptions.InitializeStateException;
@@ -55,10 +56,10 @@ public class PlayState implements State
     
     oPlayer.setHealth(100);
     oPlayer.setSpeed(5);
-    oPlayer.setPlayerPosition(oWorld.getTileAtPosition(1, 8));
-
+    oPlayer.setPlayerPositionInWorld(oWorld.getTileAtPosition(1, 8));
     oPlayer.initializeSprites();
     oPlayer.setPlayerDirectionAnimations(Player.PLAYER_MOVE_DOWN);
+    oPlayer.setPlayState(this);
     
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();
@@ -104,6 +105,12 @@ public class PlayState implements State
   {
     oIsActive = false;
   }
+  
+  
+  public Tile getTileAtPosition(int pRow, int pCol)
+  {
+    return oWorld.getTileAtPosition(pRow, pCol);
+  }
 
   
   public GameStates getStateType() 
@@ -127,5 +134,11 @@ public class PlayState implements State
   public KeyListener getKeyListener()
   {
     return oPlayStateKeyListener;
+  }
+  
+  
+  public void setPlayerPositionInWorld(Tile pTile)
+  {
+    oPlayer.setPlayerPositionInWorld(pTile);
   }
 }

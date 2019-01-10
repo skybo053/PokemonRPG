@@ -13,14 +13,14 @@
 			"col" : "0",
 			"image" : "water",
 			"imageID" : 2,
-			"solid" : "true",
+			"solid" : "false",
 			"events" :
 			[
 			  {
 				  "event" :
 				  {
 					"name" : "com.game.TileEvents.events.MoveEvent",
-					"args" :["java.lang.Integer|20", "java.lang.Integer|40"]
+					"args" :["java.lang.Integer|5", "java.lang.Integer|30"]
 				  }
 			  }
 			]
@@ -429,7 +429,7 @@
 			"col" : "0",
 			"image" : "grass",
 			"imageID" : 0,
-			"solid" : "true",
+			"solid" : "false",
 			"events" :[]
 		  }
 	   },
@@ -836,7 +836,7 @@
 			"col" : "0",
 			"image" : "grass",
 			"imageID" : 0,
-			"solid" : "true",
+			"solid" : "false",
 			"events" :[]
 		  }
 	   },
@@ -1243,7 +1243,7 @@
 			"col" : "0",
 			"image" : "grass",
 			"imageID" : 0,
-			"solid" : "true",
+			"solid" : "false",
 			"events" :[]
 		  }
 	   },
@@ -1650,7 +1650,7 @@
 			"col" : "0",
 			"image" : "grass",
 			"imageID" : 0,
-			"solid" : "true",
+			"solid" : "false",
 			"events" :[]
 		  }
 	   },
@@ -2057,7 +2057,7 @@
 			"col" : "0",
 			"image" : "grass",
 			"imageID" : 0,
-			"solid" : "true",
+			"solid" : "false",
 			"events" :[]
 		  }
 	   },

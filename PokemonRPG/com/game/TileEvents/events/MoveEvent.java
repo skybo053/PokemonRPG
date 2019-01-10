@@ -1,8 +1,9 @@
 package com.game.TileEvents.events;
 
+import com.game.Entities.Tile;
 import com.game.TileEvents.TileEvent;
 
-public class MoveEvent implements TileEvent
+public class MoveEvent extends TileEvent
 {
   private Integer oRow = null;
   private Integer oCol = null;
@@ -17,6 +18,10 @@ public class MoveEvent implements TileEvent
   
   public void processEvent()
   {
+    Tile vDestinationTile = null;
     
+    vDestinationTile = oPlayState.getTileAtPosition(oRow, oCol);
+    
+    oPlayState.setPlayerPositionInWorld(vDestinationTile);
   }
 }

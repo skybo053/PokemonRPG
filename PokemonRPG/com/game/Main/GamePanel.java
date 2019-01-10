@@ -126,7 +126,6 @@ public class GamePanel extends JPanel implements Runnable
   
   public void run()
   {
-    int count = 0;
     init();
     
     while(running)

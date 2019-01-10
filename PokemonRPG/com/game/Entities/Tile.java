@@ -2,6 +2,8 @@ package com.game.Entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,23 +47,28 @@ public class Tile extends Entity
         put("weed",  Assets.spriteTileWeed);
       }};
   
-  
-  private BufferedImage oImage       = null;
-  private Boolean       oIsSolid     = null;
-  private TileEvent[]   oTileEvents  = null;
+  private Integer              oRow         = null;
+  private Integer              oCol         = null;
+  private BufferedImage        oImage       = null;
+  private Boolean              oIsSolid     = null;
+  private ArrayList<TileEvent> oTileEvents  = null;
 
  
   public Tile(
-      int           pXPos, 
-      int           pYPos, 
-      int           pWidth, 
-      int           pHeight, 
-      String        pImage, 
-      Boolean       pIsSolid,
-      TileEvent[]   pTileEvents)
+      int                  pRow,
+      int                  pCol,
+      int                  pXPos, 
+      int                  pYPos, 
+      int                  pWidth, 
+      int                  pHeight, 
+      String               pImage, 
+      Boolean              pIsSolid,
+      ArrayList<TileEvent> pTileEvents)
   {
     super(pXPos, pYPos, pWidth, pHeight);
     
+    oRow        = pRow;
+    oCol        = pCol;
     oImage      = TILE_STRING_IMAGE.get(pImage);
     oIsSolid    = pIsSolid;
     oTileEvents = pTileEvents;
@@ -78,4 +85,42 @@ public class Tile extends Entity
   {
     pGraphics.drawImage(oImage, oXPos, oYPos, oWidth, oHeight, null);
   }
+  
+  
+  public Integer getRow()
+  {
+    return oRow;
+  }
+  
+  
+  public Integer getCol()
+  {
+    return oCol;
+  }
+  
+  
+  public Boolean isSolid()
+  {
+    return oIsSolid;
+  }
+  
+  
+  public Boolean hasEvents()
+  {
+    if(oTileEvents == null || oTileEvents.size() == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+  
+  
+  public ArrayList<TileEvent> getEvents()
+  {
+    return oTileEvents;
+  }
+  
 }

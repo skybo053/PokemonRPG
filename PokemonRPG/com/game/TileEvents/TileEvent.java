@@ -1,6 +1,17 @@
 package com.game.TileEvents;
 
-public interface TileEvent 
+import com.game.States.PlayState;
+
+public abstract class TileEvent 
 {
-  public void processEvent();
+  protected PlayState oPlayState = null;
+  
+  
+  public abstract void processEvent();
+  
+  
+  public void setPlayState(PlayState pPlayState)
+  {
+    oPlayState = pPlayState;
+  }
 }
