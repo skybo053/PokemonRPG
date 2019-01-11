@@ -86,22 +86,23 @@ public class Assets
   spriteTileWater        = null,
   spriteTileDirt         = null,
   spriteTileWeed         = null,
-  spriteHouse1   = null,
-  spriteHouse2   = null,
-  spriteHouse3   = null,
-  spriteHouse4   = null,
-  spriteHouse5   = null,
-  spriteHouse6   = null,
-  spriteHouse7   = null,
-  spriteHouse8   = null,
-  spriteHouse9   = null,
-  spriteHouse10  = null,
-  spriteHouse11  = null,
-  spriteHouse12  = null,
-  spriteHouse13  = null,
-  spriteHouse14  = null,
-  spriteHouse15  = null,
-  spriteHouse16  = null;
+
+  spriteHouse1_houseTop_Left        = null,
+  spriteHouse1_houseTop_MidLeft     = null,
+  spriteHouse1_houseTop_MidRight    = null,
+  spriteHouse1_houseTop_Right       = null,
+  spriteHouse1_houseTopMid_Left     = null,
+  spriteHouse1_houseTopMid_MidLeft  = null,
+  spriteHouse1_houseTopMid_MidRight = null,
+  spriteHouse1_houseTopMid_Right    = null,
+  spriteHouse1_houseBotMid_Left     = null,
+  spriteHouse1_houseBotMid_MidLeft  = null,
+  spriteHouse1_houseBotMid_MidRight = null,
+  spriteHouse1_houseBotMid_Right    = null,
+  spriteHouse1_houseBot_Left        = null,
+  spriteHouse1_houseBot_MidLeft     = null,
+  spriteHouse1_houseBot_MidRight    = null,
+  spriteHouse1_houseBot_Right       = null;
 
   
   public static AudioInputStream
@@ -130,6 +131,7 @@ public class Assets
       
       //PLAYER
       ashSpriteSheet          = ImageIO.read(new File("Resources/Images/AshSpriteSheet.png"));
+      
       spriteAshStandForward   = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET, ASH_WIDTH, ASH_HEIGHT);
       spriteAshStandLeft      = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 1 + ASH_HEIGHT, ASH_WIDTH, ASH_HEIGHT);
       spriteAshStandBackwards = crop(ashSpriteSheet, GRID_OFFSET, GRID_OFFSET + 2 + (2 *ASH_HEIGHT), ASH_WIDTH, ASH_HEIGHT);
@@ -157,30 +159,31 @@ public class Assets
       
       //TERRAIN
       terrainSpriteSheet        = ImageIO.read(new File("Resources/Images/TerrainSpriteSheet.png"));
+      
       spriteTileGrass           = crop(terrainSpriteSheet, 0, 0, 16, 16);
       spriteTileWater           = crop(terrainSpriteSheet, 17, 0, 16, 16);
       spriteTileDirt            = crop(terrainSpriteSheet, 34, 0, 16, 16);
       spriteTileWeed            = crop(terrainSpriteSheet, 51, 0, 16, 16);
       
-      spriteHouse1 = crop(terrainSpriteSheet, 0, 17, 16, 16);
-      spriteHouse2 = crop(terrainSpriteSheet, 17, 17, 16, 16);
-      spriteHouse3 = crop(terrainSpriteSheet, 34, 17, 16, 16);
-      spriteHouse4 = crop(terrainSpriteSheet, 51, 17, 16, 16);
+      spriteHouse1_houseTop_Left = crop(terrainSpriteSheet, 0, 17, 16, 16);
+      spriteHouse1_houseTop_MidLeft  = crop(terrainSpriteSheet, 17, 17, 16, 16);
+      spriteHouse1_houseTop_MidRight  = crop(terrainSpriteSheet, 34, 17, 16, 16);
+      spriteHouse1_houseTop_Right  = crop(terrainSpriteSheet, 51, 17, 16, 16);
       
-      spriteHouse5 = crop(terrainSpriteSheet, 0, 34, 16, 16);
-      spriteHouse6 = crop(terrainSpriteSheet, 17, 34, 16, 16);
-      spriteHouse7 = crop(terrainSpriteSheet, 34, 34, 16, 16);
-      spriteHouse8 = crop(terrainSpriteSheet, 51, 34, 16, 16);
+      spriteHouse1_houseTopMid_Left  = crop(terrainSpriteSheet, 0, 34, 16, 16);
+      spriteHouse1_houseTopMid_MidLeft  = crop(terrainSpriteSheet, 17, 34, 16, 16);
+      spriteHouse1_houseTopMid_MidRight  = crop(terrainSpriteSheet, 34, 34, 16, 16);
+      spriteHouse1_houseTopMid_Right  = crop(terrainSpriteSheet, 51, 34, 16, 16);
       
-      spriteHouse9  = crop(terrainSpriteSheet, 0, 51, 16, 16);
-      spriteHouse10 = crop(terrainSpriteSheet, 17, 51, 16, 16);
-      spriteHouse11 = crop(terrainSpriteSheet, 34, 51, 16, 16);
-      spriteHouse12 = crop(terrainSpriteSheet, 51, 51, 16, 16);
+      spriteHouse1_houseBotMid_Left   = crop(terrainSpriteSheet, 0, 51, 16, 16);
+      spriteHouse1_houseBotMid_MidLeft  = crop(terrainSpriteSheet, 17, 51, 16, 16);
+      spriteHouse1_houseBotMid_MidRight  = crop(terrainSpriteSheet, 34, 51, 16, 16);
+      spriteHouse1_houseBotMid_Right  = crop(terrainSpriteSheet, 51, 51, 16, 16);
       
-      spriteHouse13 = crop(terrainSpriteSheet, 0, 68, 16, 16);
-      spriteHouse14 = crop(terrainSpriteSheet, 17, 68, 16, 16);
-      spriteHouse15 = crop(terrainSpriteSheet, 34, 68, 16, 16);
-      spriteHouse16 = crop(terrainSpriteSheet, 51, 68, 16, 16);
+      spriteHouse1_houseBot_Left  = crop(terrainSpriteSheet, 0, 68, 16, 16);
+      spriteHouse1_houseBot_MidLeft  = crop(terrainSpriteSheet, 17, 68, 16, 16);
+      spriteHouse1_houseBot_MidRight  = crop(terrainSpriteSheet, 34, 68, 16, 16);
+      spriteHouse1_houseBot_Right  = crop(terrainSpriteSheet, 51, 68, 16, 16);
      
       soundMainMenuBtnSelect    = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
       soundMainMenuBGMusic      = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuBGMusic.wav"));
