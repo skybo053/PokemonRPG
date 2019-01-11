@@ -12,7 +12,6 @@ import javax.swing.Timer;
 
 import com.game.FX.Assets;
 import com.game.States.PlayState;
-import com.game.TileEvents.TileEvent;
 
 public class Player extends Creature implements ActionListener
 {

@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.game.FX.Assets;
-import com.game.States.GameStates;
 import com.game.States.MenuState;
 
 public class MenuStateKeyListener implements KeyListener

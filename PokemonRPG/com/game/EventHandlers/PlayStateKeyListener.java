@@ -4,8 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.game.Entities.Player;
-import com.game.FX.Assets;
-import com.game.States.GameStates;
 import com.game.States.PlayState;
 
 public class PlayStateKeyListener implements KeyListener
