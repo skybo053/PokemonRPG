@@ -12,29 +12,23 @@ import com.game.TileEvents.TileEvent;
 
 public class Tile extends Entity
 {
-  private static Map<String, BufferedImage> Tile_Images =
+  private static Map<String, BufferedImage> TILE_IMAGES =
       new HashMap<String, BufferedImage>()
       {{
         put("grass",                Assets.spriteTileGrass);
         put("dirt",                 Assets.spriteTileDirt);
         put("water",                Assets.spriteTileWater);
         put("weed",                 Assets.spriteTileWeed);
-        put("houseTop_Left",        Assets.spriteHouse1_houseTop_Left);
-        put("houseTop_MidLeft",     Assets.spriteHouse1_houseTop_MidLeft);
-        put("houseTop_MidRight",    Assets.spriteHouse1_houseTop_MidRight);
-        put("houseTop_Right",       Assets.spriteHouse1_houseTop_Right);
-        put("houseTopMid_Left",     Assets.spriteHouse1_houseTopMid_Left);
-        put("houseTopMid_MidLeft",  Assets.spriteHouse1_houseTopMid_MidLeft);
-        put("houseTopMid_MidRight", Assets.spriteHouse1_houseTopMid_MidRight);
-        put("houseTopMid_Right",    Assets.spriteHouse1_houseTopMid_Right);
-        put("houseBotMid_Left",     Assets.spriteHouse1_houseBotMid_Left);
-        put("houseBotMid_MidLeft",  Assets.spriteHouse1_houseBotMid_MidLeft);
-        put("houseBotMid_MidRight", Assets.spriteHouse1_houseBotMid_MidRight);
-        put("houseBotMid_Right",    Assets.spriteHouse1_houseBotMid_Right);
-        put("houseBot_Left",        Assets.spriteHouse1_houseBot_Left);
-        put("houseBot_MidLeft",     Assets.spriteHouse1_houseBot_MidLeft);
-        put("houseBot_MidRight",    Assets.spriteHouse1_houseBot_MidRight);
-        put("houseBot_Right",       Assets.spriteHouse1_houseBot_Right);
+        put("house_roof_top",       Assets.spriteHouse1_roof_top);
+        put("house_roof_bottom",    Assets.spriteHouse1_roof_bottom);
+        put("houseTop_left",        Assets.spriteHouse1_houseTop_left);
+        put("houseTop_midLeft",     Assets.spriteHouse1_houseTop_midLeft);
+        put("houseTop_midRight",    Assets.spriteHouse1_houseTop_midRight);
+        put("houseTop_right",       Assets.spriteHouse1_houseTop_right);
+        put("houseBottom_left",     Assets.spriteHouse1_houseBottom_left);
+        put("houseBottom_midLeft",  Assets.spriteHouse1_houseBottom_midLeft);
+        put("houseBottom_midRight", Assets.spriteHouse1_houseBottom_midRight);
+        put("houseBottom_right",    Assets.spriteHouse1_houseBottom_right);
       }};
       
   
@@ -60,7 +54,7 @@ public class Tile extends Entity
     
     oRow        = pRow;
     oCol        = pCol;
-    oImage      = Tile_Images.get(pImage);
+    oImage      = TILE_IMAGES.get(pImage);
     oIsSolid    = pIsSolid;
     oTileEvents = pTileEvents;
   }

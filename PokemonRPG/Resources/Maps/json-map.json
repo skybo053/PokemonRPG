@@ -2563,7 +2563,7 @@
 		  {
 		    "row" : "6",
 			"col" : "10",
-			"image" : "houseTop_Left",
+			"image" : "house_roof_top",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -2574,7 +2574,7 @@
 		  {
 		    "row" : "6",
 			"col" : "11",
-			"image" : "houseTop_MidLeft",
+			"image" : "house_roof_top",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -2585,7 +2585,7 @@
 		  {
 		    "row" : "6",
 			"col" : "12",
-			"image" : "houseTop_MidRight",
+			"image" : "house_roof_top",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -2596,7 +2596,7 @@
 		  {
 		    "row" : "6",
 			"col" : "13",
-			"image" : "houseTop_Right",
+			"image" : "house_roof_top",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -2970,7 +2970,7 @@
 		  {
 		    "row" : "7",
 			"col" : "10",
-			"image" : "houseTopMid_Left",
+			"image" : "house_roof_bottom",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -2981,7 +2981,7 @@
 		  {
 		    "row" : "7",
 			"col" : "11",
-			"image" : "houseTopMid_MidLeft",
+			"image" : "house_roof_bottom",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -2992,7 +2992,7 @@
 		  {
 		    "row" : "7",
 			"col" : "12",
-			"image" : "houseTopMid_MidRight",
+			"image" : "house_roof_bottom",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3003,7 +3003,7 @@
 		  {
 		    "row" : "7",
 			"col" : "13",
-			"image" : "houseTopMid_Right",
+			"image" : "house_roof_bottom",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3377,7 +3377,7 @@
 		  {
 		    "row" : "8",
 			"col" : "10",
-			"image" : "houseBotMid_Left",
+			"image" : "houseTop_left",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3388,7 +3388,7 @@
 		  {
 		    "row" : "8",
 			"col" : "11",
-			"image" : "houseBotMid_MidLeft",
+			"image" : "houseTop_midLeft",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3399,7 +3399,7 @@
 		  {
 		    "row" : "8",
 			"col" : "12",
-			"image" : "houseBotMid_MidRight",
+			"image" : "houseTop_midRight",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3410,7 +3410,7 @@
 		  {
 		    "row" : "8",
 			"col" : "13",
-			"image" : "houseBotMid_Right",
+			"image" : "houseTop_right",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3784,7 +3784,7 @@
 		  {
 		    "row" : "9",
 			"col" : "10",
-			"image" : "houseBot_Left",
+			"image" : "houseBottom_left",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3795,7 +3795,7 @@
 		  {
 		    "row" : "9",
 			"col" : "11",
-			"image" : "houseBot_MidLeft",
+			"image" : "houseBottom_midLeft",
 			"imageID" : 5,
 			"solid" : "false",
 			"events" :
@@ -3815,7 +3815,7 @@
 		  {
 		    "row" : "9",
 			"col" : "12",
-			"image" : "houseBot_MidRight",
+			"image" : "houseBottom_midRight",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
@@ -3826,7 +3826,7 @@
 		  {
 		    "row" : "9",
 			"col" : "13",
-			"image" : "houseBot_Right",
+			"image" : "houseBottom_right",
 			"imageID" : 5,
 			"solid" : "true",
 			"events" :[]
