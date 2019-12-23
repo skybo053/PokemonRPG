@@ -55,7 +55,7 @@ public class Tile extends Entity
       int                  pYPos, 
       int                  pWidth, 
       int                  pHeight, 
-      String               pImage, 
+      String               pImageName, 
       Boolean              pIsSolid,
       ArrayList<TileEvent> pTileEvents)
   {
@@ -63,9 +63,10 @@ public class Tile extends Entity
     
     oRow        = pRow;
     oCol        = pCol;
-    oImage      = TILE_IMAGES.get(pImage);
     oIsSolid    = pIsSolid;
     oTileEvents = pTileEvents;
+    
+    setTileImage(pImageName);
   }
 
  
@@ -115,6 +116,17 @@ public class Tile extends Entity
   public ArrayList<TileEvent> getEvents()
   {
     return oTileEvents;
+  }
+  
+  
+  public void setTileImage(String pImageName)
+  {
+    oImage = TILE_IMAGES.get(pImageName);
+    
+    if(oImage == null)
+    {
+      oImage = TILE_IMAGES.get("No Image");
+    }
   }
   
 }
