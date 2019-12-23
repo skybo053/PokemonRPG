@@ -33,7 +33,8 @@ public class Assets
   private static final int ASH_WIDTH   = 20;
   private static final int GRID_OFFSET = 1;
   
-  private static final String CONFIG_MAP_FILE = "Resources/Maps/json-map.json";
+  //private static final String CONFIG_MAP_FILE = "Resources/Maps/json-map.json";
+  private static final String CONFIG_MAP_FILE = "Resources/Maps/bigger-map-inProgress.json";
   private static final String IMAGE_MAP_FILE  = "Resources/Maps/image_map.txt";
   
   public static boolean IsLoaded = false;
@@ -41,6 +42,8 @@ public class Assets
   public static Tile[][] Map     = null;
   
   public static BufferedImage 
+  noImage                     = null,
+  
   imgGameFreakLogo            = null,
   imgPkmnIntLogo              = null,
   imgPkmnMenuBg               = null,
@@ -96,7 +99,16 @@ public class Assets
   spriteHouse1_houseBottom_left     = null,
   spriteHouse1_houseBottom_midLeft  = null,
   spriteHouse1_houseBottom_midRight = null,
-  spriteHouse1_houseBottom_right    = null;
+  spriteHouse1_houseBottom_right    = null,
+  
+  spriteTree_topAloneLeft       = null,
+  spriteTree_topAloneRight      = null,
+  spriteTree_middleLeft         = null,
+  spriteTree_middleRight        = null,
+  spriteTree_bottomAloneLeft    = null,
+  spriteTree_bottomAloneRight   = null,
+  spriteTree_bottomOverlapLeft  = null,
+  spriteTree_bottomOverlapRight = null;
 
   
   public static AudioInputStream
@@ -169,6 +181,18 @@ public class Assets
       spriteHouse1_houseBottom_midLeft  = crop(terrainSpriteSheet, 17, 68, 16, 16);
       spriteHouse1_houseBottom_midRight = crop(terrainSpriteSheet, 34, 68, 16, 16);
       spriteHouse1_houseBottom_right    = crop(terrainSpriteSheet, 51, 68, 16, 16);
+      
+      spriteTree_topAloneLeft           = crop(terrainSpriteSheet, 68, 0, 16, 16);
+      spriteTree_topAloneRight          = crop(terrainSpriteSheet, 85, 0, 16, 16);
+      spriteTree_middleLeft             = crop(terrainSpriteSheet, 68, 17, 16, 16);
+      spriteTree_middleRight            = crop(terrainSpriteSheet, 85, 17, 16, 16);
+      spriteTree_bottomOverlapLeft      = crop(terrainSpriteSheet, 68, 34, 16, 16);
+      spriteTree_bottomOverlapRight     = crop(terrainSpriteSheet, 85, 34, 16, 16);
+      spriteTree_bottomAloneLeft        = crop(terrainSpriteSheet, 68, 51, 16, 16);
+      spriteTree_bottomAloneRight       = crop(terrainSpriteSheet, 85, 51, 16, 16);
+          
+      //UNRECOGNIZED Image
+      noImage = ImageIO.read(new File("Resources/Images/NoImage.png"));
       
       //AUDIO
       soundMainMenuBtnSelect    = AudioSystem.getAudioInputStream(new File("Resources/Sounds/MainMenuButtonSelect.wav"));
@@ -246,17 +270,6 @@ public class Assets
       
       vDimensions = (JSONObject)vMapObject.get("map");
       
-      try
-      {
-        Integer rowsObject = (Integer)vDimensions.get("rows");
-        Long colsObject = (Long)vDimensions.get("cols");
-      }
-      catch(ClassCastException e)
-      {
-        System.out.println(e.getMessage());
-      }
-      
-      
       vMapRows = Integer.parseInt(vDimensions.get("rows").toString());
       vMapCols = Integer.parseInt(vDimensions.get("cols").toString());
       
@@ -273,8 +286,7 @@ public class Assets
         
         vRow       = Integer.parseInt(vCurrTileData.get("row").toString());
         vCol       = Integer.parseInt(vCurrTileData.get("col").toString());
-        vTileImage = vCurrTileData.get("image").toString();
-        vImageID   = vCurrTileData.get("imageID").toString();
+        vTileImage = vCurrTileData.get("image-name").toString();
         vIsSolid   = Boolean.valueOf(vCurrTileData.get("solid").toString());
         
         vTileEventsArray = (JSONArray)vCurrTileData.get("events");
