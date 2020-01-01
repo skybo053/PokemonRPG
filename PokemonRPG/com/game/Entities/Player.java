@@ -19,14 +19,14 @@ public class Player extends Creature implements ActionListener
   private final int ANIMATION_START_INDEX = 1;
   private final int ANIMATION_SWITCH_TIME = 100;
   
-  private Set<Integer>      playerDirectionQ   = null;
-  private Iterator<Integer> playerDirectionQIt = null;
-  
   public static final int PLAYER_STANDING   = -1;
   public static final int PLAYER_MOVE_UP    = 0;
   public static final int PLAYER_MOVE_DOWN  = 1;
   public static final int PLAYER_MOVE_LEFT  = 2;
   public static final int PLAYER_MOVE_RIGHT = 3;
+  
+  private Set<Integer>      playerDirectionQueue         = null;
+  private Iterator<Integer> playerDirectionQueueIterator = null;
   
   private BufferedImage[] currAnimations      = null;
   private BufferedImage[] ashForwardSprites   = null;
@@ -45,14 +45,17 @@ public class Player extends Creature implements ActionListener
   
   private Tile      oTile      = null;
   private PlayState oPlayState = null;
+  
+  private Camera    oCamera    = null;
 
   
-  public Player(int pWidth, int pHeight)
+  public Player(int pWidth, int pHeight, PlayState pPlayState)
   {
     super(pWidth, pHeight);
     
-    playerDirectionQ   = new LinkedHashSet<Integer>();
-    timer              = new Timer(ANIMATION_SWITCH_TIME, this);
+    oPlayState           = pPlayState;
+    playerDirectionQueue = new LinkedHashSet<Integer>();
+    timer                = new Timer(ANIMATION_SWITCH_TIME, this);
   }
   
   
@@ -62,7 +65,7 @@ public class Player extends Creature implements ActionListener
     {
       currPlayerDirection = getPlayerDirection();
       
-      if(currPlayerDirection      != PLAYER_STANDING &&
+      if(currPlayerDirection       != PLAYER_STANDING &&
           isDestinationTileSolid() == true)
        {
          return;
@@ -98,6 +101,8 @@ public class Player extends Creature implements ActionListener
         
       });
     }
+    
+    oCamera.centerOnPlayer(this);
   }
   
   
@@ -108,7 +113,13 @@ public class Player extends Creature implements ActionListener
       timer.stop();
       animationIndex = ANIMATION_START_INDEX;
       
-      pGraphics.drawImage(currAnimations[0], oXPos, oYPos, oWidth, oHeight, null);
+      pGraphics.drawImage(
+          currAnimations[0], 
+          oXPos + oCamera.getXOffset(), 
+          oYPos + oCamera.getYOffset(), 
+          oWidth, 
+          oHeight, 
+          null);
     }
     else
     {
@@ -117,7 +128,13 @@ public class Player extends Creature implements ActionListener
         timer.start();
       }
       
-      pGraphics.drawImage(currAnimations[animationIndex], oXPos, oYPos, oWidth, oHeight, null);
+      pGraphics.drawImage(
+          currAnimations[animationIndex], 
+          oXPos + oCamera.getXOffset(), 
+          oYPos + oCamera.getYOffset(), 
+          oWidth, 
+          oHeight, 
+          null);
     }
   }
   
@@ -137,13 +154,13 @@ public class Player extends Creature implements ActionListener
   
   public void addPlayerDirection(int pDirection)
   {
-    playerDirectionQ.add(pDirection);
+    playerDirectionQueue.add(pDirection);
   }
   
   
   public void removePlayerDirection(int pDirection)
   {
-    playerDirectionQ.remove(pDirection);
+    playerDirectionQueue.remove(pDirection);
   }
   
   
@@ -151,17 +168,17 @@ public class Player extends Creature implements ActionListener
   {
     int vDirection = 0;
     
-    if(playerDirectionQ.isEmpty())
+    if(playerDirectionQueue.isEmpty())
     {
       return PLAYER_STANDING;
     }
     else
     {
-      playerDirectionQIt = playerDirectionQ.iterator();
+      playerDirectionQueueIterator = playerDirectionQueue.iterator();
       
-      while(playerDirectionQIt.hasNext())
+      while(playerDirectionQueueIterator.hasNext())
       {
-        vDirection = playerDirectionQIt.next();
+        vDirection = playerDirectionQueueIterator.next();
       }
       
       setPlayerDirectionAnimations(vDirection);
@@ -241,12 +258,6 @@ public class Player extends Creature implements ActionListener
   {
     oTile = pTile;
     System.out.println("Player moved to tile at " + oTile.getRow() + " " + oTile.getCol());
-  }
-  
-  
-  public void setPlayState(PlayState pPlayState)
-  {
-    oPlayState = pPlayState;
   }
   
   
@@ -415,6 +426,12 @@ public class Player extends Creature implements ActionListener
         Assets.spriteAshRunRight3,
         Assets.spriteAshRunRight2
         };
+  }
+  
+  
+  public void setCamera(Camera pCamera)
+  {
+    oCamera = pCamera;
   }
  
 } // end player class

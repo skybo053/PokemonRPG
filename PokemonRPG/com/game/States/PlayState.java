@@ -3,6 +3,7 @@ package com.game.States;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
 
+import com.game.Entities.Camera;
 import com.game.Entities.Player;
 import com.game.Entities.Tile;
 import com.game.Entities.World;
@@ -28,13 +29,16 @@ public class PlayState implements State
   public static final int PLAYER_WIDTH  = 35;
   public static final int PLAYER_HEIGHT = 55;
   
+  private Camera oCamera = null;
+  
   
   public PlayState(GamePanel pGamePanel) 
   {
     oGame      = pGamePanel;
     oIsActive  = false;
+    
     oWorld     = new World(PLAYER_WIDTH);
-    oPlayer    = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
+    oPlayer    = new Player(PLAYER_WIDTH, PLAYER_HEIGHT, this);
     
     oGame.hudSetPlayer(oPlayer);
     
@@ -44,11 +48,12 @@ public class PlayState implements State
   
   public void initializeState() throws InitializeStateException
   {
-    oIsActive = true;
+    oIsActive    = true;
+    oCamera      = new Camera(0,0);
+    oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
     
     oWorld.setMap(Assets.Map);
-    
-    oWorldTheme  = new JukeBox(Assets.soundWorldTheme);
+    oWorld.setCamera(oCamera);
     
     oWorldTheme.open();
     oWorldTheme.play();
@@ -59,7 +64,7 @@ public class PlayState implements State
     oPlayer.setPlayerPositionInWorld(oWorld.getTileAtPosition(1, 8));
     oPlayer.initializeSprites();
     oPlayer.setPlayerDirectionAnimations(Player.PLAYER_MOVE_DOWN);
-    oPlayer.setPlayState(this);
+    oPlayer.setCamera(oCamera);
     
     oGame.setFocusable(true);
     oGame.requestFocusInWindow();
@@ -141,4 +146,11 @@ public class PlayState implements State
   {
     oPlayer.setPlayerPositionInWorld(pTile);
   }
+  
+  
+  public Camera getCamera()
+  {
+    return oCamera;
+  }
+  
 }

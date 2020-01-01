@@ -3,6 +3,7 @@ package com.game.Entities;
 import java.awt.Graphics;
 
 import com.game.Main.GamePanel;
+import com.game.States.PlayState;
 
 public class World 
 {
@@ -13,6 +14,8 @@ public class World
   
   private int oNumVisibleTileRows;
   private int oNumVisibleTileCols;
+  
+  private Camera oCamera = null;
   
   
   public World(int pTileWidth)
@@ -41,6 +44,12 @@ public class World
   }
   
   
+  public void setCamera(Camera pCamera)
+  {
+    oCamera = pCamera;
+  }
+  
+  
   public void update()
   {
     
@@ -53,7 +62,12 @@ public class World
     {
       for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
       {
-        oMap[vRowIndex][vColIndex].draw(pGraphics);
+        Tile t = oMap[vRowIndex][vColIndex];
+        
+        t.setXOffset(oCamera.getXOffset());
+        t.setYOffset(oCamera.getYOffset());
+        
+        t.draw(pGraphics);
       }
     }
   }

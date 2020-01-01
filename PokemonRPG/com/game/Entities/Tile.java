@@ -46,6 +46,9 @@ public class Tile extends Entity
   private BufferedImage        oImage       = null;
   private Boolean              oIsSolid     = null;
   private ArrayList<TileEvent> oTileEvents  = null;
+  
+  private Integer              oXOffset     = null;
+  private Integer              oYOffset     = null;
 
  
   public Tile(
@@ -67,6 +70,9 @@ public class Tile extends Entity
     oTileEvents = pTileEvents;
     
     setTileImage(pImageName);
+    
+    oXOffset = 0;
+    oYOffset = 0;
   }
 
  
@@ -78,7 +84,25 @@ public class Tile extends Entity
   
   public void draw(Graphics pGraphics) 
   {
-    pGraphics.drawImage(oImage, oXPos, oYPos, oWidth, oHeight, null);
+    pGraphics.drawImage(
+        oImage, 
+        oXPos + oXOffset, 
+        oYPos + oYOffset, 
+        oWidth, 
+        oHeight, 
+        null);
+  }
+  
+  
+  public void drawAtOffset(Graphics pGraphics, int xOffset, int yOffset)
+  {
+    pGraphics.drawImage(
+        oImage, 
+        oXPos + xOffset, 
+        oYPos + yOffset, 
+        oWidth, 
+        oHeight, 
+        null);
   }
   
   
@@ -127,6 +151,18 @@ public class Tile extends Entity
     {
       oImage = TILE_IMAGES.get("No Image");
     }
+  }
+  
+  
+  public void setXOffset(Integer pXOffset)
+  {
+    oXOffset = pXOffset;
+  }
+  
+  
+  public void setYOffset(Integer pYOffset)
+  {
+    oYOffset = pYOffset;
   }
   
 }
