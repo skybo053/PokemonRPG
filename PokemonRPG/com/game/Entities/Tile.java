@@ -94,18 +94,6 @@ public class Tile extends Entity
   }
   
   
-  public void drawAtOffset(Graphics pGraphics, int xOffset, int yOffset)
-  {
-    pGraphics.drawImage(
-        oImage, 
-        oXPos + xOffset, 
-        oYPos + yOffset, 
-        oWidth, 
-        oHeight, 
-        null);
-  }
-  
-  
   public Integer getRow()
   {
     return oRow;

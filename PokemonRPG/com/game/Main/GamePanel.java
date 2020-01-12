@@ -174,8 +174,8 @@ public class GamePanel extends JPanel implements Runnable
       super.paintComponent(pGraphics);
       
       gameStateManager.draw(pGraphics);
-      hudPanel.drawHUD();
-      effectsPanel.drawEffect();
+      //hudPanel.drawHUD();
+      //effectsPanel.drawEffect();
     }
     catch(NullPointerException pNullPointerException)
     {

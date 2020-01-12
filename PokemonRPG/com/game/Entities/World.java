@@ -7,28 +7,22 @@ import com.game.States.PlayState;
 
 public class World 
 {
-  private Tile[][] oMap = null;
+  private Tile[][] oMap    = null;
   
-  private int oTileWidth;
-  private int oTileHeight;
+  private Camera   oCamera = null;
   
-  private int oNumVisibleTileRows;
-  private int oNumVisibleTileCols;
+  private Integer  oStartX = null;
+  private Integer  oEndX   = null;
+  private Integer  oStartY = null;
+  private Integer  oEndY   = null;
   
-  private Camera oCamera = null;
   
-  
-  public World(int pTileWidth)
+  public World()
   {
-    oTileWidth    = pTileWidth;
-    oTileHeight   = pTileWidth;
-    
-    oNumVisibleTileRows = (int)Math.ceil((double) GamePanel.displayHeight / oTileHeight);
-    oNumVisibleTileCols = (int)Math.ceil((double) GamePanel.displayWidth / oTileWidth);
-    
-    System.out.println("World - screen visible rows: "                 + 
-                        oNumVisibleTileRows + " screen visible cols: " + 
-                        oNumVisibleTileCols);
+    oStartX = 0;
+    oEndX   = 0;
+    oStartY = 0;
+    oEndY   = 0;
   }
   
   
@@ -52,22 +46,37 @@ public class World
   
   public void update()
   {
+    int vXOffset = 0;
+    int vYOffset = 0;
     
+    vXOffset = oCamera.getXOffset();
+    vYOffset = oCamera.getYOffset();
+    
+    //Set draw limits to visible tiles only
+    oStartX = Math.abs(Math.min(0, vXOffset/PlayState.PLAYER_WIDTH));
+    oEndX   = Math.min(oMap[0].length, oStartX + (GamePanel.displayWidth / PlayState.PLAYER_WIDTH) + 1);
+    oStartY = Math.abs(Math.min(0, vYOffset/PlayState.PLAYER_WIDTH));
+    oEndY   = Math.min(oMap.length, oStartY + (GamePanel.displayHeight / PlayState.PLAYER_WIDTH) + 1);
+    
+    //apply X and Y offset positions to visible tiles
+    for(int vRowIndex = oStartY; vRowIndex < oEndY; ++vRowIndex)
+    {
+      for(int vColIndex = oStartX; vColIndex < oEndX; ++vColIndex)
+      {
+        oMap[vRowIndex][vColIndex].setXOffset(vXOffset);
+        oMap[vRowIndex][vColIndex].setYOffset(vYOffset);
+      }
+    }
   }
   
   
   public void draw(Graphics pGraphics)
   {
-    for(int vRowIndex = 0; vRowIndex < oMap.length; ++vRowIndex)
+    for(int vRowIndex = oStartY; vRowIndex < oEndY; ++vRowIndex)
     {
-      for(int vColIndex = 0; vColIndex < oMap[vRowIndex].length; ++vColIndex)
+      for(int vColIndex = oStartX; vColIndex < oEndX; ++vColIndex)
       {
-        Tile t = oMap[vRowIndex][vColIndex];
-        
-        t.setXOffset(oCamera.getXOffset());
-        t.setYOffset(oCamera.getYOffset());
-        
-        t.draw(pGraphics);
+        oMap[vRowIndex][vColIndex].draw(pGraphics);
       }
     }
   }

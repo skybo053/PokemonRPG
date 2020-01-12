@@ -37,7 +37,7 @@ public class PlayState implements State
     oGame      = pGamePanel;
     oIsActive  = false;
     
-    oWorld     = new World(PLAYER_WIDTH);
+    oWorld     = new World();
     oPlayer    = new Player(PLAYER_WIDTH, PLAYER_HEIGHT, this);
     
     oGame.hudSetPlayer(oPlayer);

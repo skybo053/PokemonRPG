@@ -1,6 +1,7 @@
 package com.game.Entities;
 
 import com.game.Main.GamePanel;
+import com.game.States.PlayState;
 
 public class Camera 
 {
