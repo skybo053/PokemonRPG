@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -118,7 +119,8 @@ public class GamePanel extends JPanel implements Runnable
     }
     catch(InitializeStateException pInitializeStateException)
     {
-      JOptionPane.showMessageDialog(null, pInitializeStateException.getMessage());
+      JOptionPane.showMessageDialog(null, pInitializeStateException.getMessage() + "\n" + pInitializeStateException.getCause().getMessage());
+      pInitializeStateException.printStackTrace();
       System.exit(1);
     }
   }

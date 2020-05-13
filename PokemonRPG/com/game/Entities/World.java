@@ -63,8 +63,10 @@ public class World
     {
       for(int vColIndex = oStartX; vColIndex < oEndX; ++vColIndex)
       {
-        oMap[vRowIndex][vColIndex].setXOffset(vXOffset);
-        oMap[vRowIndex][vColIndex].setYOffset(vYOffset);
+    	  Tile vTile = oMap[vRowIndex][vColIndex];
+    	  
+    	  vTile.setXOffset(vXOffset);
+    	  vTile.setYOffset(vYOffset);
       }
     }
   }

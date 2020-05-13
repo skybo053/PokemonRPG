@@ -1,7 +1,6 @@
 package com.game.Entities;
 
 import com.game.Main.GamePanel;
-import com.game.States.PlayState;
 
 public class Camera 
 {
@@ -25,8 +24,8 @@ public class Camera
   
   public void centerOnPlayer(Player pPlayer)
   {
-    oXOffset = (GamePanel.displayWidth  / 2) - pPlayer.getXPos();
-    oYOffset = (GamePanel.displayHeight / 2) - pPlayer.getYPos();
+  	oXOffset = (GamePanel.displayWidth / 2) - pPlayer.getXPos(); 
+  	oYOffset = (GamePanel.displayHeight / 2) - pPlayer.getYPos();
   }
   
   
